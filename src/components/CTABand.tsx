@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageCircle, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 const CTABand = () => {
     return (
@@ -33,7 +34,7 @@ const CTABand = () => {
                             rel="noopener noreferrer"
                             className="premium-btn bg-white text-foreground hover:bg-white/90 !py-3.5 !px-8 shadow-lg"
                         >
-                            <MessageCircle className="w-4 h-4" />
+                            <WhatsAppIcon className="w-4 h-4" />
                             Book Inspection on WhatsApp
                         </a>
                         <Link

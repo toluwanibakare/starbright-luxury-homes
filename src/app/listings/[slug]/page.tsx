@@ -15,6 +15,7 @@ import {
     Hash,
     Play,
 } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ListingCard from "@/components/ListingCard";
@@ -219,9 +220,9 @@ export default function ListingDetailsPage({
                                     href={`https://wa.me/2348000000000?text=Hi, I'm interested in ${listing.title} (${listing.listingId})`}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="premium-btn-whatsapp w-full"
+                                    className="premium-btn-whatsapp w-full flex items-center justify-center gap-2"
                                 >
-                                    <MessageCircle className="w-4 h-4" />
+                                    <WhatsAppIcon className="w-4 h-4" />
                                     Chat on WhatsApp
                                 </a>
                                 <Link

@@ -5,6 +5,7 @@ import { Shield, Users, Eye, Award } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTABand from "@/components/CTABand";
+import PageBreadcrumbHero from "@/components/PageBreadcrumbHero";
 
 const values = [
     {
@@ -34,27 +35,18 @@ export default function AboutPage() {
         <div className="min-h-screen bg-background">
             <Navbar />
 
-            {/* Hero */}
-            <div
-                className="pt-28 pb-12 section-padding !pb-10"
-                style={{ background: "var(--gradient-subtle)" }}
-            >
-                <div className="container-premium">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                    >
-                        <p className="section-overline mb-3">Our Story</p>
-                        <h1 className="section-heading !text-3xl md:!text-4xl mb-4">
-                            About Starbright
-                        </h1>
-                        <p className="text-muted-foreground max-w-2xl">
-                            Building trust in Nigerian real estate, one verified listing at a
-                            time.
-                        </p>
-                    </motion.div>
-                </div>
-            </div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                <PageBreadcrumbHero
+                    overline="Our Story"
+                    title="About Starbright"
+                    description="Building trust in Nigerian real estate, one verified listing at a time."
+                    backgroundImage="/images/hero-2.jpg"
+                    crumbs={[
+                        { label: "Home", href: "/" },
+                        { label: "About" },
+                    ]}
+                />
+            </motion.div>
 
             <div className="container-premium section-padding">
                 {/* Story + Stats */}

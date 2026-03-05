@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Search, MessageCircle, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 const slides = [
     {
@@ -63,13 +64,13 @@ const Hero = () => {
             <div className="absolute inset-0" style={{ background: "var(--gradient-hero-overlay)" }} />
 
             {/* Content */}
-            <div className="relative z-10 h-full flex flex-col items-center justify-center container-premium px-5 sm:px-8">
+            <div className="relative z-10 h-full flex flex-col items-center justify-start sm:justify-center container-premium px-5 sm:px-8 pt-24 sm:pt-0">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={current}
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
+                        exit={{ opacity: 0, y: -15 }}
                         transition={{ duration: 0.5, ease: "easeOut" }}
                         className="text-center max-w-4xl"
                     >
@@ -77,23 +78,23 @@ const Hero = () => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.15 }}
-                            className="inline-block mb-6"
+                            className="inline-block mb-3 md:mb-6"
                         >
-                            <span className="text-[11px] uppercase tracking-[0.3em] font-medium text-white/60 border border-white/15 rounded-full px-5 py-2 backdrop-blur-sm bg-white/5">
+                            <span className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-medium text-white/60 border border-white/15 rounded-full px-4 md:px-5 py-1.5 md:py-2 backdrop-blur-sm bg-white/5">
                                 Starbright Real Estate
                             </span>
                         </motion.div>
 
-                        <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-[4.25rem] font-bold leading-[1.1] mb-6 text-white whitespace-pre-line">
+                        <h1 className="font-display text-[28px] sm:text-5xl md:text-6xl lg:text-[4.25rem] font-bold leading-[1.2] md:leading-[1.1] mb-3 md:mb-6 text-white whitespace-pre-line px-2 text-balance">
                             {slides[current].headline}
                         </h1>
 
-                        <p className="text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed text-white/75 font-light">
+                        <p className="text-xs sm:text-lg max-w-2xl mx-auto mb-6 md:mb-10 leading-relaxed text-white/75 font-light px-4">
                             {slides[current].sub}
                         </p>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                            <Link href="/listings" className="premium-btn-primary !py-3.5 !px-8">
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5 px-6 sm:px-0">
+                            <Link href="/listings" className="premium-btn-primary w-full sm:w-auto !py-3 md:!py-3.5 !px-8 text-xs md:text-sm">
                                 <Search className="w-4 h-4" />
                                 Browse Listings
                             </Link>
@@ -101,9 +102,9 @@ const Hero = () => {
                                 href="https://wa.me/2348000000000"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="premium-btn bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 !py-3.5 !px-8"
+                                className="premium-btn w-full sm:w-auto bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 !py-3 md:!py-3.5 !px-8 text-xs md:text-sm"
                             >
-                                <MessageCircle className="w-4 h-4" />
+                                <WhatsAppIcon className="w-4 h-4" />
                                 Request Inspection
                             </a>
                         </div>
@@ -112,21 +113,21 @@ const Hero = () => {
 
                 {/* Search Bar */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6, duration: 0.7 }}
-                    className="w-full max-w-4xl mt-12"
+                    className="w-full max-w-4xl mt-6 md:mt-12 px-2 sm:px-0"
                 >
-                    <div className="bg-white/95 backdrop-blur-xl rounded-xl p-2 shadow-2xl border border-white/20">
+                    <div className="bg-white/95 backdrop-blur-xl rounded-xl p-3 md:p-2 shadow-2xl border border-white/20">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
-                            <select className="hero-search-input !bg-muted/50 !border-transparent">
+                            <select className="hero-search-input !bg-muted/50 !border-transparent h-10 md:h-auto text-xs md:text-sm">
                                 <option>All Locations</option>
                                 <option>Lekki, Lagos</option>
                                 <option>Ikoyi, Lagos</option>
                                 <option>Victoria Island</option>
                                 <option>Ajah, Lagos</option>
                             </select>
-                            <select className="hero-search-input !bg-muted/50 !border-transparent">
+                            <select className="hero-search-input !bg-muted/50 !border-transparent h-10 md:h-auto text-xs md:text-sm">
                                 <option>All Categories</option>
                                 <option>Land</option>
                                 <option>Houses</option>
@@ -135,16 +136,16 @@ const Hero = () => {
                             <input
                                 type="text"
                                 placeholder="Min Price"
-                                className="hero-search-input !bg-muted/50 !border-transparent"
+                                className="hero-search-input !bg-muted/50 !border-transparent h-10 md:h-auto text-xs md:text-sm"
                             />
                             <input
                                 type="text"
                                 placeholder="Max Price"
-                                className="hero-search-input !bg-muted/50 !border-transparent"
+                                className="hero-search-input !bg-muted/50 !border-transparent h-10 md:h-auto text-xs md:text-sm"
                             />
                             <Link
                                 href="/listings"
-                                className="premium-btn-primary !rounded-lg text-xs"
+                                className="premium-btn-primary !rounded-lg text-xs h-10 md:h-auto flex items-center justify-center lg:col-span-1 sm:col-span-2 lg:mt-0"
                             >
                                 <Search className="w-4 h-4" />
                                 Search
@@ -157,21 +158,21 @@ const Hero = () => {
             {/* Arrows */}
             <button
                 onClick={prev}
-                className="absolute left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center transition-all hover:bg-white/25 text-white border border-white/10"
+                className="hidden sm:flex absolute left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md items-center justify-center transition-all hover:bg-white/25 text-white border border-white/10"
                 aria-label="Previous slide"
             >
                 <ChevronLeft className="w-5 h-5" />
             </button>
             <button
                 onClick={next}
-                className="absolute right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center transition-all hover:bg-white/25 text-white border border-white/10"
+                className="hidden sm:flex absolute right-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md items-center justify-center transition-all hover:bg-white/25 text-white border border-white/10"
                 aria-label="Next slide"
             >
                 <ChevronRight className="w-5 h-5" />
             </button>
 
             {/* Indicators */}
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+            <div className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 items-center gap-2">
                 {slides.map((_, i) => (
                     <button
                         key={i}

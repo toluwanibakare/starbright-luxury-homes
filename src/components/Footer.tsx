@@ -15,9 +15,9 @@ const Footer = () => {
                             <Image
                                 src="/images/starbright_logo.png"
                                 alt="Starbright Real Estate"
-                                width={160}
-                                height={50}
-                                className="h-12 w-auto brightness-0 invert"
+                                width={200}
+                                height={60}
+                                className="h-[60px] w-auto brightness-0 invert"
                             />
                         </div>
                         <p className="text-sm text-white/50 leading-relaxed mb-6">

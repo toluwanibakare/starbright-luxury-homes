@@ -6,6 +6,7 @@ import { Search, SlidersHorizontal, X } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ListingCard from "@/components/ListingCard";
+import PageBreadcrumbHero from "@/components/PageBreadcrumbHero";
 import { listings, locations, categories, type Category } from "@/data/mockData";
 
 export default function ListingsPage() {
@@ -36,26 +37,18 @@ export default function ListingsPage() {
         <div className="min-h-screen bg-background">
             <Navbar />
 
-            {/* Page Header */}
-            <div
-                className="pt-28 pb-12 section-padding !pb-10"
-                style={{ background: "var(--gradient-subtle)" }}
-            >
-                <div className="container-premium">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                    >
-                        <p className="section-overline mb-3">Explore</p>
-                        <h1 className="section-heading !text-3xl md:!text-4xl mb-3">
-                            Property Listings
-                        </h1>
-                        <p className="text-muted-foreground">
-                            Browse our collection of verified properties.
-                        </p>
-                    </motion.div>
-                </div>
-            </div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                <PageBreadcrumbHero
+                    overline="Explore"
+                    title="Property Listings"
+                    description="Browse our collection of verified properties."
+                    backgroundImage="/images/hero-3.jpg"
+                    crumbs={[
+                        { label: "Home", href: "/" },
+                        { label: "Listings" },
+                    ]}
+                />
+            </motion.div>
 
             <div className="container-premium px-5 sm:px-8 lg:px-12 py-10">
                 {/* Search & Filter Bar */}

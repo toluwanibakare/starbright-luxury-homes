@@ -1,35 +1,29 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageBreadcrumbHero from "@/components/PageBreadcrumbHero";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 export default function ContactPage() {
     return (
         <div className="min-h-screen bg-background">
             <Navbar />
 
-            {/* Header */}
-            <div
-                className="pt-28 pb-12 section-padding !pb-10"
-                style={{ background: "var(--gradient-subtle)" }}
-            >
-                <div className="container-premium">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                    >
-                        <p className="section-overline mb-3">Get in Touch</p>
-                        <h1 className="section-heading !text-3xl md:!text-4xl mb-4">
-                            Contact Us
-                        </h1>
-                        <p className="text-muted-foreground">
-                            We&apos;d love to hear from you. Reach out anytime.
-                        </p>
-                    </motion.div>
-                </div>
-            </div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                <PageBreadcrumbHero
+                    overline="Get in Touch"
+                    title="Contact Us"
+                    description="We&apos;d love to hear from you. Reach out anytime."
+                    backgroundImage="/images/hero-4.jpg"
+                    crumbs={[
+                        { label: "Home", href: "/" },
+                        { label: "Contact" },
+                    ]}
+                />
+            </motion.div>
 
             <div className="container-premium section-padding">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
@@ -160,9 +154,9 @@ export default function ContactPage() {
                                 href="https://wa.me/2348000000000"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="premium-btn-whatsapp"
+                                className="premium-btn-whatsapp flex items-center gap-2"
                             >
-                                <MessageCircle className="w-4 h-4" />
+                                <WhatsAppIcon className="w-4 h-4" />
                                 Chat on WhatsApp
                             </a>
                         </div>
