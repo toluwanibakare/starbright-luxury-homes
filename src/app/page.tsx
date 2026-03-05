@@ -7,19 +7,17 @@ import Testimonials from "@/components/Testimonials";
 import CTABand from "@/components/CTABand";
 import Footer from "@/components/Footer";
 
-const Index = () => {
-  return (
-    <div className="min-h-screen">
-      <Navbar />
-      <Hero />
-      <FeaturedListings />
-      <Categories />
-      <TrustSection />
-      <Testimonials />
-      <CTABand />
-      <Footer />
-    </div>
-  );
-};
-
-export default Index;
+export default function HomePage() {
+    return (
+        <main className="min-h-screen">
+            <Navbar />
+            <Hero />
+            <FeaturedListings />
+            <Categories />
+            <TrustSection />
+            <Testimonials />
+            <CTABand />
+            <Footer />
+        </main>
+    );
+}
