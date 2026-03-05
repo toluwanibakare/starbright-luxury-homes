@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import logo from "@/assets/starbright_logo.png";
 
 const navLinks = [
   { path: "/", label: "Home" },
