@@ -33,13 +33,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${navBg}`}>
       <div className="container-premium flex items-center justify-between h-20 px-4 sm:px-6 lg:px-8">
         <Link to="/" className="flex items-center gap-2">
-          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: "var(--gradient-brand)" }}>
-            <span className="text-lg font-bold" style={{ color: "hsl(var(--primary-foreground))" }}>S</span>
-          </div>
-          <div>
-            <span className={`text-lg font-bold tracking-tight ${textColor}`}>Starbright</span>
-            <span className={`block text-[10px] uppercase tracking-[0.2em] ${scrolled || !isHome ? "text-muted-foreground" : "text-primary-foreground/70"}`}>Real Estate</span>
-          </div>
+          <img src={logo} alt="Starbright Real Estate" className="h-14 w-auto" />
         </Link>
 
         <div className="hidden md:flex items-center gap-8">

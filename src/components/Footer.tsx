@@ -9,13 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "var(--gradient-brand)" }}>
-                <span className="text-sm font-bold text-background">S</span>
-              </div>
-              <div>
-                <span className="text-base font-bold">Starbright</span>
-                <span className="block text-[9px] uppercase tracking-[0.2em] text-background/60">Real Estate & Properties</span>
-              </div>
+              <img src={logo} alt="Starbright Real Estate" className="h-14 w-auto brightness-0 invert" />
             </div>
             <p className="text-sm text-background/60 leading-relaxed">
               Nigeria's trusted platform for verified land and property listings. We ensure every property is inspected and documented.
