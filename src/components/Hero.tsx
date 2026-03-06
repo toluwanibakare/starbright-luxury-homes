@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Search, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
@@ -28,6 +28,48 @@ const slides = [
         sub: "We eliminate fraud so you can invest with complete peace of mind.",
     },
 ];
+
+const nigeriaStates = [
+    "Abia",
+    "Adamawa",
+    "Akwa Ibom",
+    "Anambra",
+    "Bauchi",
+    "Bayelsa",
+    "Benue",
+    "Borno",
+    "Cross River",
+    "Delta",
+    "Ebonyi",
+    "Edo",
+    "Ekiti",
+    "Enugu",
+    "Gombe",
+    "Imo",
+    "Jigawa",
+    "Kaduna",
+    "Kano",
+    "Katsina",
+    "Kebbi",
+    "Kogi",
+    "Kwara",
+    "Lagos",
+    "Nasarawa",
+    "Niger",
+    "Ogun",
+    "Ondo",
+    "Osun",
+    "Oyo",
+    "Plateau",
+    "Rivers",
+    "Sokoto",
+    "Taraba",
+    "Yobe",
+    "Zamfara",
+    "FCT Abuja",
+];
+
+const categoryOptions = ["All", "Land", "Houses", "Commercial"];
 
 const Hero = () => {
     const [current, setCurrent] = useState(0);
@@ -121,19 +163,16 @@ const Hero = () => {
                     <div className="bg-white/95 backdrop-blur-xl rounded-xl p-3 md:p-2 shadow-2xl border border-white/20">
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
                             <select className="hero-search-input !bg-muted/50 !border-transparent h-10 md:h-auto text-xs md:text-sm">
+                                <option>All States</option>
                                 <option>All Locations</option>
-                                <option>Lekki, Lagos</option>
-                                <option>Ikoyi, Lagos</option>
-                                <option>Victoria Island</option>
-                                <option>Ajah, Lagos</option>
-                                <option>Abuja</option>
-                                <option>Port Harcourt</option>
+                                {nigeriaStates.map((state) => (
+                                    <option key={state}>{state}</option>
+                                ))}
                             </select>
                             <select className="hero-search-input !bg-muted/50 !border-transparent h-10 md:h-auto text-xs md:text-sm">
-                                <option>All Categories</option>
-                                <option>Land</option>
-                                <option>Houses</option>
-                                <option>Commercial</option>
+                                {categoryOptions.map((category) => (
+                                    <option key={category}>{category}</option>
+                                ))}
                             </select>
                             <input
                                 type="text"

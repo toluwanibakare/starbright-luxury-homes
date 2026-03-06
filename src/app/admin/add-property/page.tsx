@@ -2,12 +2,14 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Upload, X, Image as ImageIcon, Video, CheckCircle2 } from "lucide-react";
+import { Upload, X, Image as ImageIcon, Video, CheckCircle2, ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const categories = ["Land", "House", "Commercial"];
 const locations = ["Lekki Phase 1, Lagos", "Ikoyi, Lagos", "Victoria Island, Lagos", "Ajah, Lagos", "Epe, Lagos", "Banana Island, Lagos", "Abuja", "Port Harcourt", "Ibadan", "Enugu"];
 
 export default function AddPropertyPage() {
+    const router = useRouter();
     const [images, setImages] = useState<string[]>(["/images/listing-1.jpg", "/images/listing-2.jpg"]);
     const [uploading, setUploading] = useState(false);
 
@@ -17,9 +19,19 @@ export default function AddPropertyPage() {
 
     return (
         <div className="space-y-6 max-w-4xl">
-            <div>
+            <div className="flex items-start gap-3">
+                <button
+                    type="button"
+                    onClick={() => router.back()}
+                    aria-label="Go back"
+                    className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-full border border-border bg-card text-foreground hover:bg-muted transition-colors"
+                >
+                    <ArrowLeft size={16} />
+                </button>
+                <div>
                 <h1 className="text-2xl font-bold text-foreground font-display">Add Property</h1>
                 <p className="text-sm text-muted-foreground mt-1">Create a new property listing</p>
+                </div>
             </div>
 
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">

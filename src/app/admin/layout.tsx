@@ -67,9 +67,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         <Image
                             src="/images/starbright_logo.png"
                             alt="Starbright"
-                            width={180}
-                            height={50}
-                            className="h-10 w-auto"
+                            width={230}
+                            height={64}
+                            className="h-12 w-auto"
                         />
                     </Link>
                     <button

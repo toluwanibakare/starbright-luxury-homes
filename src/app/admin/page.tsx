@@ -12,6 +12,21 @@ import {
     ArrowDownRight,
     Eye,
 } from "lucide-react";
+import {
+    ResponsiveContainer,
+    AreaChart,
+    Area,
+    CartesianGrid,
+    Tooltip,
+    XAxis,
+    YAxis,
+    Legend,
+    PieChart,
+    Pie,
+    Cell,
+    BarChart,
+    Bar,
+} from "recharts";
 
 const stats = [
     { label: "Total Listings", value: "48", change: "+12%", up: true, icon: Building2, color: "text-primary bg-primary/10" },
@@ -34,16 +49,28 @@ const recentInquiries = [
     { name: "Emeka N.", property: "Commercial Office — VI", time: "1 day ago" },
 ];
 
-const monthlyData = [
-    { month: "Oct", views: 340, inquiries: 45 },
-    { month: "Nov", views: 420, inquiries: 52 },
-    { month: "Dec", views: 380, inquiries: 48 },
-    { month: "Jan", views: 510, inquiries: 67 },
-    { month: "Feb", views: 480, inquiries: 61 },
-    { month: "Mar", views: 560, inquiries: 74 },
+const analyticsTrend = [
+    { month: "Oct", views: 340, inquiries: 45, deals: 8 },
+    { month: "Nov", views: 420, inquiries: 52, deals: 10 },
+    { month: "Dec", views: 380, inquiries: 48, deals: 9 },
+    { month: "Jan", views: 510, inquiries: 67, deals: 13 },
+    { month: "Feb", views: 480, inquiries: 61, deals: 12 },
+    { month: "Mar", views: 560, inquiries: 74, deals: 16 },
 ];
 
-const maxViews = Math.max(...monthlyData.map((d) => d.views));
+const leadSourceData = [
+    { source: "Website", leads: 46 },
+    { source: "WhatsApp", leads: 31 },
+    { source: "Referrals", leads: 18 },
+    { source: "Instagram", leads: 15 },
+    { source: "Walk-ins", leads: 9 },
+];
+
+const propertyTypeData = [
+    { name: "Houses", value: 24, color: "#0ea5e9" },
+    { name: "Land", value: 14, color: "#10b981" },
+    { name: "Commercial", value: 10, color: "#f59e0b" },
+];
 
 const statusColors: Record<string, string> = {
     Active: "bg-emerald-50 text-emerald-700",
@@ -52,6 +79,10 @@ const statusColors: Record<string, string> = {
 };
 
 export default function AdminDashboard() {
+    const latestMonth = analyticsTrend[analyticsTrend.length - 1];
+    const inquiryRate = ((latestMonth.inquiries / latestMonth.views) * 100).toFixed(1);
+    const closeRate = ((latestMonth.deals / latestMonth.inquiries) * 100).toFixed(1);
+
     return (
         <div className="space-y-8">
             {/* Header */}
@@ -94,43 +125,119 @@ export default function AdminDashboard() {
                 ))}
             </div>
 
-            {/* Charts + Inquiries */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Chart */}
+            {/* Analytics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="premium-card p-5">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Inquiry Rate</p>
+                    <p className="text-2xl font-bold text-foreground mt-2 font-display">{inquiryRate}%</p>
+                    <p className="text-xs text-muted-foreground mt-1">Inquiries from property views ({latestMonth.month})</p>
+                </div>
+                <div className="premium-card p-5">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Close Rate</p>
+                    <p className="text-2xl font-bold text-foreground mt-2 font-display">{closeRate}%</p>
+                    <p className="text-xs text-muted-foreground mt-1">Deals closed from inquiries ({latestMonth.month})</p>
+                </div>
+                <div className="premium-card p-5">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Top Lead Source</p>
+                    <p className="text-2xl font-bold text-foreground mt-2 font-display">{leadSourceData[0].source}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{leadSourceData[0].leads} qualified leads this month</p>
+                </div>
+                <div className="premium-card p-5">
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Best Segment</p>
+                    <p className="text-2xl font-bold text-foreground mt-2 font-display">{propertyTypeData[0].name}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{propertyTypeData[0].value} active listings</p>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
                 <motion.div
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="lg:col-span-2 premium-card p-6"
+                    className="xl:col-span-2 premium-card p-6"
                 >
                     <div className="flex items-center justify-between mb-6">
                         <div>
-                            <h3 className="text-sm font-semibold text-foreground">Property Views</h3>
-                            <p className="text-xs text-muted-foreground mt-0.5">Last 6 months overview</p>
+                            <h3 className="text-sm font-semibold text-foreground">Performance Trend</h3>
+                            <p className="text-xs text-muted-foreground mt-0.5">Views and inquiries over the last 6 months</p>
                         </div>
                         <div className="flex items-center gap-1.5 text-emerald-600 text-xs font-medium">
                             <TrendingUp size={14} />
                             +18%
                         </div>
                     </div>
-                    {/* Simple bar chart */}
-                    <div className="flex items-end gap-3 h-[180px]">
-                        {monthlyData.map((d, i) => (
-                            <div key={d.month} className="flex-1 flex flex-col items-center gap-2">
-                                <motion.div
-                                    initial={{ height: 0 }}
-                                    animate={{ height: `${(d.views / maxViews) * 100}%` }}
-                                    transition={{ delay: 0.4 + i * 0.06, duration: 0.5, ease: "easeOut" }}
-                                    className="w-full rounded-t-md"
-                                    style={{ background: "var(--gradient-brand)" }}
-                                />
-                                <span className="text-[10px] text-muted-foreground font-medium">{d.month}</span>
-                            </div>
-                        ))}
+                    <div className="h-[280px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={analyticsTrend} margin={{ top: 8, right: 12, left: -14, bottom: 0 }}>
+                                <defs>
+                                    <linearGradient id="viewsFill" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.35} />
+                                        <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0.03} />
+                                    </linearGradient>
+                                    <linearGradient id="inquiriesFill" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.28} />
+                                        <stop offset="95%" stopColor="#10b981" stopOpacity={0.03} />
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.25)" />
+                                <XAxis dataKey="month" tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
+                                <YAxis tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
+                                <Tooltip />
+                                <Legend wrapperStyle={{ fontSize: "12px" }} />
+                                <Area type="monotone" dataKey="views" stroke="#0ea5e9" strokeWidth={2} fill="url(#viewsFill)" name="Views" />
+                                <Area type="monotone" dataKey="inquiries" stroke="#10b981" strokeWidth={2} fill="url(#inquiriesFill)" name="Inquiries" />
+                            </AreaChart>
+                        </ResponsiveContainer>
                     </div>
                 </motion.div>
 
-                {/* Recent Inquiries */}
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.35 }}
+                    className="premium-card p-6"
+                >
+                    <h3 className="text-sm font-semibold text-foreground mb-4">Listing Mix</h3>
+                    <div className="h-[280px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie data={propertyTypeData} dataKey="value" nameKey="name" innerRadius={56} outerRadius={86} paddingAngle={3}>
+                                    {propertyTypeData.map((entry) => (
+                                        <Cell key={entry.name} fill={entry.color} />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                                <Legend wrapperStyle={{ fontSize: "12px" }} />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+                </motion.div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.38 }}
+                    className="lg:col-span-2 premium-card p-6"
+                >
+                    <div className="mb-5">
+                        <h3 className="text-sm font-semibold text-foreground">Lead Sources</h3>
+                        <p className="text-xs text-muted-foreground mt-0.5">Where inquiries are coming from</p>
+                    </div>
+                    <div className="h-[260px]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart data={leadSourceData} margin={{ top: 8, right: 10, left: -18, bottom: 0 }}>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.25)" />
+                                <XAxis dataKey="source" tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
+                                <YAxis tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
+                                <Tooltip />
+                                <Bar dataKey="leads" radius={[6, 6, 0, 0]} fill="#f59e0b" />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </motion.div>
+
                 <motion.div
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
