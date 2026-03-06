@@ -1,27 +1,88 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
+import { primaryKeywords, siteConfig } from "@/lib/seo";
 
 export const metadata: Metadata = {
-    title: "Starbright Real Estate & Properties — Verified Luxury Properties in Nigeria",
-    description:
-        "Discover verified land, luxury homes, and commercial properties across Lagos, Nigeria. Every listing is inspected, documented, and fraud-free.",
-    keywords: ["real estate", "Nigeria", "Lagos", "verified properties", "luxury homes", "land for sale"],
+    metadataBase: new URL(siteConfig.url),
+    title: {
+        default: `${siteConfig.name} | Verified Properties in Lagos, Nigeria`,
+        template: `%s | ${siteConfig.name}`,
+    },
+    description: siteConfig.description,
+    keywords: primaryKeywords,
+    alternates: {
+        canonical: "/",
+    },
     openGraph: {
-        title: "Starbright Real Estate & Properties",
-        description: "Nigeria's trusted platform for verified luxury properties.",
+        title: `${siteConfig.name} | Verified Properties in Lagos, Nigeria`,
+        description: siteConfig.description,
+        url: siteConfig.url,
+        siteName: siteConfig.name,
+        locale: siteConfig.locale,
         type: "website",
+        images: [
+            {
+                url: "/images/hero-1.jpg",
+                width: 1200,
+                height: 630,
+                alt: `${siteConfig.name} verified real estate listings in Lagos`,
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: `${siteConfig.name} | Verified Properties in Lagos, Nigeria`,
+        description: siteConfig.description,
+        images: ["/images/hero-1.jpg"],
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+            "max-video-preview": -1,
+        },
     },
 };
 
 export default function RootLayout({
     children,
-}: {
+}: Readonly<{
     children: React.ReactNode;
-}) {
+}>) {
+    const organizationLd = {
+        "@context": "https://schema.org",
+        "@type": "RealEstateAgent",
+        name: siteConfig.legalName,
+        url: siteConfig.url,
+        description: siteConfig.description,
+        areaServed: "Lagos, Nigeria",
+        image: `${siteConfig.url}/images/hero-1.jpg`,
+    };
+
+    const websiteLd = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: siteConfig.name,
+        url: siteConfig.url,
+        inLanguage: "en-NG",
+    };
+
     return (
         <html lang="en" suppressHydrationWarning>
             <body className="min-h-screen">
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
+                />
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
+                />
                 <Providers>{children}</Providers>
             </body>
         </html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seoSetup>
+  <siteName>Starbright Luxury Homes</siteName>
+  <primaryMarket>Lagos, Nigeria</primaryMarket>
+  <intent>
+    <goal>Rank for high-intent real estate searches in Lagos and Nigeria.</goal>
+    <goal>Capture transactional, local-intent, and trust-intent keyword demand.</goal>
+  </intent>
+  <keywordResearch>
+    <cluster name="transactional">
+      <keyword difficulty="medium" intent="buy">luxury homes in Lagos</keyword>
+      <keyword difficulty="medium" intent="buy">verified properties in Nigeria</keyword>
+      <keyword difficulty="medium" intent="buy">houses for sale in Lekki</keyword>
+      <keyword difficulty="medium" intent="buy">land for sale in Lagos</keyword>
+      <keyword difficulty="high" intent="buy">real estate in Lagos</keyword>
+    </cluster>
+    <cluster name="local-intent">
+      <keyword difficulty="low" intent="location">Ikoyi apartment for sale</keyword>
+      <keyword difficulty="low" intent="location">Banana Island mansion for sale</keyword>
+      <keyword difficulty="low" intent="location">Victoria Island office space</keyword>
+      <keyword difficulty="low" intent="location">Ajah estate land</keyword>
+      <keyword difficulty="low" intent="location">Epe investment land</keyword>
+    </cluster>
+    <cluster name="trust-intent">
+      <keyword difficulty="medium" intent="trust">fraud free property purchase Nigeria</keyword>
+      <keyword difficulty="medium" intent="trust">property document verification Nigeria</keyword>
+      <keyword difficulty="low" intent="trust">how to avoid land scams in Nigeria</keyword>
+    </cluster>
+  </keywordResearch>
+  <technicalChecklist>
+    <item>Canonical metadata configured.</item>
+    <item>Open Graph and Twitter metadata configured.</item>
+    <item>JSON-LD schema enabled (Organization + Website).</item>
+    <item>robots policy enabled with sitemap declaration.</item>
+    <item>XML sitemap generated for static and listing pages.</item>
+  </technicalChecklist>
+</seoSetup>
