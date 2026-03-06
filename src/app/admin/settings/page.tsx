@@ -21,15 +21,15 @@ export default function SettingsPage() {
                 <div className="space-y-4">
                     <div>
                         <label className="block text-xs font-medium text-foreground mb-1.5">Website Name</label>
-                        <input type="text" defaultValue="Starbright Real Estate and Properties" className="w-full h-10 px-4 rounded-lg border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                        <input type="text" defaultValue="Starbright Real Estate & Properties" className="w-full h-10 px-4 rounded-lg border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-foreground mb-1.5">Website URL</label>
-                        <input type="text" defaultValue="https://starbrightproperties.com" className="w-full h-10 px-4 rounded-lg border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                        <input type="text" defaultValue="https://starbrightluxuryhomes.com" className="w-full h-10 px-4 rounded-lg border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-foreground mb-1.5">Meta Description</label>
-                        <textarea rows={3} defaultValue="Your trusted partner for verified real estate in Lagos, Nigeria." className="w-full px-4 py-3 rounded-lg border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none" />
+                        <textarea rows={3} defaultValue="Discover verified land, luxury homes, and commercial properties across Nigeria. Buy and invest with confidence through document-checked, inspection-backed listings." className="w-full px-4 py-3 rounded-lg border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none" />
                     </div>
                 </div>
             </motion.div>

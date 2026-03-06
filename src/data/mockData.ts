@@ -131,6 +131,10 @@ export const locations = [
     "Ajah, Lagos",
     "Epe, Lagos",
     "Banana Island, Lagos",
+    "Abuja",
+    "Port Harcourt",
+    "Ibadan",
+    "Enugu",
 ];
 
 export const testimonials = [
