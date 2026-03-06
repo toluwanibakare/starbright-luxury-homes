@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <seoSetup>
-  <siteName>Starbright Luxury Homes</siteName>
-  <primaryMarket>Lagos, Nigeria</primaryMarket>
+  <siteName>Starbright Real Estate & Properties</siteName>
+  <primaryMarket>Nigeria</primaryMarket>
   <intent>
-    <goal>Rank for high-intent real estate searches in Lagos and Nigeria.</goal>
+    <goal>Rank for high-intent real estate searches across Nigeria, including Lagos and other major markets.</goal>
     <goal>Capture transactional, local-intent, and trust-intent keyword demand.</goal>
   </intent>
   <keywordResearch>
     <cluster name="transactional">
-      <keyword difficulty="medium" intent="buy">luxury homes in Lagos</keyword>
+      <keyword difficulty="medium" intent="buy">luxury homes in Nigeria</keyword>
       <keyword difficulty="medium" intent="buy">verified properties in Nigeria</keyword>
       <keyword difficulty="medium" intent="buy">houses for sale in Lekki</keyword>
-      <keyword difficulty="medium" intent="buy">land for sale in Lagos</keyword>
-      <keyword difficulty="high" intent="buy">real estate in Lagos</keyword>
+      <keyword difficulty="medium" intent="buy">land for sale in Nigeria</keyword>
+      <keyword difficulty="high" intent="buy">real estate in Nigeria</keyword>
     </cluster>
     <cluster name="local-intent">
       <keyword difficulty="low" intent="location">Ikoyi apartment for sale</keyword>

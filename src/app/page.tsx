@@ -11,14 +11,14 @@ import { listings } from "@/data/mockData";
 import { primaryKeywords, siteConfig } from "@/lib/seo";
 
 export const metadata: Metadata = {
-    title: "Luxury Homes, Land, and Commercial Property in Lagos",
+    title: "Luxury Homes, Land, and Commercial Property in Nigeria",
     description:
-        "Explore verified luxury homes in Lekki and Ikoyi, investment land in Epe and Ajah, and premium commercial property in Victoria Island.",
+        "Explore verified luxury homes, investment land, and premium commercial property across Nigeria, including key markets like Lagos, Abuja, and Port Harcourt.",
     keywords: [
         ...primaryKeywords,
-        "Lagos luxury real estate",
+        "Nigeria luxury real estate",
         "verified houses for sale in Nigeria",
-        "commercial property investment Lagos",
+        "commercial property investment Nigeria",
     ],
     alternates: {
         canonical: "/",
@@ -29,7 +29,7 @@ export default function HomePage() {
     const itemListLd = {
         "@context": "https://schema.org",
         "@type": "ItemList",
-        name: "Featured Verified Properties in Lagos",
+        name: "Featured Verified Properties in Nigeria",
         itemListElement: listings.slice(0, 6).map((listing, index) => ({
             "@type": "ListItem",
             position: index + 1,
@@ -61,10 +61,10 @@ export default function HomePage() {
 
             <section className="container-premium section-padding">
                 <h2 className="section-heading !text-2xl md:!text-3xl mb-4">
-                    Verified Real Estate in Lagos for Buyers and Investors
+                    Verified Real Estate in Nigeria for Buyers and Investors
                 </h2>
                 <p className="text-muted-foreground leading-relaxed max-w-4xl">
-                    Starbright Luxury Homes helps clients buy luxury homes in Lagos, secure verified
+                    Starbright Real Estate & Properties helps clients buy luxury homes in Nigeria, secure verified
                     land for sale in Ajah and Epe, and access premium commercial property in
                     Victoria Island. Every listing includes title-document checks, physical
                     inspection, and guided purchase support so your investment stays protected.

@@ -6,7 +6,7 @@ import { primaryKeywords, siteConfig } from "@/lib/seo";
 export const metadata: Metadata = {
     metadataBase: new URL(siteConfig.url),
     title: {
-        default: `${siteConfig.name} | Verified Properties in Lagos, Nigeria`,
+        default: `${siteConfig.name} | Verified Properties in Nigeria`,
         template: `%s | ${siteConfig.name}`,
     },
     description: siteConfig.description,
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
         canonical: "/",
     },
     openGraph: {
-        title: `${siteConfig.name} | Verified Properties in Lagos, Nigeria`,
+        title: `${siteConfig.name} | Verified Properties in Nigeria`,
         description: siteConfig.description,
         url: siteConfig.url,
         siteName: siteConfig.name,
@@ -26,13 +26,13 @@ export const metadata: Metadata = {
                 url: "/images/hero-1.jpg",
                 width: 1200,
                 height: 630,
-                alt: `${siteConfig.name} verified real estate listings in Lagos`,
+                alt: `${siteConfig.name} verified real estate listings across Nigeria`,
             },
         ],
     },
     twitter: {
         card: "summary_large_image",
-        title: `${siteConfig.name} | Verified Properties in Lagos, Nigeria`,
+        title: `${siteConfig.name} | Verified Properties in Nigeria`,
         description: siteConfig.description,
         images: ["/images/hero-1.jpg"],
     },
@@ -60,7 +60,7 @@ export default function RootLayout({
         name: siteConfig.legalName,
         url: siteConfig.url,
         description: siteConfig.description,
-        areaServed: "Lagos, Nigeria",
+        areaServed: "Nigeria",
         image: `${siteConfig.url}/images/hero-1.jpg`,
     };
 

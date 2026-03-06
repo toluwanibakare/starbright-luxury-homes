@@ -121,7 +121,7 @@ export default function ContactPage() {
                                         label: "Email",
                                         value: "hello@starbrightproperties.com",
                                     },
-                                    { icon: MapPin, label: "Office", value: "Lagos, Nigeria" },
+                                    { icon: MapPin, label: "Office", value: "Nigeria" },
                                 ].map((item) => (
                                     <div key={item.label} className="flex items-start gap-4">
                                         <div

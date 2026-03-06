@@ -1,14 +1,14 @@
 export default function Head() {
     return (
         <>
-            <title>Property Listings in Lagos | Verified Houses, Land & Commercial Spaces</title>
+            <title>Property Listings in Nigeria | Verified Houses, Land & Commercial Spaces</title>
             <meta
                 name="description"
-                content="Browse verified property listings in Lekki, Ikoyi, Victoria Island, Ajah, and Epe. Compare prices and invest with confidence in Lagos real estate."
+                content="Browse verified property listings across Nigeria. Compare prices and invest with confidence in trusted real estate opportunities."
             />
             <meta
                 name="keywords"
-                content="property listings Lagos, houses for sale Lekki, land for sale Ajah, Ikoyi apartments, commercial property Victoria Island"
+                content="property listings Nigeria, houses for sale, land for sale Nigeria, apartments Nigeria, commercial property Nigeria"
             />
             <link rel="canonical" href="/listings" />
         </>

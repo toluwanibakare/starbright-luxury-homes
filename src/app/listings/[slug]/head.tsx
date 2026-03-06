@@ -11,7 +11,7 @@ export default async function Head({
     if (!listing) {
         return (
             <>
-                <title>Property Not Found | Starbright Luxury Homes</title>
+                <title>Property Not Found | Starbright Real Estate & Properties</title>
                 <meta
                     name="robots"
                     content="noindex, nofollow"
@@ -22,11 +22,11 @@ export default async function Head({
 
     return (
         <>
-            <title>{`${listing.title} | Starbright Luxury Homes`}</title>
+            <title>{`${listing.title} | Starbright Real Estate & Properties`}</title>
             <meta name="description" content={listing.description} />
             <meta
                 name="keywords"
-                content={`${listing.title}, ${listing.location}, ${listing.category} for sale, verified property Lagos`}
+                content={`${listing.title}, ${listing.location}, ${listing.category} for sale, verified property Nigeria`}
             />
             <link rel="canonical" href={`/listings/${listing.slug}`} />
         </>

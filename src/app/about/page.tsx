@@ -38,7 +38,7 @@ export default function AboutPage() {
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                 <PageBreadcrumbHero
                     overline="Our Story"
-                    title="About Starbright"
+                    title="About Starbright Real Estate & Properties"
                     description="Building trust in Nigerian real estate, one verified listing at a time."
                     backgroundImage="/images/hero-2.jpg"
                     crumbs={[

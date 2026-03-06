@@ -15,7 +15,7 @@ const slides = [
     {
         image: "/images/hero-2.jpg",
         headline: "Find Land & Homes\nYou Can Trust",
-        sub: "Every listing is inspected, documented, and ready for secure purchase across Lagos and beyond.",
+        sub: "Every listing is inspected, documented, and ready for secure purchase across Nigeria.",
     },
     {
         image: "/images/hero-3.jpg",
@@ -81,7 +81,7 @@ const Hero = () => {
                             className="inline-block mb-3 md:mb-6"
                         >
                             <span className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-medium text-white/60 border border-white/15 rounded-full px-4 md:px-5 py-1.5 md:py-2 backdrop-blur-sm bg-white/5">
-                                Starbright Real Estate
+                                Starbright Real Estate & Properties
                             </span>
                         </motion.div>
 
@@ -126,6 +126,8 @@ const Hero = () => {
                                 <option>Ikoyi, Lagos</option>
                                 <option>Victoria Island</option>
                                 <option>Ajah, Lagos</option>
+                                <option>Abuja</option>
+                                <option>Port Harcourt</option>
                             </select>
                             <select className="hero-search-input !bg-muted/50 !border-transparent h-10 md:h-auto text-xs md:text-sm">
                                 <option>All Categories</option>

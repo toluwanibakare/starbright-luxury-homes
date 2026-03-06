@@ -45,7 +45,7 @@ const Navbar = () => {
                 <Link href="/" className="flex items-center gap-2.5 relative z-10">
                     <Image
                         src="/images/starbright_logo.png"
-                        alt="Starbright Real Estate"
+                        alt="Starbright Real Estate & Properties"
                         width={300}
                         height={100}
                         className={`h-[75px] md:h-[96px] w-auto transition-all duration-300 ${!showSolid ? "brightness-0 invert" : ""}`}

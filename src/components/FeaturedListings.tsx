@@ -22,7 +22,7 @@ const FeaturedListings = () => {
                     <h2 className="section-heading mb-4">Featured Listings</h2>
                     <div className="section-divider mb-5" />
                     <p className="section-desc">
-                        Hand-picked, verified properties across Lagos and beyond.
+                        Hand-picked, verified properties across Nigeria.
                     </p>
                 </motion.div>
 

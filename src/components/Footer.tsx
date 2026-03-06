@@ -14,7 +14,7 @@ const Footer = () => {
                         <div className="mb-5">
                             <Image
                                 src="/images/starbright_logo.png"
-                                alt="Starbright Real Estate"
+                                alt="Starbright Real Estate & Properties"
                                 width={200}
                                 height={60}
                                 className="h-[60px] w-auto brightness-0 invert"
@@ -84,7 +84,7 @@ const Footer = () => {
                             </a>
                             <div className="flex items-start gap-3">
                                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                                <span>Lagos, Nigeria</span>
+                                <span>Nigeria</span>
                             </div>
                         </div>
                     </div>
