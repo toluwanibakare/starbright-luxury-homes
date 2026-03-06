@@ -32,7 +32,7 @@ export default function PageBreadcrumbHero({
 }: PageBreadcrumbHeroProps) {
     return (
         <div
-            className="relative pt-32 md:pt-44 pb-12 section-padding !pb-10 overflow-hidden"
+            className="relative pt-32 md:pt-36 pb-12 section-padding !pb-10 overflow-hidden"
             style={{
                 backgroundImage: `linear-gradient(120deg, hsla(220, 25%, 14%, 0.8), hsla(0, 60%, 20%, 0.55)), url('${backgroundImage}')`,
                 backgroundSize: "cover",

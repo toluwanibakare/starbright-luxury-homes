@@ -40,7 +40,7 @@ const Navbar = () => {
                 : "bg-transparent"
                 }`}
         >
-            <div className="container-premium flex items-center justify-between h-[90px] md:h-[120px] px-5 sm:px-8 lg:px-12">
+            <div className="container-premium flex items-center justify-between h-[75px] md:h-[100px] px-5 sm:px-8 lg:px-12">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2.5 relative z-10">
                     <Image
@@ -48,7 +48,7 @@ const Navbar = () => {
                         alt="Starbright Real Estate"
                         width={300}
                         height={100}
-                        className={`h-[72px] md:h-[96px] w-auto transition-all duration-300 ${!showSolid ? "brightness-0 invert" : ""}`}
+                        className={`h-[75px] md:h-[96px] w-auto transition-all duration-300 ${!showSolid ? "brightness-0 invert" : ""}`}
                         priority
                     />
                 </Link>
