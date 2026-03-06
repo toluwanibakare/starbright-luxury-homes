@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Upload, X, Image as ImageIcon, Video, CheckCircle2 } from "lucide-react";
 
 const categories = ["Land", "House", "Commercial"];
-const locations = ["Lekki Phase 1, Lagos", "Ikoyi, Lagos", "Victoria Island, Lagos", "Ajah, Lagos", "Epe, Lagos", "Banana Island, Lagos"];
+const locations = ["Lekki Phase 1, Lagos", "Ikoyi, Lagos", "Victoria Island, Lagos", "Ajah, Lagos", "Epe, Lagos", "Banana Island, Lagos", "Abuja", "Port Harcourt", "Ibadan", "Enugu"];
 
 export default function AddPropertyPage() {
     const [images, setImages] = useState<string[]>(["/images/listing-1.jpg", "/images/listing-2.jpg"]);
