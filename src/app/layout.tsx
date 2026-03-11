@@ -74,7 +74,7 @@ export default function RootLayout({
 
     return (
         <html lang="en" suppressHydrationWarning>
-            <body className="min-h-screen">
+            <body className="min-h-screen" suppressHydrationWarning>
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
