@@ -29,7 +29,7 @@ const CTABand = () => {
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <a
-                            href="https://wa.me/2348000000000"
+                            href="https://wa.me/2347033764029"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="premium-btn bg-white text-foreground hover:bg-white/90 !py-3.5 !px-8 shadow-lg"

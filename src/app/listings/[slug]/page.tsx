@@ -217,7 +217,7 @@ export default function ListingDetailsPage({
                                     property.
                                 </p>
                                 <a
-                                    href={`https://wa.me/2348000000000?text=Hi, I'm interested in ${listing.title} (${listing.listingId})`}
+                                    href={`https://wa.me/2347033764029?text=Hi, I'm interested in ${listing.title} (${listing.listingId})`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="premium-btn-whatsapp w-full flex items-center justify-center gap-2"

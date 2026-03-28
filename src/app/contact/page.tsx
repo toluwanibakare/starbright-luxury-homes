@@ -16,7 +16,7 @@ export default function ContactPage() {
                 <PageBreadcrumbHero
                     overline="Get in Touch"
                     title="Contact Us"
-                    description="We&apos;d love to hear from you. Reach out anytime."
+                    description="Reach out for verified property transactions and end-to-end real estate support."
                     backgroundImage="/images/hero-4.jpg"
                     crumbs={[
                         { label: "Home", href: "/" },
@@ -115,13 +115,13 @@ export default function ContactPage() {
                             </h2>
                             <div className="space-y-5">
                                 {[
-                                    { icon: Phone, label: "Phone", value: "+234 800 000 0000" },
+                                    { icon: Phone, label: "Phone", value: "+234 703 376 4029, +234 905 943 5448" },
                                     {
                                         icon: Mail,
                                         label: "Email",
                                         value: "hello@starbrightproperties.com",
                                     },
-                                    { icon: MapPin, label: "Office", value: "Nigeria" },
+                                    { icon: MapPin, label: "Address", value: "Peak Park Estate, Oribanwa, Ibeju-Lekki, Lagos." },
                                 ].map((item) => (
                                     <div key={item.label} className="flex items-start gap-4">
                                         <div
@@ -151,7 +151,7 @@ export default function ContactPage() {
                                 Chat with us directly for faster responses.
                             </p>
                             <a
-                                href="https://wa.me/2348000000000"
+                                href="https://wa.me/2347033764029"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="premium-btn-whatsapp flex items-center gap-2"

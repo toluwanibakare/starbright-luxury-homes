@@ -21,7 +21,7 @@ const Footer = () => {
                             />
                         </div>
                         <p className="text-sm text-white/50 leading-relaxed mb-6">
-                            Nigeria&apos;s trusted platform for verified land and property listings. We ensure every property is inspected and documented.
+                            A fast-rising real estate company across Africa delivering verified property transactions, construction, property management, procurement, and facilities management.
                         </p>
                     </div>
 
@@ -74,17 +74,24 @@ const Footer = () => {
                             Contact
                         </h4>
                         <div className="space-y-4 text-sm text-white/45">
-                            <a href="tel:+2348000000000" className="flex items-center gap-3 hover:text-white/80 transition-colors">
-                                <Phone className="w-4 h-4 flex-shrink-0" />
-                                <span>+234 800 000 0000</span>
-                            </a>
+                            <div className="flex items-start gap-3">
+                                <Phone className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                                <div className="space-y-2">
+                                    <a href="tel:+2347033764029" className="block hover:text-white/80 transition-colors">
+                                        +234 703 376 4029
+                                    </a>
+                                    <a href="tel:+2349059435448" className="block hover:text-white/80 transition-colors">
+                                        +234 905 943 5448
+                                    </a>
+                                </div>
+                            </div>
                             <a href="mailto:hello@starbrightproperties.com" className="flex items-center gap-3 hover:text-white/80 transition-colors">
                                 <Mail className="w-4 h-4 flex-shrink-0" />
                                 <span>hello@starbrightproperties.com</span>
                             </a>
                             <div className="flex items-start gap-3">
                                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
-                                <span>Nigeria</span>
+                                <span>Peak Park Estate, Oribanwa, Ibeju-Lekki, Lagos.</span>
                             </div>
                         </div>
                     </div>
@@ -109,6 +116,7 @@ const Footer = () => {
                             className="text-xs text-white/30 hover:text-white transition-colors flex items-center gap-1 font-medium border-l border-white/10 pl-6"
                         >
                             Built by <span className="text-white/60">TMB</span>
+                            <ArrowUpRight className="w-3 h-3" />
                         </a>
                     </div>
                 </div>

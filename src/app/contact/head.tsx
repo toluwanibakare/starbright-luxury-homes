@@ -1,14 +1,14 @@
 export default function Head() {
     return (
         <>
-            <title>Contact Starbright Real Estate & Properties | Real Estate Experts in Nigeria</title>
+            <title>Contact Starbright Real Estate & Properties | Real Estate Experts Across Africa</title>
             <meta
                 name="description"
-                content="Contact Starbright Real Estate & Properties for verified houses, land, and commercial property across Nigeria. Schedule inspections and get guided purchase support."
+                content="Contact Starbright Real Estate and Properties for verified property transactions, construction, property management, procurement, and facilities management across Africa."
             />
             <meta
                 name="keywords"
-                content="contact real estate agent Nigeria, verified property consultation Nigeria, Starbright contact"
+                content="contact real estate company Africa, verified property consultation Africa, Starbright contact"
             />
             <link rel="canonical" href="/contact" />
         </>

@@ -10,22 +10,22 @@ const slides = [
     {
         image: "/images/hero-1.jpg",
         headline: "Verified Properties,\nReal Confidence",
-        sub: "Only thoroughly verified land and properties make it to our platform — so you can buy with peace of mind.",
+        sub: "Only thoroughly verified lands and properties make it to our platform, so you can invest with peace of mind.",
     },
     {
         image: "/images/hero-2.jpg",
-        headline: "Find Land & Homes\nYou Can Trust",
-        sub: "Every listing is inspected, documented, and ready for secure purchase across Nigeria.",
+        headline: "Buy, Sell, Build,\nAnd Manage Better",
+        sub: "From verified property sales to construction and facilities management, we deliver end-to-end support across Africa.",
     },
     {
         image: "/images/hero-3.jpg",
-        headline: "Premium Living,\nZero Compromise",
-        sub: "Discover luxury apartments and homes in Nigeria's most sought-after locations.",
+        headline: "Safe Transactions,\nStronger Investments",
+        sub: "Every listing is inspected, documented, and prepared for secure transactions backed by professional verification.",
     },
     {
         image: "/images/hero-4.jpg",
-        headline: "Only Verified Listings,\nNo Stories",
-        sub: "We eliminate fraud so you can invest with complete peace of mind.",
+        headline: "Pan-African Reach,\nLocal Expertise",
+        sub: "We combine regional ambition with market knowledge to help clients make confident property decisions.",
     },
 ];
 
@@ -84,7 +84,6 @@ const Hero = () => {
 
     return (
         <section className="relative h-[100svh] w-full overflow-hidden bg-neutral-900">
-            {/* Background Images */}
             <AnimatePresence>
                 <motion.div
                     key={current}
@@ -102,10 +101,8 @@ const Hero = () => {
                 </motion.div>
             </AnimatePresence>
 
-            {/* Overlay */}
             <div className="absolute inset-0" style={{ background: "var(--gradient-hero-overlay)" }} />
 
-            {/* Content */}
             <div className="relative z-10 h-full flex flex-col items-center justify-start sm:justify-center container-premium px-5 sm:px-8 pt-24 sm:pt-0">
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -141,7 +138,7 @@ const Hero = () => {
                                 Browse Listings
                             </Link>
                             <a
-                                href="https://wa.me/2348000000000"
+                                href="https://wa.me/2347033764029"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="premium-btn w-full sm:w-auto bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 !py-3 md:!py-3.5 !px-8 text-xs md:text-sm"
@@ -153,7 +150,6 @@ const Hero = () => {
                     </motion.div>
                 </AnimatePresence>
 
-                {/* Search Bar */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -196,7 +192,6 @@ const Hero = () => {
                 </motion.div>
             </div>
 
-            {/* Arrows */}
             <button
                 onClick={prev}
                 className="hidden sm:flex absolute left-5 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md items-center justify-center transition-all hover:bg-white/25 text-white border border-white/10"
@@ -212,17 +207,17 @@ const Hero = () => {
                 <ChevronRight className="w-5 h-5" />
             </button>
 
-            {/* Indicators */}
             <div className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 z-20 items-center gap-2">
-                {slides.map((_, i) => (
+                {slides.map((_, index) => (
                     <button
-                        key={i}
-                        onClick={() => setCurrent(i)}
-                        className={`rounded-full transition-all duration-500 ${i === current
-                            ? "w-8 h-2 bg-white"
-                            : "w-2 h-2 bg-white/35 hover:bg-white/50"
-                            }`}
-                        aria-label={`Go to slide ${i + 1}`}
+                        key={index}
+                        onClick={() => setCurrent(index)}
+                        className={`rounded-full transition-all duration-500 ${
+                            index === current
+                                ? "w-8 h-2 bg-white"
+                                : "w-2 h-2 bg-white/35 hover:bg-white/50"
+                        }`}
+                        aria-label={`Go to slide ${index + 1}`}
                     />
                 ))}
             </div>
