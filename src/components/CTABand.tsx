@@ -34,7 +34,7 @@ const CTABand = () => {
                             rel="noopener noreferrer"
                             className="premium-btn bg-white text-foreground hover:bg-white/90 !py-3.5 !px-8 shadow-lg"
                         >
-                            <WhatsAppIcon className="w-4 h-4" />
+                            <WhatsAppIcon className="w-4 h-4 text-black" />
                             Book Inspection on WhatsApp
                         </a>
                         <Link

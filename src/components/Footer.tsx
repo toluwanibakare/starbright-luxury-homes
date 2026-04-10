@@ -9,7 +9,6 @@ const Footer = () => {
         <footer className="bg-[hsl(220,25%,12%)] text-white">
             <div className="container-premium section-padding !py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
-                    {/* Brand */}
                     <div className="lg:col-span-1">
                         <div className="mb-5">
                             <Image
@@ -21,11 +20,10 @@ const Footer = () => {
                             />
                         </div>
                         <p className="text-sm text-white/50 leading-relaxed mb-6">
-                            A fast-rising real estate company across Africa delivering verified property transactions, construction, property management, procurement, and facilities management.
+                            Verified property listings, guided inspections, and straightforward enquiries for buyers looking for clearer property opportunities.
                         </p>
                     </div>
 
-                    {/* Quick Links */}
                     <div>
                         <h4 className="text-xs font-semibold uppercase tracking-[0.2em] mb-5 text-white/70">
                             Quick Links
@@ -49,26 +47,28 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    {/* Categories */}
                     <div>
                         <h4 className="text-xs font-semibold uppercase tracking-[0.2em] mb-5 text-white/70">
                             Categories
                         </h4>
                         <div className="space-y-3">
-                            {["Land", "Houses", "Commercial Properties"].map((cat) => (
+                            {[
+                                { label: "Land", href: "/listings" },
+                                { label: "Houses", href: "/listings" },
+                                { label: "Commercial Properties", href: "/listings" },
+                            ].map((cat) => (
                                 <Link
-                                    key={cat}
-                                    href="/listings"
+                                    key={cat.label}
+                                    href={cat.href}
                                     className="group flex items-center gap-1.5 text-sm text-white/45 hover:text-white/90 transition-colors"
                                 >
-                                    {cat}
+                                    {cat.label}
                                     <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
                                 </Link>
                             ))}
                         </div>
                     </div>
 
-                    {/* Contact */}
                     <div>
                         <h4 className="text-xs font-semibold uppercase tracking-[0.2em] mb-5 text-white/70">
                             Contact
@@ -85,9 +85,9 @@ const Footer = () => {
                                     </a>
                                 </div>
                             </div>
-                            <a href="mailto:hello@starbrightproperties.com" className="flex items-center gap-3 hover:text-white/80 transition-colors">
+                            <a href="mailto:hello@starbrightproperties.com.ng" className="flex items-center gap-3 hover:text-white/80 transition-colors">
                                 <Mail className="w-4 h-4 flex-shrink-0" />
-                                <span>hello@starbrightproperties.com</span>
+                                <span>hello@starbrightproperties.com.ng</span>
                             </a>
                             <div className="flex items-start gap-3">
                                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
@@ -97,16 +97,15 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Bottom bar */}
                 <div className="border-t border-white/8 mt-14 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
                     <p className="text-xs text-white/30">
                         &copy; {currentYear} Starbright Real Estate & Properties. All rights reserved.
                     </p>
                     <div className="flex items-center gap-6">
-                        <Link href="/about" className="text-xs text-white/30 hover:text-white/60 transition-colors">
+                        <Link href="/privacy-policy" className="text-xs text-white/30 hover:text-white/60 transition-colors">
                             Privacy Policy
                         </Link>
-                        <Link href="/about" className="text-xs text-white/30 hover:text-white/60 transition-colors">
+                        <Link href="/terms-of-service" className="text-xs text-white/30 hover:text-white/60 transition-colors">
                             Terms of Service
                         </Link>
                         <a

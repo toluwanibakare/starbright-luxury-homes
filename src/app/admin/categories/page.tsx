@@ -1,46 +1,39 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
-import { Mountain, Home, Building2, Pencil, Trash2 } from "lucide-react";
+import { Home, Mountain, Building2 } from "lucide-react";
 
-const categoriesData = [
-    { name: "Land", icon: Mountain, count: 24, color: "text-emerald-600 bg-emerald-50" },
-    { name: "Houses", icon: Home, count: 38, color: "text-primary bg-primary/10" },
-    { name: "Commercial", icon: Building2, count: 12, color: "text-secondary bg-secondary/10" },
+const categories = [
+    { name: "House", listings: 18, icon: Home, note: "Residential homes and apartments" },
+    { name: "Land", listings: 9, icon: Mountain, note: "Plots and estate land" },
+    { name: "Commercial", listings: 4, icon: Building2, note: "Offices, shops, and mixed-use spaces" },
 ];
 
 export default function CategoriesPage() {
     return (
-        <div className="space-y-6 max-w-3xl">
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-2xl font-bold text-foreground font-display">Categories</h1>
-                    <p className="text-sm text-muted-foreground mt-1">Manage property categories</p>
-                </div>
-                <button className="premium-btn-primary !py-2.5 !px-5 !text-xs">+ Add Category</button>
+        <div className="space-y-6">
+            <div>
+                <h1 className="text-2xl font-bold text-foreground font-display">Categories</h1>
+                <p className="text-sm text-muted-foreground mt-1">
+                    Keep your listing types organized and easy to filter.
+                </p>
             </div>
 
-            <div className="space-y-3">
-                {categoriesData.map((cat, i) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {categories.map((category, index) => (
                     <motion.div
-                        key={cat.name}
-                        initial={{ opacity: 0, x: -12 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.08 }}
-                        className="premium-card p-5 flex items-center gap-4"
+                        key={category.name}
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.06 }}
+                        className="premium-card p-6"
                     >
-                        <div className={`p-3 rounded-xl ${cat.color}`}>
-                            <cat.icon size={22} />
+                        <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-4">
+                            <category.icon size={22} />
                         </div>
-                        <div className="flex-1">
-                            <h3 className="text-sm font-semibold text-foreground">{cat.name}</h3>
-                            <p className="text-xs text-muted-foreground">{cat.count} properties</p>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <button className="p-2 rounded-lg hover:bg-muted transition-colors"><Pencil size={15} className="text-muted-foreground" /></button>
-                            <button className="p-2 rounded-lg hover:bg-destructive/10 transition-colors"><Trash2 size={15} className="text-destructive/70" /></button>
-                        </div>
+                        <h2 className="text-lg font-semibold text-foreground">{category.name}</h2>
+                        <p className="text-sm text-muted-foreground mt-1">{category.note}</p>
+                        <p className="text-xs text-muted-foreground mt-4">{category.listings} listings</p>
                     </motion.div>
                 ))}
             </div>

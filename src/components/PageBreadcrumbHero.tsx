@@ -1,27 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
 
-type Crumb = {
+interface Crumb {
     label: string;
     href?: string;
-};
+}
 
-type PageBreadcrumbHeroProps = {
+interface PageBreadcrumbHeroProps {
     overline: string;
     title: string;
-    description?: string;
+    description: string;
     backgroundImage: string;
     crumbs: Crumb[];
-};
+}
 
 export default function PageBreadcrumbHero({
     overline,
@@ -30,49 +24,60 @@ export default function PageBreadcrumbHero({
     backgroundImage,
     crumbs,
 }: PageBreadcrumbHeroProps) {
-    return (
-        <div
-            className="relative pt-32 md:pt-36 pb-12 section-padding !pb-10 overflow-hidden"
-            style={{
-                backgroundImage: `linear-gradient(120deg, hsla(220, 25%, 14%, 0.8), hsla(0, 60%, 20%, 0.55)), url('${backgroundImage}')`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-            }}
-        >
-            <div className="container-premium relative z-10">
-                <Breadcrumb className="mb-5">
-                    <BreadcrumbList className="bg-white/10 border border-white/20 backdrop-blur-sm rounded-full px-4 py-2 w-fit text-white/80">
-                        {crumbs.map((crumb, index) => (
-                            <BreadcrumbItem key={`${crumb.label}-${index}`}>
-                                {index > 0 && (
-                                    <BreadcrumbSeparator className="text-white/60" />
-                                )}
-                                {crumb.href ? (
-                                    <BreadcrumbLink asChild className="hover:text-white">
-                                        <Link href={crumb.href}>{crumb.label}</Link>
-                                    </BreadcrumbLink>
-                                ) : (
-                                    <BreadcrumbPage className="text-white font-medium">
-                                        {crumb.label}
-                                    </BreadcrumbPage>
-                                )}
-                            </BreadcrumbItem>
-                        ))}
-                    </BreadcrumbList>
-                </Breadcrumb>
+    const trail = crumbs.length > 0 ? crumbs : [{ label: title }];
 
-                <p className="text-[11px] uppercase tracking-[0.25em] text-white/80 font-semibold font-body mb-3">
-                    {overline}
-                </p>
-                <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 font-display">
-                    {title}
-                </h1>
-                {description && (
-                    <p className="text-white/85 max-w-2xl text-sm md:text-base">
+    return (
+        <section className="relative overflow-hidden pt-28 pb-16 sm:pt-32 sm:pb-20">
+            <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: `url(${backgroundImage})` }}
+            />
+            <div className="absolute inset-0" style={{ background: "var(--gradient-hero-overlay)" }} />
+
+            <div className="relative z-10 container-premium px-5 sm:px-8 lg:px-12">
+                <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.55, ease: "easeOut" }}
+                    className="max-w-3xl"
+                >
+                    <p className="text-[11px] uppercase tracking-[0.28em] text-white/65 mb-4">
+                        {overline}
+                    </p>
+                    <h1
+                        className="font-display text-3xl sm:text-5xl font-bold text-white leading-tight"
+                        style={{ textShadow: "0 10px 30px rgba(0,0,0,0.45)" }}
+                    >
+                        {title}
+                    </h1>
+                    <p
+                        className="text-sm sm:text-base text-white mt-4 max-w-2xl leading-7 font-medium"
+                        style={{ textShadow: "0 8px 24px rgba(0,0,0,0.42)" }}
+                    >
                         {description}
                     </p>
-                )}
+
+                    <div className="mt-6 inline-flex flex-wrap items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs text-white/85 backdrop-blur-sm">
+                        {trail.map((crumb, index) => {
+                            const isLast = index === trail.length - 1;
+                            return (
+                                <div key={`${crumb.label}-${index}`} className="inline-flex items-center gap-2">
+                                    {crumb.href && !isLast ? (
+                                        <Link href={crumb.href} className="hover:text-white transition-colors">
+                                            {crumb.label}
+                                        </Link>
+                                    ) : (
+                                        <span className={isLast ? "text-white font-medium" : ""}>
+                                            {crumb.label}
+                                        </span>
+                                    )}
+                                    {!isLast ? <ChevronRight className="w-3 h-3 text-white/55" /> : null}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </motion.div>
             </div>
-        </div>
+        </section>
     );
 }

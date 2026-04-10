@@ -15,7 +15,7 @@ const Testimonials = () => {
                     className="text-center mb-14"
                 >
                     <p className="section-overline mb-4">Testimonials</p>
-                    <h2 className="section-heading mb-4">What Our Clients Say</h2>
+                    <h2 className="section-heading mb-4">What Our Customers Say</h2>
                     <div className="section-divider" />
                 </motion.div>
 

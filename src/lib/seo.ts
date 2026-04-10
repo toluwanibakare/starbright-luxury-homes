@@ -1,43 +1,42 @@
 export const siteConfig = {
     name: "Starbright Real Estate & Properties",
     legalName: "Starbright Real Estate & Properties",
-    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://starbrightluxuryhomes.com",
+    url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://starbrightproperties.com.ng",
     description:
-        "Discover safe, verified real estate solutions across Africa, from landed property sales and purchases to construction, property management, procurement, and facilities management.",
+        "Discover verified property listings with guided inspections, secure enquiries, and a clearer buying experience.",
     locale: "en_NG",
 };
 
 export const primaryKeywords = [
-    "real estate company in Africa",
-    "verified properties across Africa",
-    "landed property sales Africa",
-    "property management Africa",
-    "facilities management Africa",
-    "construction company real estate Africa",
-    "safe property transactions Africa",
-    "property verification process Africa",
-    "trusted real estate company Africa",
-    "procurement services for properties Africa",
+    "verified properties",
+    "trusted real estate company",
+    "buy land with verified documentation",
+    "buy house in Nigeria",
+    "commercial property in Nigeria",
+    "property inspection",
+    "property verification process",
+    "trusted real estate company Nigeria",
+    "secure property transactions",
     "Starbright Real Estate & Properties",
 ];
 
 export const keywordClusters = {
     transactional: [
-        "buy property in Africa",
-        "buy land in Africa",
-        "verified real estate listings Africa",
-        "sell property in Africa",
+        "buy property with verification",
+        "buy land with verified documentation",
+        "verified real estate listings",
+        "request property inspection",
     ],
     localIntent: [
-        "pan-African real estate services",
-        "property investment opportunities Africa",
-        "facilities management company Africa",
-        "construction and procurement services Africa",
-        "property management solutions Africa",
+        "real estate company",
+        "property investment opportunities",
+        "verified homes",
+        "verified land",
+        "commercial property listings",
     ],
     trustIntent: [
-        "how to avoid property fraud in Africa",
+        "how to avoid property fraud",
         "verified C of O property",
-        "real estate legal verification Africa",
+        "real estate legal verification",
     ],
 };

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BadgeCheck, Building2, ClipboardCheck, Wrench } from "lucide-react";
+import { BadgeCheck, Building2, ClipboardCheck, MessageSquareMore } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import FeaturedListings from "@/components/FeaturedListings";
@@ -12,14 +12,14 @@ import { listings } from "@/data/mockData";
 import { primaryKeywords, siteConfig } from "@/lib/seo";
 
 export const metadata: Metadata = {
-    title: "Verified Property Services Across Africa",
+    title: "Verified Properties You Can Explore With Confidence",
     description:
-        "Explore verified real estate solutions across Africa, including property sales, buying support, construction, property management, procurement, and facilities management.",
+        "Explore verified property listings with guided inspections, fast enquiries, and clearer property information.",
     keywords: [
         ...primaryKeywords,
-        "real estate services in Africa",
-        "verified properties across Africa",
-        "property management company Africa",
+        "real estate listings",
+        "verified properties",
+        "property inspections",
     ],
     alternates: {
         canonical: "/",
@@ -30,18 +30,21 @@ export default function HomePage() {
     const serviceHighlights = [
         {
             icon: Building2,
-            title: "Property Sales and Acquisition",
-            description: "Buy and sell landed properties with guided support and verified documentation.",
+            title: "Verified Listings",
+            description:
+                "Browse land, houses, and commercial properties that have been reviewed before going live.",
         },
         {
             icon: ClipboardCheck,
-            title: "Management and Procurement",
-            description: "Run estates and property operations more efficiently with professional oversight.",
+            title: "Clear Documentation",
+            description:
+                "See key listing details, verification notes, and property information in one place.",
         },
         {
-            icon: Wrench,
-            title: "Construction and Facilities",
-            description: "Execute projects confidently with end-to-end delivery and maintenance support.",
+            icon: MessageSquareMore,
+            title: "Guided Enquiries",
+            description:
+                "Book inspections and contact the team quickly when you find a property you like.",
         },
     ];
 
@@ -82,16 +85,15 @@ export default function HomePage() {
                 <div className="container-premium">
                     <div className="grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
                         <div className="premium-card p-8 md:p-10">
-                            <p className="section-overline mb-4">Beyond Listings</p>
+                            <p className="section-overline mb-4">Why Starbright</p>
                             <h2 className="section-heading !text-2xl md:!text-3xl mb-4 text-left">
-                                Verified Real Estate Solutions for Buyers, Sellers, and Investors
+                                A Simpler Way to Discover Verified Property Opportunities
                             </h2>
                             <div className="section-divider !mx-0 mb-6" />
                             <p className="text-muted-foreground leading-relaxed max-w-3xl mb-8">
-                                Starbright Real Estate and Properties helps clients buy and sell
-                                verified land and property, manage estates efficiently, and
-                                execute construction, procurement, and facilities management
-                                projects with confidence.
+                                Starbright Real Estate and Properties is focused on helping people
+                                discover verified land, residential, and commercial listings with
+                                a more straightforward enquiry and inspection process.
                             </p>
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -4,18 +4,17 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Search } from "lucide-react";
 import Link from "next/link";
-import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 const slides = [
     {
         image: "/images/hero-1.jpg",
         headline: "Verified Properties,\nReal Confidence",
-        sub: "Only thoroughly verified lands and properties make it to our platform, so you can invest with peace of mind.",
+        sub: "Only thoroughly verified lands and properties make it to our platform, so you can make decisions with more confidence.",
     },
     {
         image: "/images/hero-2.jpg",
-        headline: "Buy, Sell, Build,\nAnd Manage Better",
-        sub: "From verified property sales to construction and facilities management, we deliver end-to-end support across Africa.",
+        headline: "Find Verified Homes,\nLand, And Commercial Spaces",
+        sub: "Browse carefully reviewed listings and contact our team when you are ready to book an inspection.",
     },
     {
         image: "/images/hero-3.jpg",
@@ -24,49 +23,16 @@ const slides = [
     },
     {
         image: "/images/hero-4.jpg",
-        headline: "Pan-African Reach,\nLocal Expertise",
-        sub: "We combine regional ambition with market knowledge to help clients make confident property decisions.",
+        headline: "Checked With Care,\nReady For Enquiry",
+        sub: "Our verification process is designed to keep reviews, inspections, and buyer communication clear and consistent.",
     },
 ];
 
 const nigeriaStates = [
-    "Abia",
-    "Adamawa",
-    "Akwa Ibom",
-    "Anambra",
-    "Bauchi",
-    "Bayelsa",
-    "Benue",
-    "Borno",
-    "Cross River",
-    "Delta",
-    "Ebonyi",
-    "Edo",
-    "Ekiti",
-    "Enugu",
-    "Gombe",
-    "Imo",
-    "Jigawa",
-    "Kaduna",
-    "Kano",
-    "Katsina",
-    "Kebbi",
-    "Kogi",
-    "Kwara",
-    "Lagos",
-    "Nasarawa",
-    "Niger",
-    "Ogun",
-    "Ondo",
-    "Osun",
-    "Oyo",
-    "Plateau",
-    "Rivers",
-    "Sokoto",
-    "Taraba",
-    "Yobe",
-    "Zamfara",
-    "FCT Abuja",
+    "Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno",
+    "Cross River","Delta","Ebonyi","Edo","Ekiti","Enugu","Gombe","Imo","Jigawa",
+    "Kaduna","Kano","Katsina","Kebbi","Kogi","Kwara","Lagos","Nasarawa","Niger",
+    "Ogun","Ondo","Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara","FCT Abuja",
 ];
 
 const categoryOptions = ["All", "Land", "Houses", "Commercial"];
@@ -120,7 +86,7 @@ const Hero = () => {
                             className="inline-block mb-3 md:mb-6"
                         >
                             <span className="text-[10px] md:text-[11px] uppercase tracking-[0.2em] md:tracking-[0.3em] font-medium text-white/60 border border-white/15 rounded-full px-4 md:px-5 py-1.5 md:py-2 backdrop-blur-sm bg-white/5">
-                                Starbright Real Estate & Properties
+                                Verified Listings You Can Trust
                             </span>
                         </motion.div>
 
@@ -137,15 +103,12 @@ const Hero = () => {
                                 <Search className="w-4 h-4" />
                                 Browse Listings
                             </Link>
-                            <a
-                                href="https://wa.me/2347033764029"
-                                target="_blank"
-                                rel="noopener noreferrer"
+                            <Link
+                                href="/contact"
                                 className="premium-btn w-full sm:w-auto bg-white/10 backdrop-blur-sm border border-white/20 text-white hover:bg-white/20 !py-3 md:!py-3.5 !px-8 text-xs md:text-sm"
                             >
-                                <WhatsAppIcon className="w-4 h-4" />
                                 Request Inspection
-                            </a>
+                            </Link>
                         </div>
                     </motion.div>
                 </AnimatePresence>

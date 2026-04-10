@@ -21,7 +21,7 @@ const Navbar = () => {
     const [isIslandExpanded, setIsIslandExpanded] = useState(false);
     const [hoveredPath, setHoveredPath] = useState<string | null>(null);
     const pathname = usePathname();
-    const heroNavbarPaths = ["/", "/about", "/contact", "/listings"];
+    const heroNavbarPaths = ["/", "/about", "/contact", "/listings", "/privacy-policy", "/terms-of-service"];
     const hasHeroNavbar = heroNavbarPaths.includes(pathname);
 
     useEffect(() => {

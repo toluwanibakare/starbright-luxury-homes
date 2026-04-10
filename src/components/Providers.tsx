@@ -5,6 +5,7 @@ import { ThemeProvider } from "next-themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { ListingsProvider } from "@/components/providers/ListingsProvider";
 import { useState } from "react";
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -13,11 +14,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
-        <TooltipProvider>
-          {children}
-          <Toaster />
-          <Sonner />
-        </TooltipProvider>
+        <ListingsProvider>
+          <TooltipProvider>
+            {children}
+            <Toaster />
+            <Sonner />
+          </TooltipProvider>
+        </ListingsProvider>
       </ThemeProvider>
     </QueryClientProvider>
   );

@@ -1,4 +1,5 @@
 export type Category = "land" | "house" | "commercial";
+export type ListingStatus = "Active" | "Pending" | "Sold";
 
 export interface Listing {
     id: string;
@@ -9,10 +10,13 @@ export interface Listing {
     category: Category;
     verified: boolean;
     images: string[];
+    video?: string;
     description: string;
     size: string;
     documentsStatus: string;
     listingId: string;
+    status: ListingStatus;
+    createdAt: string;
 }
 
 export const listings: Listing[] = [
@@ -30,6 +34,8 @@ export const listings: Listing[] = [
         size: "450 sqm",
         documentsStatus: "C of O verified",
         listingId: "STB-001",
+        status: "Active",
+        createdAt: "2026-03-04T09:00:00.000Z",
     },
     {
         id: "2",
@@ -45,6 +51,8 @@ export const listings: Listing[] = [
         size: "280 sqm",
         documentsStatus: "Governor's Consent",
         listingId: "STB-002",
+        status: "Active",
+        createdAt: "2026-03-03T09:00:00.000Z",
     },
     {
         id: "3",
@@ -60,6 +68,8 @@ export const listings: Listing[] = [
         size: "1000 sqm",
         documentsStatus: "Gazette verified",
         listingId: "STB-003",
+        status: "Pending",
+        createdAt: "2026-03-02T09:00:00.000Z",
     },
     {
         id: "4",
@@ -75,6 +85,8 @@ export const listings: Listing[] = [
         size: "1200 sqm",
         documentsStatus: "C of O verified",
         listingId: "STB-004",
+        status: "Active",
+        createdAt: "2026-03-01T09:00:00.000Z",
     },
     {
         id: "5",
@@ -90,6 +102,8 @@ export const listings: Listing[] = [
         size: "800 sqm",
         documentsStatus: "C of O verified",
         listingId: "STB-005",
+        status: "Sold",
+        createdAt: "2026-02-28T09:00:00.000Z",
     },
     {
         id: "6",
@@ -105,6 +119,8 @@ export const listings: Listing[] = [
         size: "500 sqm",
         documentsStatus: "Registered Survey",
         listingId: "STB-006",
+        status: "Active",
+        createdAt: "2026-02-27T09:00:00.000Z",
     },
 ];
 

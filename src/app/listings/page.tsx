@@ -7,9 +7,11 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ListingCard from "@/components/ListingCard";
 import PageBreadcrumbHero from "@/components/PageBreadcrumbHero";
-import { listings, locations, categories, type Category } from "@/data/mockData";
+import { useListings } from "@/components/providers/ListingsProvider";
+import { locations, categories } from "@/data/mockData";
 
 export default function ListingsPage() {
+    const { publicListings } = useListings();
     const [search, setSearch] = useState("");
     const [location, setLocation] = useState("All Locations");
     const [category, setCategory] = useState<string>("all");
@@ -18,40 +20,44 @@ export default function ListingsPage() {
     const [showFilters, setShowFilters] = useState(false);
 
     const filtered = useMemo(() => {
-        let result = [...listings];
-        if (search)
-            result = result.filter((l) =>
-                l.title.toLowerCase().includes(search.toLowerCase())
+        let result = [...publicListings];
+        if (search) {
+            result = result.filter((listing) =>
+                listing.title.toLowerCase().includes(search.toLowerCase())
             );
-        if (location !== "All Locations")
-            result = result.filter((l) => l.location === location);
-        if (category !== "all")
-            result = result.filter((l) => l.category === category);
-        if (verifiedOnly) result = result.filter((l) => l.verified);
-        if (sortBy === "price-asc") result.sort((a, b) => a.price - b.price);
-        if (sortBy === "price-desc") result.sort((a, b) => b.price - a.price);
+        }
+        if (location !== "All Locations") {
+            result = result.filter((listing) => listing.location === location);
+        }
+        if (category !== "all") {
+            result = result.filter((listing) => listing.category === category);
+        }
+        if (verifiedOnly) {
+            result = result.filter((listing) => listing.verified);
+        }
+        if (sortBy === "price-asc") {
+            result.sort((a, b) => a.price - b.price);
+        }
+        if (sortBy === "price-desc") {
+            result.sort((a, b) => b.price - a.price);
+        }
         return result;
-    }, [search, location, category, verifiedOnly, sortBy]);
+    }, [category, location, publicListings, search, sortBy, verifiedOnly]);
 
     return (
         <div className="min-h-screen bg-background">
             <Navbar />
-
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
                 <PageBreadcrumbHero
                     overline="Explore"
                     title="Property Listings"
                     description="Browse our collection of verified properties."
                     backgroundImage="/images/hero-3.jpg"
-                    crumbs={[
-                        { label: "Home", href: "/" },
-                        { label: "Listings" },
-                    ]}
+                    crumbs={[{ label: "Home", href: "/" }, { label: "Listings" }]}
                 />
             </motion.div>
 
             <div className="container-premium px-5 sm:px-8 lg:px-12 py-10">
-                {/* Search & Filter Bar */}
                 <div className="flex flex-col sm:flex-row gap-3 mb-8">
                     <div className="relative flex-1">
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -65,7 +71,9 @@ export default function ListingsPage() {
                     </div>
                     <button
                         onClick={() => setShowFilters(!showFilters)}
-                        className={`premium-btn-outline text-xs !py-2.5 sm:w-auto ${showFilters ? "!border-primary !text-primary" : ""}`}
+                        className={`premium-btn-outline text-xs !py-2.5 sm:w-auto ${
+                            showFilters ? "!border-primary !text-primary" : ""
+                        }`}
                     >
                         <SlidersHorizontal className="w-4 h-4" />
                         Filters
@@ -73,7 +81,6 @@ export default function ListingsPage() {
                     </button>
                 </div>
 
-                {/* Filter Panel */}
                 {showFilters && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
@@ -90,8 +97,8 @@ export default function ListingsPage() {
                                     onChange={(e) => setLocation(e.target.value)}
                                     className="hero-search-input w-full"
                                 >
-                                    {locations.map((l) => (
-                                        <option key={l}>{l}</option>
+                                    {locations.map((item) => (
+                                        <option key={item}>{item}</option>
                                     ))}
                                 </select>
                             </div>
@@ -105,9 +112,9 @@ export default function ListingsPage() {
                                     className="hero-search-input w-full"
                                 >
                                     <option value="all">All Categories</option>
-                                    {categories.map((c) => (
-                                        <option key={c.value} value={c.value}>
-                                            {c.label}
+                                    {categories.map((item) => (
+                                        <option key={item.value} value={item.value}>
+                                            {item.label}
                                         </option>
                                     ))}
                                 </select>
@@ -144,7 +151,6 @@ export default function ListingsPage() {
                     </motion.div>
                 )}
 
-                {/* Results */}
                 <p className="text-sm text-muted-foreground mb-6">
                     {filtered.length} {filtered.length === 1 ? "property" : "properties"} found
                 </p>

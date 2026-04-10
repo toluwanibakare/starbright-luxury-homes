@@ -3,10 +3,12 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { listings } from "@/data/mockData";
+import { useListings } from "@/components/providers/ListingsProvider";
 import ListingCard from "./ListingCard";
 
 const FeaturedListings = () => {
+    const { publicListings } = useListings();
+
     return (
         <section className="section-padding bg-background">
             <div className="container-premium">
@@ -26,10 +28,12 @@ const FeaturedListings = () => {
                     </p>
                 </motion.div>
 
-                {/* Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mb-14">
-                    {listings.map((listing, i) => (
-                        <ListingCard key={listing.id} listing={listing} index={i} />
+                {/* Horizontal Scroll */}
+                <div className="flex overflow-x-auto gap-7 mb-14 pb-2 scrollbar-hide">
+                    {publicListings.slice(0, 6).map((listing, i) => (
+                        <div key={listing.id} className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3">
+                            <ListingCard listing={listing} index={i} />
+                        </div>
                     ))}
                 </div>
 

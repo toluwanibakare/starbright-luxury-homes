@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
+import { ChatLauncher } from "@/components/ChatLauncher";
 import { primaryKeywords, siteConfig } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -84,6 +85,7 @@ export default function RootLayout({
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteLd) }}
                 />
                 <Providers>{children}</Providers>
+                <ChatLauncher />
             </body>
         </html>
     );

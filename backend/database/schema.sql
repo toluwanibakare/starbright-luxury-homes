@@ -1,0 +1,88 @@
+CREATE DATABASE IF NOT EXISTS starbright;
+USE starbright_real_estate;
+
+CREATE TABLE IF NOT EXISTS properties (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  slug VARCHAR(255) NOT NULL UNIQUE,
+  description LONGTEXT NOT NULL,
+  price DECIMAL(15,2) NOT NULL,
+  location VARCHAR(255) NOT NULL,
+  address VARCHAR(255) NOT NULL,
+  category ENUM('land','house','commercial') NOT NULL,
+  property_type VARCHAR(150) NOT NULL,
+  status ENUM('available','sold','featured','hidden','draft') NOT NULL DEFAULT 'draft',
+  is_featured TINYINT(1) NOT NULL DEFAULT 0,
+  verification_status VARCHAR(150) NOT NULL,
+  bedrooms INT NULL,
+  bathrooms INT NULL,
+  toilets INT NULL,
+  size_value DECIMAL(12,2) NOT NULL,
+  size_unit VARCHAR(50) NOT NULL,
+  listing_code VARCHAR(100) NOT NULL UNIQUE,
+  documents_info TEXT NOT NULL,
+  inspection_info TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS property_media (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  property_id BIGINT UNSIGNED NOT NULL,
+  file_type ENUM('image','video') NOT NULL,
+  file_path VARCHAR(255) NOT NULL,
+  file_name VARCHAR(255) NOT NULL,
+  mime_type VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_property_media_property FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS inquiries (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  phone VARCHAR(50) NULL,
+  subject VARCHAR(255) NULL,
+  message TEXT NOT NULL,
+  source VARCHAR(100) NOT NULL,
+  property_id BIGINT UNSIGNED NULL,
+  is_read TINYINT(1) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_inquiries_property FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE SET NULL
+);
+
+CREATE TABLE IF NOT EXISTS conversations (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  status ENUM('active','closed','expired','dormant') NOT NULL DEFAULT 'active',
+  last_message_at DATETIME NOT NULL,
+  started_at DATETIME NOT NULL,
+  closed_at DATETIME NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS messages (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  conversation_id BIGINT UNSIGNED NOT NULL,
+  sender_type ENUM('user','admin') NOT NULL,
+  message TEXT NOT NULL,
+  is_read TINYINT(1) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT fk_messages_conversation FOREIGN KEY (conversation_id) REFERENCES conversations(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS comments (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  message TEXT NOT NULL,
+  property_id BIGINT UNSIGNED NULL,
+  page_type VARCHAR(100) NOT NULL,
+  status ENUM('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_comments_property FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE SET NULL
+);
