@@ -6,6 +6,7 @@
 
 # testing
 /coverage
+backend.zip
 
 # next.js
 /.next/
