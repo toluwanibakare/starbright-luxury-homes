@@ -11,7 +11,7 @@ import { useListings } from "@/components/providers/ListingsProvider";
 import { locations, categories } from "@/data/mockData";
 
 export default function ListingsPage() {
-    const { publicListings } = useListings();
+    const { publicListings, isLoading, error } = useListings();
     const [search, setSearch] = useState("");
     const [location, setLocation] = useState("All Locations");
     const [category, setCategory] = useState<string>("all");
@@ -155,7 +155,15 @@ export default function ListingsPage() {
                     {filtered.length} {filtered.length === 1 ? "property" : "properties"} found
                 </p>
 
-                {filtered.length > 0 ? (
+                {isLoading ? (
+                    <div className="text-center py-20">
+                        <p className="text-lg text-muted-foreground">Loading properties...</p>
+                    </div>
+                ) : error ? (
+                    <div className="text-center py-20">
+                        <p className="text-lg text-muted-foreground">{error}</p>
+                    </div>
+                ) : filtered.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
                         {filtered.map((listing, i) => (
                             <ListingCard key={listing.id} listing={listing} index={i} />

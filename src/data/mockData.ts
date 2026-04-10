@@ -17,6 +17,23 @@ export interface Listing {
     listingId: string;
     status: ListingStatus;
     createdAt: string;
+    address?: string;
+    propertyType?: string;
+    backendStatus?: "available" | "sold" | "featured" | "hidden" | "draft";
+    isFeatured?: boolean;
+    verificationStatus?: string;
+    inspectionInfo?: string;
+    bedrooms?: number | null;
+    bathrooms?: number | null;
+    toilets?: number | null;
+    media?: Array<{
+        id: number;
+        file_type: "image" | "video";
+        file_path: string;
+        file_name: string;
+        mime_type: string;
+        created_at: string;
+    }>;
 }
 
 export const listings: Listing[] = [

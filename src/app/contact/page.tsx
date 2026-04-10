@@ -1,12 +1,14 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageBreadcrumbHero from "@/components/PageBreadcrumbHero";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useListings } from "@/components/providers/ListingsProvider";
+import { ApiError, apiFetch } from "@/lib/api";
 
 const faqs = [
     {
@@ -33,7 +35,71 @@ const faqs = [
 
 function ContactEnquiryForm() {
     const searchParams = useSearchParams();
+    const { getListingByCode } = useListings();
     const listingId = searchParams.get("listingId") ?? "";
+    const matchedListing = useMemo(
+        () => (listingId ? getListingByCode(listingId) : undefined),
+        [getListingByCode, listingId]
+    );
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        phone: "",
+        message: listingId
+            ? `Hello, I would like more information about listing ${listingId}.`
+            : "",
+    });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [feedback, setFeedback] = useState<string | null>(null);
+
+    const updateForm = (field: keyof typeof form, value: string) => {
+        setForm((current) => ({
+            ...current,
+            [field]: value,
+        }));
+    };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+            setFeedback("Please complete your name, email, and message.");
+            return;
+        }
+
+        setIsSubmitting(true);
+        setFeedback(null);
+
+        try {
+            await apiFetch("/contact", {
+                method: "POST",
+                body: JSON.stringify({
+                    name: form.name.trim(),
+                    email: form.email.trim(),
+                    phone: form.phone.trim() || null,
+                    subject: listingId ? `Enquiry for ${listingId}` : "Website contact enquiry",
+                    message: form.message.trim(),
+                    source: "contact_page",
+                    property_id: matchedListing ? Number(matchedListing.id) : null,
+                }),
+            });
+
+            setForm({
+                name: "",
+                email: "",
+                phone: "",
+                message: "",
+            });
+            setFeedback("Your enquiry has been sent successfully.");
+        } catch (error) {
+            setFeedback(
+                error instanceof ApiError
+                    ? error.message
+                    : "Unable to send your enquiry right now."
+            );
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <motion.div
@@ -47,30 +113,46 @@ function ContactEnquiryForm() {
                 Fill the form and our team will respond with the next steps.
             </p>
 
-            <form className="mt-6 space-y-4">
+            <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-xs font-medium text-foreground mb-1.5">Full Name</label>
-                        <input type="text" className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                        <input
+                            type="text"
+                            value={form.name}
+                            onChange={(event) => updateForm("name", event.target.value)}
+                            className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-foreground mb-1.5">Email Address</label>
-                        <input type="email" className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                        <input
+                            type="email"
+                            value={form.email}
+                            onChange={(event) => updateForm("email", event.target.value)}
+                            className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-xs font-medium text-foreground mb-1.5">Phone Number</label>
-                        <input type="tel" className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                        <input
+                            type="tel"
+                            value={form.phone}
+                            onChange={(event) => updateForm("phone", event.target.value)}
+                            className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                        />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-foreground mb-1.5">Listing ID</label>
                         <input
                             type="text"
-                            defaultValue={listingId}
+                            value={listingId}
+                            readOnly
                             placeholder="e.g. STB-001"
-                            className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                            className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none"
                         />
                     </div>
                 </div>
@@ -79,13 +161,22 @@ function ContactEnquiryForm() {
                     <label className="block text-xs font-medium text-foreground mb-1.5">Message</label>
                     <textarea
                         rows={6}
-                        defaultValue={listingId ? `Hello, I would like more information about listing ${listingId}.` : ""}
+                        value={form.message}
+                        onChange={(event) => updateForm("message", event.target.value)}
                         className="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none"
                     />
                 </div>
 
-                <button type="submit" className="premium-btn-primary !py-3 !px-8">
-                    Send Request
+                {feedback ? (
+                    <p className="text-sm text-muted-foreground">{feedback}</p>
+                ) : null}
+
+                <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="premium-btn-primary !py-3 !px-8 disabled:opacity-60"
+                >
+                    {isSubmitting ? "Sending..." : "Send Request"}
                 </button>
             </form>
         </motion.div>
@@ -94,62 +185,16 @@ function ContactEnquiryForm() {
 
 function ContactEnquiryFormFallback() {
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="premium-card p-6 sm:p-8"
-        >
+        <div className="premium-card p-6 sm:p-8">
             <h2 className="text-2xl font-bold text-foreground font-display">Request Enquiry</h2>
             <p className="text-sm text-muted-foreground mt-2">
-                Fill the form and our team will respond with the next steps.
+                Loading enquiry form...
             </p>
-
-            <form className="mt-6 space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-xs font-medium text-foreground mb-1.5">Full Name</label>
-                        <input type="text" className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-medium text-foreground mb-1.5">Email Address</label>
-                        <input type="email" className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-xs font-medium text-foreground mb-1.5">Phone Number</label>
-                        <input type="tel" className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-medium text-foreground mb-1.5">Listing ID</label>
-                        <input
-                            type="text"
-                            placeholder="e.g. STB-001"
-                            className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-                        />
-                    </div>
-                </div>
-
-                <div>
-                    <label className="block text-xs font-medium text-foreground mb-1.5">Message</label>
-                    <textarea
-                        rows={6}
-                        className="w-full px-4 py-3 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all resize-none"
-                    />
-                </div>
-
-                <button type="submit" className="premium-btn-primary !py-3 !px-8">
-                    Send Request
-                </button>
-            </form>
-        </motion.div>
+        </div>
     );
 }
 
 export default function ContactPage() {
-
     return (
         <div className="min-h-screen bg-background">
             <Navbar />

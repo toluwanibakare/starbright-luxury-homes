@@ -1,9 +1,11 @@
 "use client";
 
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Home, Mountain, Building2 } from "lucide-react";
 import { categories } from "@/data/mockData";
+import { useListings } from "@/components/providers/ListingsProvider";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
     Mountain,
@@ -12,6 +14,16 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 const Categories = () => {
+    const { listings } = useListings();
+    const categoryCounts = useMemo(
+        () => ({
+            land: listings.filter((item) => item.category === "land" && item.status === "Active").length,
+            house: listings.filter((item) => item.category === "house" && item.status === "Active").length,
+            commercial: listings.filter((item) => item.category === "commercial" && item.status === "Active").length,
+        }),
+        [listings]
+    );
+
     return (
         <section className="section-padding" style={{ background: "var(--gradient-subtle)" }}>
             <div className="container-premium">
@@ -49,7 +61,7 @@ const Categories = () => {
                                             {cat.label}
                                         </h3>
                                         <p className="text-sm text-muted-foreground">
-                                            {cat.count} verified listings
+                                            {categoryCounts[cat.value]} verified listings
                                         </p>
                                     </div>
                                 </Link>

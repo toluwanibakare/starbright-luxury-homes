@@ -3,64 +3,103 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { MessageSquareText } from "lucide-react";
+import { ApiError, type ApiComment, apiFetch } from "@/lib/api";
 
 interface ListingCommentsProps {
     listingId: string;
     listingTitle: string;
 }
 
-interface ListingComment {
-    id: string;
-    name: string;
-    message: string;
-    createdAt: string;
-}
-
-const getStorageKey = (listingId: string) => `starbright-comments-${listingId}`;
-
 export default function ListingComments({ listingId, listingTitle }: ListingCommentsProps) {
-    const [comments, setComments] = useState<ListingComment[]>([]);
+    const [comments, setComments] = useState<ApiComment[]>([]);
     const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [feedback, setFeedback] = useState<string | null>(null);
 
     useEffect(() => {
-        try {
-            const raw = window.localStorage.getItem(getStorageKey(listingId));
-            if (!raw) return;
-            const parsed = JSON.parse(raw) as ListingComment[];
-            if (Array.isArray(parsed)) {
-                setComments(parsed);
+        let mounted = true;
+
+        const loadComments = async () => {
+            setIsLoading(true);
+
+            try {
+                const response = await apiFetch<ApiComment[]>("/comments");
+                if (!mounted) {
+                    return;
+                }
+
+                setComments(
+                    response.data.filter(
+                        (comment) =>
+                            comment.status === "approved" &&
+                            String(comment.property_id ?? "") === listingId
+                    )
+                );
+            } catch (error) {
+                if (mounted) {
+                    setFeedback(
+                        error instanceof ApiError
+                            ? error.message
+                            : "Unable to load comments right now."
+                    );
+                }
+            } finally {
+                if (mounted) {
+                    setIsLoading(false);
+                }
             }
-        } catch {
-            window.localStorage.removeItem(getStorageKey(listingId));
-        }
-    }, [listingId]);
+        };
 
-    useEffect(() => {
-        window.localStorage.setItem(getStorageKey(listingId), JSON.stringify(comments));
-    }, [comments, listingId]);
+        void loadComments();
+
+        return () => {
+            mounted = false;
+        };
+    }, [listingId]);
 
     const formattedCount = useMemo(
         () => `${comments.length} ${comments.length === 1 ? "Comment" : "Comments"}`,
         [comments.length]
     );
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!name.trim() || !message.trim()) return;
+        if (!name.trim() || !email.trim() || !message.trim()) {
+            setFeedback("Please complete your name, email, and comment.");
+            return;
+        }
 
-        setComments((current) => [
-            {
-                id: `${Date.now()}`,
-                name: name.trim(),
-                message: message.trim(),
-                createdAt: new Date().toISOString(),
-            },
-            ...current,
-        ]);
+        setIsSubmitting(true);
+        setFeedback(null);
 
-        setName("");
-        setMessage("");
+        try {
+            await apiFetch<ApiComment>("/comments", {
+                method: "POST",
+                body: JSON.stringify({
+                    name: name.trim(),
+                    email: email.trim(),
+                    message: message.trim(),
+                    page_type: "listing_detail",
+                    property_id: Number(listingId),
+                }),
+            });
+
+            setName("");
+            setEmail("");
+            setMessage("");
+            setFeedback("Comment submitted successfully. It will appear after approval.");
+        } catch (error) {
+            setFeedback(
+                error instanceof ApiError
+                    ? error.message
+                    : "Unable to submit your comment right now."
+            );
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -88,15 +127,27 @@ export default function ListingComments({ listingId, listingTitle }: ListingComm
                 className="premium-card p-6"
             >
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-xs font-medium text-foreground mb-1.5">Name</label>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(event) => setName(event.target.value)}
-                            className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-                            placeholder="Your name"
-                        />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-xs font-medium text-foreground mb-1.5">Name</label>
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(event) => setName(event.target.value)}
+                                className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                                placeholder="Your name"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-medium text-foreground mb-1.5">Email</label>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(event) => setEmail(event.target.value)}
+                                className="w-full h-11 px-4 rounded-xl border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                                placeholder="you@example.com"
+                            />
+                        </div>
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-foreground mb-1.5">Comment</label>
@@ -108,14 +159,30 @@ export default function ListingComments({ listingId, listingTitle }: ListingComm
                             placeholder="Share your thoughts or ask a question about this property..."
                         />
                     </div>
-                    <button type="submit" className="premium-btn-primary !py-3 !px-8">
-                        Post Comment
+                    {feedback ? (
+                        <p className="text-sm text-muted-foreground">{feedback}</p>
+                    ) : null}
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="premium-btn-primary !py-3 !px-8 disabled:opacity-60"
+                    >
+                        {isSubmitting ? "Posting..." : "Post Comment"}
                     </button>
                 </form>
             </motion.div>
 
             <div className="space-y-4">
-                {comments.length > 0 ? (
+                {isLoading ? (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="premium-card p-6"
+                    >
+                        <p className="text-sm text-muted-foreground">Loading comments...</p>
+                    </motion.div>
+                ) : comments.length > 0 ? (
                     comments.map((comment, index) => (
                         <motion.div
                             key={comment.id}
@@ -128,7 +195,7 @@ export default function ListingComments({ listingId, listingTitle }: ListingComm
                             <div className="flex items-center justify-between gap-3">
                                 <p className="font-semibold text-foreground">{comment.name}</p>
                                 <p className="text-xs text-muted-foreground">
-                                    {new Date(comment.createdAt).toLocaleDateString("en-US", {
+                                    {new Date(comment.created_at).toLocaleDateString("en-US", {
                                         month: "short",
                                         day: "numeric",
                                         year: "numeric",
@@ -148,7 +215,7 @@ export default function ListingComments({ listingId, listingTitle }: ListingComm
                         className="premium-card p-6"
                     >
                         <p className="text-sm text-muted-foreground">
-                            No comments yet. Be the first to share a question or observation about this listing.
+                            No approved comments yet. Be the first to ask a question about this listing.
                         </p>
                     </motion.div>
                 )}

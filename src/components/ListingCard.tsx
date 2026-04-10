@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { MapPin, BadgeCheck, ArrowUpRight } from "lucide-react";
 import { type Listing, formatPrice } from "@/data/mockData";
+import { getListingFallbackImage } from "@/lib/api";
 
 interface ListingCardProps {
     listing: Listing;
@@ -23,7 +24,7 @@ const ListingCard = ({ listing, index = 0 }: ListingCardProps) => {
                     {/* Image */}
                     <div className="relative aspect-[4/3] overflow-hidden">
                         <img
-                            src={listing.images[0]}
+                            src={listing.images[0] ?? getListingFallbackImage(listing.category)}
                             alt={listing.title}
                             className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                         />

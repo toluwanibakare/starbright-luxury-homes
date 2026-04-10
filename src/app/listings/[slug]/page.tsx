@@ -23,6 +23,7 @@ import ListingCard from "@/components/ListingCard";
 import ListingComments from "@/components/ListingComments";
 import { useListings } from "@/components/providers/ListingsProvider";
 import { formatPrice } from "@/data/mockData";
+import { getListingFallbackImage } from "@/lib/api";
 
 type MediaItem =
     | { type: "image"; src: string }
@@ -52,18 +53,29 @@ export default function ListingDetailsPage({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = use(params);
-    const { publicListings, getListingBySlug } = useListings();
+    const { publicListings, getListingBySlug, isLoading } = useListings();
     const listing = getListingBySlug(slug);
     const [activeIndex, setActiveIndex] = useState(0);
     const [direction, setDirection] = useState(1);
 
-    if (!listing || listing.status !== "Active") {
+    if (!isLoading && (!listing || listing.status !== "Active")) {
         notFound();
+    }
+
+    if (isLoading || !listing) {
+        return (
+            <div className="min-h-screen bg-background flex items-center justify-center px-5">
+                <p className="text-sm text-muted-foreground">Loading property details...</p>
+            </div>
+        );
     }
 
     const media = useMemo<MediaItem[]>(() => {
         const items: MediaItem[] = listing.video ? [{ type: "video", src: listing.video }] : [];
-        return [...items, ...listing.images.map((src) => ({ type: "image" as const, src }))];
+        const imageItems = listing.images.length > 0
+            ? listing.images.map((src) => ({ type: "image" as const, src }))
+            : [{ type: "image" as const, src: getListingFallbackImage(listing.category) }];
+        return [...items, ...imageItems];
     }, [listing.images, listing.video]);
 
     const activeMedia = media[activeIndex] ?? media[0];

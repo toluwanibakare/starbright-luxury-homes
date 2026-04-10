@@ -7,7 +7,7 @@ import { useListings } from "@/components/providers/ListingsProvider";
 import ListingCard from "./ListingCard";
 
 const FeaturedListings = () => {
-    const { publicListings } = useListings();
+    const { publicListings, isLoading, error } = useListings();
 
     return (
         <section className="section-padding bg-background">
@@ -29,13 +29,23 @@ const FeaturedListings = () => {
                 </motion.div>
 
                 {/* Horizontal Scroll */}
-                <div className="flex overflow-x-auto gap-7 mb-14 pb-2 scrollbar-hide">
-                    {publicListings.slice(0, 6).map((listing, i) => (
-                        <div key={listing.id} className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3">
-                            <ListingCard listing={listing} index={i} />
-                        </div>
-                    ))}
-                </div>
+                {isLoading ? (
+                    <div className="text-center mb-14">
+                        <p className="text-sm text-muted-foreground">Loading featured listings...</p>
+                    </div>
+                ) : error ? (
+                    <div className="text-center mb-14">
+                        <p className="text-sm text-muted-foreground">{error}</p>
+                    </div>
+                ) : (
+                    <div className="flex overflow-x-auto gap-7 mb-14 pb-2 scrollbar-hide">
+                        {publicListings.slice(0, 6).map((listing, i) => (
+                            <div key={listing.id} className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3">
+                                <ListingCard listing={listing} index={i} />
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 {/* CTA */}
                 <div className="text-center">

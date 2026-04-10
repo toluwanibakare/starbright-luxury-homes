@@ -8,10 +8,21 @@ const errorHandler = require("./middleware/errorHandler");
 const notFound = require("./middleware/notFound");
 
 const app = express();
+const allowedOrigins = env.clientUrl
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
 app.use(
   cors({
-    origin: env.clientUrl,
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, origin || allowedOrigins[0] || true);
+        return;
+      }
+
+      callback(new Error("Origin not allowed by CORS."));
+    },
     credentials: true
   })
 );

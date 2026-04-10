@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -27,6 +27,7 @@ import {
 } from "recharts";
 import { useListings } from "@/components/providers/ListingsProvider";
 import { formatPrice } from "@/data/mockData";
+import { ApiError, type ApiInquiry, apiFetch } from "@/lib/api";
 
 const analyticsTrend = [
     { month: "Oct", views: 340, inquiries: 45 },
@@ -44,7 +45,35 @@ const statusColors: Record<string, string> = {
 };
 
 export default function AdminDashboard() {
-    const { listings, publicListings } = useListings();
+    const { listings, publicListings, isLoading, error } = useListings();
+    const [inquiries, setInquiries] = useState<ApiInquiry[]>([]);
+    const [inquiryError, setInquiryError] = useState<string | null>(null);
+
+    useEffect(() => {
+        let mounted = true;
+
+        const loadInquiries = async () => {
+            try {
+                const response = await apiFetch<ApiInquiry[]>("/inquiries");
+                if (mounted) {
+                    setInquiries(response.data);
+                }
+            } catch (err) {
+                if (mounted) {
+                    setInquiryError(
+                        err instanceof ApiError ? err.message : "Unable to load enquiries."
+                    );
+                }
+            }
+        };
+
+        void loadInquiries();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
     const activeCount = listings.filter((listing) => listing.status === "Active").length;
     const soldCount = listings.filter((listing) => listing.status === "Sold").length;
     const pendingCount = listings.filter((listing) => listing.status === "Pending").length;
@@ -74,9 +103,9 @@ export default function AdminDashboard() {
             color: "text-emerald-600 bg-emerald-50",
         },
         {
-            label: "Sold",
-            value: String(soldCount),
-            note: "kept for records",
+            label: "Enquiries",
+            value: String(inquiries.length),
+            note: `${inquiries.filter((item) => !item.is_read).length} unread`,
             icon: ShoppingBag,
             color: "text-secondary bg-secondary/10",
         },
@@ -119,6 +148,17 @@ export default function AdminDashboard() {
                 </Link>
             </div>
 
+            {error ? (
+                <div className="premium-card p-4">
+                    <p className="text-sm text-muted-foreground">{error}</p>
+                </div>
+            ) : null}
+            {inquiryError ? (
+                <div className="premium-card p-4">
+                    <p className="text-sm text-muted-foreground">{inquiryError}</p>
+                </div>
+            ) : null}
+
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
                 {stats.map((stat, i) => (
                     <motion.div
@@ -134,7 +174,7 @@ export default function AdminDashboard() {
                                     {stat.label}
                                 </p>
                                 <p className="text-3xl font-bold text-foreground mt-2 font-display">
-                                    {stat.value}
+                                    {isLoading && stat.label !== "Enquiries" ? "..." : stat.value}
                                 </p>
                                 <div className="flex items-center gap-1 mt-3 text-emerald-600">
                                     <ArrowUpRight size={14} />

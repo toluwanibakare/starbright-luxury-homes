@@ -20,7 +20,7 @@ const statusMap: Record<string, string> = {
 
 export default function PropertiesPage() {
     const router = useRouter();
-    const { listings, deleteListing } = useListings();
+    const { listings, deleteListing, isLoading, error } = useListings();
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("All");
     const [status, setStatus] = useState("All");
@@ -101,7 +101,19 @@ export default function PropertiesPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            {filtered.map((property) => (
+                            {isLoading ? (
+                                <tr>
+                                    <td colSpan={6} className="px-5 py-8 text-center text-muted-foreground">
+                                        Loading properties...
+                                    </td>
+                                </tr>
+                            ) : error ? (
+                                <tr>
+                                    <td colSpan={6} className="px-5 py-8 text-center text-muted-foreground">
+                                        {error}
+                                    </td>
+                                </tr>
+                            ) : filtered.map((property) => (
                                 <tr key={property.id} className="border-b border-border/50 hover:bg-muted/20 transition-colors">
                                     <td className="px-5 py-3">
                                         <div className="flex items-center gap-3">
@@ -143,9 +155,9 @@ export default function PropertiesPage() {
                                             <button
                                                 className="p-2 rounded-lg hover:bg-destructive/10 transition-colors"
                                                 title="Delete"
-                                                onClick={() => {
+                                                onClick={async () => {
                                                     if (window.confirm(`Delete "${property.title}"?`)) {
-                                                        deleteListing(property.id);
+                                                        await deleteListing(property.id);
                                                     }
                                                 }}
                                             >
