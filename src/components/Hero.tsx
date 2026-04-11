@@ -69,7 +69,7 @@ const Hero = () => {
 
             <div className="absolute inset-0" style={{ background: "var(--gradient-hero-overlay)" }} />
 
-            <div className="relative z-10 flex h-full flex-col items-center justify-start container-premium px-5 pt-52 sm:px-8 sm:pt-40 lg:pt-44">
+            <div className="relative z-10 flex h-full flex-col items-center justify-start container-premium px-5 pt-60 sm:px-8 sm:pt-48 lg:pt-52">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={current}
@@ -77,7 +77,7 @@ const Hero = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -15 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="mt-8 max-w-3xl text-center sm:mt-4 lg:mt-0"
+                        className="mt-10 max-w-3xl text-center sm:mt-6 lg:mt-2"
                     >
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
