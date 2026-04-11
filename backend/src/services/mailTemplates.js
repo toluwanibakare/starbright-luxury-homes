@@ -31,7 +31,21 @@ const buildAutoReplyTemplate = ({ name }) => `
   </div>
 `;
 
+const buildInquiryReplyTemplate = ({ name, replyMessage }) => `
+  <div style="font-family: Arial, sans-serif; color: #111827; line-height: 1.6;">
+    <h2 style="margin-bottom: 16px;">Hello ${name},</h2>
+    <p>Our team has replied to your enquiry.</p>
+    <div style="margin-top: 16px; padding: 16px; background: #f9fafb; border-radius: 8px;">
+      <strong>Reply</strong>
+      <p style="margin-top: 8px;">${replyMessage}</p>
+    </div>
+    <p style="margin-top: 16px;">You can reply directly to this email if you need more help.</p>
+    <p>Best regards,<br />Starbright Homes</p>
+  </div>
+`;
+
 module.exports = {
   buildInquiryAdminTemplate,
-  buildAutoReplyTemplate
+  buildAutoReplyTemplate,
+  buildInquiryReplyTemplate
 };

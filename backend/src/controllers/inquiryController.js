@@ -9,7 +9,16 @@ const {
   markInquiryRead,
   deleteInquiry
 } = require("../models/inquiryModel");
-const { sendInquiryNotification, sendAutoReply } = require("../services/mailService");
+const {
+  sendInquiryNotification,
+  sendAutoReply,
+  sendInquiryReply
+} = require("../services/mailService");
+
+const getMailFailureMeta = (error, fallbackMessage) => ({
+  ok: false,
+  message: error && error.message ? error.message : fallbackMessage
+});
 
 const createInquiryController = asyncHandler(async (req, res) => {
   requireFields(req.body, ["name", "email", "message", "source"]);
@@ -29,23 +38,41 @@ const createInquiryController = asyncHandler(async (req, res) => {
   });
 
   const inquiry = await getInquiryById(inquiryId);
-  const mailResult = await sendInquiryNotification({
-    name: inquiry.name,
-    email: inquiry.email,
-    phone: inquiry.phone,
-    subject: inquiry.subject,
-    message: inquiry.message,
-    source: inquiry.source,
-    propertyId: inquiry.property_id
-  });
+  let adminMailResult;
+  let autoReplyResult;
 
-  await sendAutoReply({
-    name: inquiry.name,
-    email: inquiry.email
-  });
+  try {
+    adminMailResult = await sendInquiryNotification({
+      name: inquiry.name,
+      email: inquiry.email,
+      phone: inquiry.phone,
+      subject: inquiry.subject,
+      message: inquiry.message,
+      source: inquiry.source,
+      propertyId: inquiry.property_id
+    });
+  } catch (error) {
+    adminMailResult = getMailFailureMeta(
+      error,
+      "Inquiry saved, but the admin email notification could not be sent."
+    );
+  }
+
+  try {
+    autoReplyResult = await sendAutoReply({
+      name: inquiry.name,
+      email: inquiry.email
+    });
+  } catch (error) {
+    autoReplyResult = getMailFailureMeta(
+      error,
+      "Inquiry saved, but the auto-reply email could not be sent."
+    );
+  }
 
   return sendSuccess(res, 201, "Inquiry submitted successfully.", inquiry, {
-    emailNotification: mailResult
+    emailNotification: adminMailResult,
+    autoReply: autoReplyResult
   });
 });
 
@@ -84,6 +111,37 @@ const markInquiryReadController = asyncHandler(async (req, res) => {
   );
 });
 
+const replyToInquiryController = asyncHandler(async (req, res) => {
+  requireFields(req.body, ["message"]);
+
+  const inquiry = await getInquiryById(req.params.id);
+  if (!inquiry) {
+    throw new ApiError(404, "Inquiry not found.");
+  }
+
+  let mailResult;
+
+  try {
+    mailResult = await sendInquiryReply({
+      name: inquiry.name,
+      email: inquiry.email,
+      replyMessage: req.body.message.trim()
+    });
+  } catch (error) {
+    mailResult = getMailFailureMeta(
+      error,
+      "Reply was saved, but the email could not be sent."
+    );
+  }
+
+  await markInquiryRead(req.params.id, 1);
+  const updated = await getInquiryById(req.params.id);
+
+  return sendSuccess(res, 200, "Reply processed successfully.", updated, {
+    emailNotification: mailResult
+  });
+});
+
 const deleteInquiryController = asyncHandler(async (req, res) => {
   const inquiry = await getInquiryById(req.params.id);
   if (!inquiry) {
@@ -99,5 +157,6 @@ module.exports = {
   listInquiries,
   getInquiry,
   markInquiryReadController,
+  replyToInquiryController,
   deleteInquiryController
 };

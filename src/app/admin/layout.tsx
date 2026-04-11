@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -18,6 +19,7 @@ import {
     SheetContent,
     SheetTrigger,
 } from "@/components/ui/sheet";
+import { type ApiInquiry, apiFetch } from "@/lib/api";
 
 const navItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -38,11 +40,39 @@ const isActiveLink = (pathname: string, href: string) => {
 };
 
 function SidebarNav({ pathname }: { pathname: string }) {
+    const [unreadMessageCount, setUnreadMessageCount] = useState(0);
+
+    useEffect(() => {
+        let mounted = true;
+
+        void apiFetch<ApiInquiry[]>("/inquiries")
+            .then((response) => {
+                if (!mounted) {
+                    return;
+                }
+
+                const unreadCount = response.data.filter(
+                    (item) => item.source === "contact_page" && !item.is_read
+                ).length;
+
+                setUnreadMessageCount(unreadCount);
+            })
+            .catch(() => {
+                if (mounted) {
+                    setUnreadMessageCount(0);
+                }
+            });
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
     return (
         <div className="h-full flex flex-col">
             <Link
                 href="/admin"
-                className="flex flex-col items-center justify-center gap-3 px-6 py-8 border-b border-border text-center"
+                className="flex items-center justify-center px-6 py-3 border-b border-border text-center"
             >
                 <Image
                     src="/images/starbright_logo.png"
@@ -52,10 +82,6 @@ function SidebarNav({ pathname }: { pathname: string }) {
                     className="w-20 h-20 sm:w-24 sm:h-24 object-contain"
                     priority
                 />
-                <div>
-                    <p className="text-lg font-semibold text-foreground font-display">Starbright</p>
-                    <p className="text-xs text-muted-foreground">Admin Console</p>
-                </div>
             </Link>
 
             <nav className="flex-1 p-4 space-y-2">
@@ -72,7 +98,18 @@ function SidebarNav({ pathname }: { pathname: string }) {
                             }`}
                         >
                             <item.icon size={18} />
-                            <span>{item.label}</span>
+                            <span className="flex-1">{item.label}</span>
+                            {item.href === "/admin/messages" && unreadMessageCount > 0 ? (
+                                <span
+                                    className={`inline-flex min-w-6 items-center justify-center rounded-full px-2 py-0.5 text-[11px] font-semibold ${
+                                        active
+                                            ? "bg-white/20 text-primary-foreground"
+                                            : "bg-primary/10 text-primary"
+                                    }`}
+                                >
+                                    {unreadMessageCount}
+                                </span>
+                            ) : null}
                         </Link>
                     );
                 })}
@@ -92,11 +129,22 @@ function SidebarNav({ pathname }: { pathname: string }) {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
+    const isLoginPage = pathname === "/admin/login";
+
+    if (isLoginPage) {
+        return (
+            <div className="min-h-screen bg-background px-4 py-10 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-md">
+                    {children}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-background">
             <div className="flex min-h-screen">
-                <aside className="hidden lg:block w-80 border-r border-border bg-card">
+                <aside className="hidden lg:block w-64 border-r border-border bg-card">
                     <SidebarNav pathname={pathname} />
                 </aside>
 

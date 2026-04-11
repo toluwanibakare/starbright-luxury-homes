@@ -63,7 +63,6 @@
   }
 
   html {
-    scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -143,7 +142,7 @@
 
   /* Cards */
   .premium-card {
-    @apply bg-card rounded-xl border border-border/60 transition-all duration-400;
+    @apply bg-card rounded-xl border border-border/60 transition-all duration-200;
     box-shadow: var(--shadow-card);
   }
 
@@ -154,7 +153,7 @@
 
   /* Buttons */
   .premium-btn {
-    @apply relative overflow-hidden rounded-md px-7 py-3 font-medium text-[13px] tracking-wide transition-all duration-300 font-body inline-flex items-center justify-center gap-2;
+    @apply relative overflow-hidden rounded-md px-7 py-3 font-medium text-[13px] tracking-wide transition-all duration-200 font-body inline-flex items-center justify-center gap-2;
   }
 
   .premium-btn-primary {
@@ -197,7 +196,7 @@
 
   /* Search inputs */
   .hero-search-input {
-    @apply bg-background/90 backdrop-blur-sm border border-border rounded-md px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all;
+    @apply bg-background/90 backdrop-blur-sm border border-border rounded-md px-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-colors duration-150;
   }
 
   /* Divider */
@@ -213,6 +212,6 @@
   }
 
   .duration-400 {
-    transition-duration: 400ms;
+    transition-duration: 200ms;
   }
 }

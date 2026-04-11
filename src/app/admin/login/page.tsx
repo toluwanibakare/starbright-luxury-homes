@@ -38,7 +38,7 @@ export default function AdminLoginPage() {
         <div className="space-y-6">
             <div className="flex items-center justify-between rounded-3xl border border-border bg-card p-4">
                 <Link href="/" className="text-sm font-semibold text-foreground hover:text-primary">
-                    ← Back to site
+                    Back to site
                 </Link>
                 <span className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Admin portal</span>
             </div>
