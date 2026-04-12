@@ -3,7 +3,7 @@ import type { Listing } from "@/data/mockData";
 export const apiConfig = {
     siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://starbrightproperties.com.ng",
     baseUrl:
-        process.env.NEXT_PUBLIC_API_URL ?? "https://starbrightproperties.com.ng/api/v1",
+        process.env.NEXT_PUBLIC_API_URL ?? "https://api.starbrightproperties.com.ng/api/v1",
 };
 
 const originFromBaseUrl = (() => {
