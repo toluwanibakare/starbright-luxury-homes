@@ -31,7 +31,7 @@ export default function SettingsPage() {
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-foreground mb-1.5">Support Email</label>
-                        <input type="email" defaultValue="support@starbrightproperties.com" className="w-full h-10 px-4 rounded-lg border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
+                        <input type="email" defaultValue="hello@starbrightproperties.com" className="w-full h-10 px-4 rounded-lg border border-border bg-muted/30 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all" />
                     </div>
                 </div>
             </div>
