@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
     LayoutDashboard,
     Building2,
@@ -13,6 +13,7 @@ import {
     MessageSquare,
     Settings,
     Menu,
+    LogOut,
 } from "lucide-react";
 import {
     Sheet,
@@ -20,6 +21,10 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet";
 import { type ApiInquiry, apiFetch } from "@/lib/api";
+import {
+    clearAdminAuthenticated,
+    isAdminAuthenticated,
+} from "@/lib/admin-auth";
 
 const navItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
@@ -129,7 +134,26 @@ function SidebarNav({ pathname }: { pathname: string }) {
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
+    const router = useRouter();
     const isLoginPage = pathname === "/admin/login";
+    const [isAuthChecking, setIsAuthChecking] = useState(!isLoginPage);
+    const [isAuthenticated, setIsAuthenticated] = useState(isLoginPage);
+
+    useEffect(() => {
+        if (isLoginPage) {
+            setIsAuthChecking(false);
+            setIsAuthenticated(false);
+            return;
+        }
+
+        const authenticated = isAdminAuthenticated();
+        setIsAuthenticated(authenticated);
+        setIsAuthChecking(false);
+
+        if (!authenticated) {
+            router.replace("/admin/login");
+        }
+    }, [isLoginPage, pathname, router]);
 
     if (isLoginPage) {
         return (
@@ -140,6 +164,29 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
         );
     }
+
+    if (isAuthChecking || !isAuthenticated) {
+        return (
+            <div className="min-h-screen bg-background px-4 py-10 sm:px-6 lg:px-8">
+                <div className="mx-auto flex w-full max-w-md items-center justify-center rounded-3xl border border-border bg-card p-8 text-center">
+                    <div>
+                        <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">
+                            Admin portal
+                        </p>
+                        <p className="mt-3 text-sm text-muted-foreground">
+                            Checking admin access...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    const handleLogout = () => {
+        clearAdminAuthenticated();
+        setIsAuthenticated(false);
+        router.replace("/admin/login");
+    };
 
     return (
         <div className="min-h-screen bg-background">
@@ -167,13 +214,41 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 >
                                     View Website
                                 </Link>
+                                <button
+                                    type="button"
+                                    onClick={handleLogout}
+                                    className="hidden sm:inline-flex premium-btn-outline !py-2 !px-4 !text-xs"
+                                >
+                                    <LogOut className="h-4 w-4" />
+                                    Logout
+                                </button>
 
                                 <Sheet>
                                     <SheetTrigger className="inline-flex lg:hidden h-10 w-10 items-center justify-center rounded-xl border border-border bg-card text-foreground">
                                         <Menu size={18} />
                                     </SheetTrigger>
-                                    <SheetContent side="left" className="w-[290px] p-0">
-                                        <SidebarNav pathname={pathname} />
+                                    <SheetContent side="left" className="w-[min(290px,85vw)] p-0">
+                                        <div className="flex h-full flex-col">
+                                            <div className="flex-1">
+                                                <SidebarNav pathname={pathname} />
+                                            </div>
+                                            <div className="border-t border-border p-4">
+                                                <Link
+                                                    href="/"
+                                                    className="premium-btn-outline mb-3 w-full !justify-center !py-3"
+                                                >
+                                                    View Website
+                                                </Link>
+                                                <button
+                                                    type="button"
+                                                    onClick={handleLogout}
+                                                    className="premium-btn-outline w-full !justify-center !py-3"
+                                                >
+                                                    <LogOut className="h-4 w-4" />
+                                                    Logout
+                                                </button>
+                                            </div>
+                                        </div>
                                     </SheetContent>
                                 </Sheet>
                             </div>

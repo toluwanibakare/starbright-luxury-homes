@@ -143,7 +143,7 @@ export default function AdminDashboard() {
                         Track what is live on the public site and what still needs review.
                     </p>
                 </div>
-                <Link href="/admin/add-property" className="premium-btn-primary !py-2.5 !px-5 !text-xs self-start">
+                <Link href="/admin/add-property" className="premium-btn-primary w-full sm:w-auto !py-2.5 !px-5 !text-xs self-start">
                     Add New Property
                 </Link>
             </div>
@@ -166,7 +166,7 @@ export default function AdminDashboard() {
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.08 }}
-                        className="premium-card p-5"
+                        className="premium-card p-5 sm:p-6"
                     >
                         <div className="flex items-start justify-between gap-4">
                             <div>
@@ -176,7 +176,7 @@ export default function AdminDashboard() {
                                 <p className="text-3xl font-bold text-foreground mt-2 font-display">
                                     {isLoading && stat.label !== "Enquiries" ? "..." : stat.value}
                                 </p>
-                                <div className="flex items-center gap-1 mt-3 text-emerald-600">
+                                <div className="mt-3 flex flex-wrap items-center gap-1 text-emerald-600">
                                     <ArrowUpRight size={14} />
                                     <span className="text-xs font-semibold">{stat.note}</span>
                                 </div>
@@ -194,9 +194,9 @@ export default function AdminDashboard() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="lg:col-span-2 premium-card p-6"
+                    className="lg:col-span-2 premium-card p-5 sm:p-6"
                 >
-                    <div className="flex items-center justify-between mb-6">
+                    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                         <div>
                             <h3 className="text-sm font-semibold text-foreground">Performance Trend</h3>
                             <p className="text-xs text-muted-foreground mt-0.5">
@@ -238,7 +238,7 @@ export default function AdminDashboard() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.28 }}
-                    className="premium-card p-6"
+                    className="premium-card p-5 sm:p-6"
                 >
                     <h3 className="text-sm font-semibold text-foreground mb-4">Listing Mix</h3>
                     <div className="h-[280px]">
@@ -263,9 +263,9 @@ export default function AdminDashboard() {
                 transition={{ delay: 0.35 }}
                 className="premium-card overflow-hidden"
             >
-                <div className="p-6 border-b border-border flex items-center justify-between">
+                <div className="flex flex-col gap-3 border-b border-border p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
                     <h3 className="text-sm font-semibold text-foreground">Recent Listings</h3>
-                    <Link href="/admin/properties" className="text-xs text-primary font-medium hover:underline flex items-center gap-1">
+                    <Link href="/admin/properties" className="flex items-center gap-1 text-xs font-medium text-primary hover:underline self-start">
                         View All <Eye size={12} />
                     </Link>
                 </div>

@@ -53,10 +53,14 @@ const Navbar = () => {
                     }}
                     className={`pointer-events-auto flex items-center justify-between transition-all duration-[700ms] ease-[cubic-bezier(0.22,1,0.36,1)] ${
                         showSolid
-                            ? desktopExpanded
-                                ? "h-[58px] md:h-[64px] rounded-[20px] bg-white/78 backdrop-blur-2xl shadow-[0_16px_38px_-26px_rgba(15,23,42,0.28)] px-4 sm:px-6 lg:px-8 lg:w-full"
-                                : "h-[58px] md:h-[64px] rounded-[20px] bg-white/82 backdrop-blur-2xl shadow-[0_16px_38px_-26px_rgba(15,23,42,0.28)] px-4 sm:px-5 lg:px-6 lg:w-fit lg:mx-auto gap-4"
-                            : "h-[75px] md:h-[100px] bg-transparent px-4 sm:px-6 lg:px-8"
+                            ? "h-[58px] w-full rounded-[18px] bg-white/92 px-4 shadow-[0_16px_38px_-26px_rgba(15,23,42,0.28)] backdrop-blur-xl sm:h-[64px] sm:px-6 lg:bg-white/78 lg:backdrop-blur-2xl lg:px-8 "
+                            : "h-[75px] bg-transparent px-4 sm:h-[100px] sm:px-6 lg:px-8"
+                    } ${
+                        showSolid && !desktopExpanded
+                            ? "lg:w-fit lg:mx-auto lg:gap-4 lg:bg-white/82"
+                            : showSolid
+                                ? "lg:w-full"
+                                : ""
                     }`}
                 >
                     <Link href="/" className="flex items-center gap-2.5 relative z-10">

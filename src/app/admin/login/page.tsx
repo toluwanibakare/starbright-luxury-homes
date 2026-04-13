@@ -4,9 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ShieldCheck, Mail, Key, Eye, EyeOff } from "lucide-react";
-
-const ADMIN_EMAIL = "admin@starbrightproperties.com.ng";
-const ADMIN_PASSWORD = "Master@123";
+import {
+    ADMIN_EMAIL,
+    ADMIN_PASSWORD,
+    isAdminAuthenticated,
+    setAdminAuthenticated,
+} from "@/lib/admin-auth";
 
 export default function AdminLoginPage() {
     const router = useRouter();
@@ -16,7 +19,7 @@ export default function AdminLoginPage() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (window.localStorage.getItem("starbright_admin_auth") === "authenticated") {
+        if (isAdminAuthenticated()) {
             router.replace("/admin");
         }
     }, [router]);
@@ -26,7 +29,7 @@ export default function AdminLoginPage() {
         setError(null);
 
         if (email.trim().toLowerCase() === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-            window.localStorage.setItem("starbright_admin_auth", "authenticated");
+            setAdminAuthenticated();
             router.replace("/admin");
             return;
         }

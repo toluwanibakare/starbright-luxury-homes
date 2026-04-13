@@ -121,7 +121,7 @@ export default function MessagesPage() {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 {[
                     { label: "Contact Messages", value: String(contactInquiries.length), icon: Mail },
                     {
@@ -135,7 +135,7 @@ export default function MessagesPage() {
                         icon: MessageSquareMore,
                     },
                 ].map((item) => (
-                    <div key={item.label} className="premium-card p-5">
+                    <div key={item.label} className="premium-card p-5 sm:p-6">
                         <div className="w-11 h-11 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4">
                             <item.icon size={20} />
                         </div>
@@ -195,7 +195,7 @@ export default function MessagesPage() {
                     </div>
                 </div>
 
-                <div className="premium-card p-6">
+                <div className="premium-card p-5 sm:p-6">
                     {selectedInquiry ? (
                         <div className="space-y-6">
                             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
@@ -208,7 +208,7 @@ export default function MessagesPage() {
                                 </div>
                                 <div className="text-sm text-muted-foreground sm:text-right">
                                     <p className="uppercase tracking-wider text-xs">{selectedInquiry.source}</p>
-                                    <p className="mt-1">
+                                    <p className="mt-1 break-words">
                                         {new Date(selectedInquiry.created_at).toLocaleString("en-NG", {
                                             dateStyle: "medium",
                                             timeStyle: "short",
@@ -251,7 +251,7 @@ export default function MessagesPage() {
                                     type="button"
                                     onClick={() => void handleReply()}
                                     disabled={isReplying}
-                                    className="premium-btn-primary !py-3 !px-6 disabled:opacity-60"
+                                    className="premium-btn-primary w-full sm:w-auto !py-3 !px-6 disabled:opacity-60"
                                 >
                                     <Send className="w-4 h-4" />
                                     {isReplying ? "Sending..." : "Send Reply"}
@@ -264,7 +264,7 @@ export default function MessagesPage() {
                 </div>
             </div>
 
-            <div className="premium-card p-6">
+            <div className="premium-card p-5 sm:p-6">
                 <h2 className="text-base font-semibold text-foreground mb-4">Recent Comments</h2>
                 {comments.length === 0 ? (
                     <p className="text-sm text-muted-foreground">No comments yet.</p>

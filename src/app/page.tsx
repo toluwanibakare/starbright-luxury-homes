@@ -11,6 +11,39 @@ import Footer from "@/components/Footer";
 import { listings } from "@/data/mockData";
 import { primaryKeywords, siteConfig } from "@/lib/seo";
 
+const homeFaqs = [
+    {
+        question: "What makes Starbright Real Estate different?",
+        answer:
+            "Starbright focuses on verified property opportunities, clearer listing information, and guided support from first enquiry to inspection.",
+    },
+    {
+        question: "How do I get Started?",
+        answer:
+            "Simply browse our verified listings, find a property that interests you, and use the contact options to ask questions or book an inspection. We're here to help you explore with confidence.",
+    },
+    {
+        question: "Do you verify land and property documents before listing?",
+        answer:
+            "Yes. Starbright reviews available title information, legal documentation, and property details before approved listings go live.",
+    },
+    {
+        question: "Can I book an inspection before making payment?",
+        answer:
+            "Yes. You can contact Starbright through the website or WhatsApp to arrange an inspection and ask questions before moving forward.",
+    },
+    {
+        question: "Which kinds of properties are featured on the platform?",
+        answer:
+            "Starbright highlights land, residential homes, and commercial spaces that meet its review and verification requirements.",
+    },
+    {
+        question: "Do I need to pay before inspecting a property?",
+        answer:
+            "No. We encourage physical inspection first. You can view, verify the property and ask any questions you have before making a payment or final decision on a property.",
+    },
+];
+
 export const metadata: Metadata = {
     title: "Verified Properties You Can Explore With Confidence",
     description:
@@ -84,7 +117,7 @@ export default function HomePage() {
             <section className="section-padding" style={{ background: "var(--gradient-subtle)" }}>
                 <div className="container-premium">
                     <div className="grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
-                        <div className="premium-card p-8 md:p-10">
+                        <div className="premium-card p-6 md:p-10">
                             <p className="section-overline mb-4">Why Starbright</p>
                             <h2 className="section-heading !text-2xl md:!text-3xl mb-4 text-left">
                                 A Simpler Way to Discover Verified Property Opportunities
@@ -116,7 +149,7 @@ export default function HomePage() {
                             </div>
                         </div>
 
-                        <div className="premium-card p-8 md:p-10 h-full">
+                        <div className="premium-card h-full p-6 md:p-10">
                             <div
                                 className="w-12 h-12 rounded-2xl mb-5 flex items-center justify-center"
                                 style={{ background: "var(--gradient-brand)" }}
@@ -140,6 +173,34 @@ export default function HomePage() {
                                 </p>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="section-padding bg-background">
+                <div className="container-premium">
+                    <div className="mx-auto max-w-3xl text-center">
+                        <p className="section-overline mb-4">FAQs</p>
+                        <h2 className="section-heading !text-2xl md:!text-3xl">
+                            Answers To Common Questions About Starbright Real Estate
+                        </h2>
+                        <div className="section-divider mb-6" />
+                        <p className="text-muted-foreground leading-relaxed">
+                            A few quick answers about listings, inspections, verification, and how Starbright works.
+                        </p>
+                    </div>
+
+                    <div className="mt-8 grid grid-cols-1 gap-4 lg:mt-10 lg:grid-cols-2">
+                        {homeFaqs.map((faq) => (
+                            <div key={faq.question} className="premium-card p-5 sm:p-6">
+                                <h3 className="text-base font-semibold text-foreground">
+                                    {faq.question}
+                                </h3>
+                                <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                                    {faq.answer}
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>

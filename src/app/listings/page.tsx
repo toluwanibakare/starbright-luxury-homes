@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Search, SlidersHorizontal, X } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CTABand from "@/components/CTABand";
 import ListingCard from "@/components/ListingCard";
 import PageBreadcrumbHero from "@/components/PageBreadcrumbHero";
 import { useListings } from "@/components/providers/ListingsProvider";
@@ -177,7 +178,8 @@ export default function ListingsPage() {
                     </div>
                 )}
             </div>
-
+            
+            <CTABand />
             <Footer />
         </div>
     );
