@@ -13,8 +13,8 @@ import {
 
 export default function AdminLoginPage() {
     const router = useRouter();
-    const [email, setEmail] = useState(ADMIN_EMAIL);
-    const [password, setPassword] = useState(ADMIN_PASSWORD);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -54,7 +54,7 @@ export default function AdminLoginPage() {
                 <p className="text-sm text-muted-foreground mt-2">Sign in with your admin email to access the dashboard.</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4" autoComplete="off">
                 <div>
                     <label className="block text-xs font-semibold text-foreground mb-2">Admin Email</label>
                     <div className="relative">
@@ -65,6 +65,7 @@ export default function AdminLoginPage() {
                             onChange={(event) => setEmail(event.target.value)}
                             className="w-full rounded-3xl border border-border bg-muted/30 py-3 pl-12 pr-4 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                             placeholder="admin email"
+                            autoComplete="off"
                         />
                     </div>
                 </div>
@@ -79,6 +80,7 @@ export default function AdminLoginPage() {
                             onChange={(event) => setPassword(event.target.value)}
                             className="w-full rounded-3xl border border-border bg-muted/30 py-3 pl-12 pr-12 text-sm text-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
                             placeholder="password"
+                            autoComplete="new-password"
                         />
                         <button
                             type="button"
@@ -97,12 +99,6 @@ export default function AdminLoginPage() {
                     Sign in
                 </button>
             </form>
-
-            <div className="rounded-3xl border border-border bg-muted/70 p-4 text-sm text-muted-foreground">
-                <p className="font-semibold text-foreground mb-2">Admin credentials</p>
-                <p>Email: <span className="font-medium text-foreground">{ADMIN_EMAIL}</span></p>
-                <p>Password: <span className="font-medium text-foreground">{ADMIN_PASSWORD}</span></p>
-            </div>
         </div>
     );
 }
