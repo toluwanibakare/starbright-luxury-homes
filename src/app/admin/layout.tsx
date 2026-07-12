@@ -7,7 +7,6 @@ import { usePathname, useRouter } from "next/navigation";
 import {
     LayoutDashboard,
     Building2,
-    PlusCircle,
     ImageIcon,
     FolderOpen,
     MessageSquare,
@@ -29,7 +28,6 @@ import {
 const navItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/properties", label: "Properties", icon: Building2 },
-    { href: "/admin/add-property", label: "Add Property", icon: PlusCircle },
     { href: "/admin/media", label: "Media", icon: ImageIcon },
     { href: "/admin/categories", label: "Categories", icon: FolderOpen },
     { href: "/admin/messages", label: "Messages", icon: MessageSquare },

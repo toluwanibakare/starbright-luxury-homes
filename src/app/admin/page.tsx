@@ -29,14 +29,20 @@ import { useListings } from "@/components/providers/ListingsProvider";
 import { formatPrice } from "@/data/mockData";
 import { ApiError, type ApiInquiry, apiFetch } from "@/lib/api";
 
-const analyticsTrend = [
-    { month: "Oct", views: 340, inquiries: 45 },
-    { month: "Nov", views: 420, inquiries: 52 },
-    { month: "Dec", views: 380, inquiries: 48 },
-    { month: "Jan", views: 510, inquiries: 67 },
-    { month: "Feb", views: 480, inquiries: 61 },
-    { month: "Mar", views: 560, inquiries: 74 },
-];
+interface AdminStats {
+    properties: {
+        total: number;
+        available: number;
+        sold: number;
+        pending: number;
+        byCategory: { category: string; count: number }[];
+    };
+    inquiries: { total: number; unread: number };
+    comments: { total: number; pending: number };
+    trends: {
+        monthlyInquiries: { month: string; inquiries: number }[];
+    };
+}
 
 const statusColors: Record<string, string> = {
     Active: "bg-emerald-50 text-emerald-700",
@@ -48,42 +54,50 @@ export default function AdminDashboard() {
     const { listings, publicListings, isLoading, error } = useListings();
     const [inquiries, setInquiries] = useState<ApiInquiry[]>([]);
     const [inquiryError, setInquiryError] = useState<string | null>(null);
+    const [statsData, setStatsData] = useState<AdminStats | null>(null);
+    const [statsError, setStatsError] = useState<string | null>(null);
 
     useEffect(() => {
         let mounted = true;
 
-        const loadInquiries = async () => {
+        const loadData = async () => {
             try {
-                const response = await apiFetch<ApiInquiry[]>("/inquiries");
-                if (mounted) {
-                    setInquiries(response.data);
-                }
+                const [inquiryRes, statsRes] = await Promise.all([
+                    apiFetch<ApiInquiry[]>("/inquiries"),
+                    apiFetch<AdminStats>("/admin/stats"),
+                ]);
+                if (!mounted) return;
+                setInquiries(inquiryRes.data);
+                setStatsData(statsRes.data);
             } catch (err) {
-                if (mounted) {
-                    setInquiryError(
-                        err instanceof ApiError ? err.message : "Unable to load enquiries."
-                    );
-                }
+                if (!mounted) return;
+                const msg = err instanceof ApiError ? err.message : "Unable to load data.";
+                setInquiryError(msg);
+                setStatsError(msg);
             }
         };
 
-        void loadInquiries();
+        void loadData();
 
-        return () => {
-            mounted = false;
-        };
+        return () => { mounted = false; };
     }, []);
 
     const activeCount = listings.filter((listing) => listing.status === "Active").length;
-    const soldCount = listings.filter((listing) => listing.status === "Sold").length;
     const pendingCount = listings.filter((listing) => listing.status === "Pending").length;
-    const latestMonth = analyticsTrend[analyticsTrend.length - 1];
-    const inquiryRate = ((latestMonth.inquiries / latestMonth.views) * 100).toFixed(1);
 
-    const stats = [
+    const monthlyTrend = (statsData?.trends.monthlyInquiries ?? []).map((item) => {
+        const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        const parts = item.month.split("-");
+        const shortMonth = months[parseInt(parts[1], 10) - 1] || item.month;
+        return { month: shortMonth, inquiries: item.inquiries, views: 0 };
+    });
+
+    const latestMonth = monthlyTrend.length > 0 ? monthlyTrend[monthlyTrend.length - 1] : null;
+
+    const statsCards = [
         {
             label: "Total Listings",
-            value: String(listings.length),
+            value: statsData ? String(statsData.properties.total) : String(listings.length),
             note: "all admin records",
             icon: Building2,
             color: "text-primary bg-primary/10",
@@ -97,15 +111,15 @@ export default function AdminDashboard() {
         },
         {
             label: "Available",
-            value: String(activeCount),
-            note: `${pendingCount} pending`,
+            value: statsData ? String(statsData.properties.available) : String(activeCount),
+            note: `${statsData ? String(statsData.properties.pending) : String(pendingCount)} pending`,
             icon: CheckCircle2,
             color: "text-emerald-600 bg-emerald-50",
         },
         {
             label: "Enquiries",
-            value: String(inquiries.length),
-            note: `${inquiries.filter((item) => !item.is_read).length} unread`,
+            value: statsData ? String(statsData.inquiries.total) : String(inquiries.length),
+            note: `${statsData ? String(statsData.inquiries.unread) : String(inquiries.filter((item) => !item.is_read).length)} unread`,
             icon: ShoppingBag,
             color: "text-secondary bg-secondary/10",
         },
@@ -153,14 +167,14 @@ export default function AdminDashboard() {
                     <p className="text-sm text-muted-foreground">{error}</p>
                 </div>
             ) : null}
-            {inquiryError ? (
+            {inquiryError || statsError ? (
                 <div className="premium-card p-4">
-                    <p className="text-sm text-muted-foreground">{inquiryError}</p>
+                    <p className="text-sm text-muted-foreground">{inquiryError ?? statsError}</p>
                 </div>
             ) : null}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-                {stats.map((stat, i) => (
+                {statsCards.map((stat, i) => (
                     <motion.div
                         key={stat.label}
                         initial={{ opacity: 0, y: 16 }}
@@ -205,18 +219,14 @@ export default function AdminDashboard() {
                         </div>
                         <div className="flex items-center gap-1.5 text-emerald-600 text-xs font-medium">
                             <TrendingUp size={14} />
-                            {inquiryRate}% inquiry rate
+                            {latestMonth ? `${latestMonth.inquiries} this month` : "No data"}
                         </div>
                     </div>
 
                     <div className="h-[280px]">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={analyticsTrend} margin={{ top: 8, right: 12, left: -14, bottom: 0 }}>
+                            <AreaChart data={monthlyTrend} margin={{ top: 8, right: 12, left: -14, bottom: 0 }}>
                                 <defs>
-                                    <linearGradient id="viewsFill" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.35} />
-                                        <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0.03} />
-                                    </linearGradient>
                                     <linearGradient id="inquiriesFill" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#10b981" stopOpacity={0.28} />
                                         <stop offset="95%" stopColor="#10b981" stopOpacity={0.03} />
@@ -227,7 +237,6 @@ export default function AdminDashboard() {
                                 <YAxis tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
                                 <Tooltip />
                                 <Legend wrapperStyle={{ fontSize: "12px" }} />
-                                <Area type="monotone" dataKey="views" stroke="#0ea5e9" strokeWidth={2} fill="url(#viewsFill)" name="Views" />
                                 <Area type="monotone" dataKey="inquiries" stroke="#10b981" strokeWidth={2} fill="url(#inquiriesFill)" name="Enquiries" />
                             </AreaChart>
                         </ResponsiveContainer>
