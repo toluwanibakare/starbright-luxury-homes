@@ -28,6 +28,16 @@ const getStats = asyncHandler(async (req, res) => {
     ORDER BY month ASC
   `);
 
+  const monthlyComments = await query(`
+    SELECT
+      DATE_FORMAT(created_at, '%Y-%m') AS month,
+      COUNT(*) AS comments
+    FROM comments
+    WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+    GROUP BY DATE_FORMAT(created_at, '%Y-%m')
+    ORDER BY month ASC
+  `);
+
   const data = {
     properties: {
       total: Number(propertyCount.total),
@@ -51,6 +61,10 @@ const getStats = asyncHandler(async (req, res) => {
       monthlyInquiries: monthlyInquiries.map((row) => ({
         month: row.month,
         inquiries: Number(row.inquiries),
+      })),
+      monthlyComments: monthlyComments.map((row) => ({
+        month: row.month,
+        comments: Number(row.comments),
       })),
     },
   };
