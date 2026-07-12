@@ -4,8 +4,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-    Building2,
-    CheckCircle2,
     ShoppingBag,
     MonitorSmartphone,
     TrendingUp,
@@ -82,9 +80,6 @@ export default function AdminDashboard() {
         return () => { mounted = false; };
     }, []);
 
-    const activeCount = listings.filter((listing) => listing.status === "Active").length;
-    const pendingCount = listings.filter((listing) => listing.status === "Pending").length;
-
     const monthlyTrend = (statsData?.trends.monthlyInquiries ?? []).map((item) => {
         const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
         const parts = item.month.split("-");
@@ -96,25 +91,11 @@ export default function AdminDashboard() {
 
     const statsCards = [
         {
-            label: "Total Listings",
-            value: statsData ? String(statsData.properties.total) : String(listings.length),
-            note: "all admin records",
-            icon: Building2,
-            color: "text-primary bg-primary/10",
-        },
-        {
             label: "Live on Website",
             value: String(publicListings.length),
             note: "visible to users",
             icon: MonitorSmartphone,
             color: "text-sky-600 bg-sky-50",
-        },
-        {
-            label: "Available",
-            value: statsData ? String(statsData.properties.available) : String(activeCount),
-            note: `${statsData ? String(statsData.properties.pending) : String(pendingCount)} pending`,
-            icon: CheckCircle2,
-            color: "text-emerald-600 bg-emerald-50",
         },
         {
             label: "Enquiries",
