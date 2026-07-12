@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
+    Building2,
     ShoppingBag,
     MonitorSmartphone,
     TrendingUp,
@@ -90,6 +91,13 @@ export default function AdminDashboard() {
     const latestMonth = monthlyTrend.length > 0 ? monthlyTrend[monthlyTrend.length - 1] : null;
 
     const statsCards = [
+        {
+            label: "Total Listings",
+            value: statsData ? String(statsData.properties.total) : String(listings.length),
+            note: "all records",
+            icon: Building2,
+            color: "text-primary bg-primary/10",
+        },
         {
             label: "Live on Website",
             value: String(publicListings.length),
