@@ -122,6 +122,7 @@ function AddPropertyForm() {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [revealedDelete, setRevealedDelete] = useState<number | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [draftSaved, setDraftSaved] = useState(false);
   const [errors, setErrors] = useState<Record<string, boolean>>({});
@@ -142,6 +143,18 @@ function AddPropertyForm() {
       setShowTypeModal(false);
     }
   }, [initialType, selectedType]);
+
+  useEffect(() => {
+    setImageFiles([]);
+    setVideoFile(null);
+    setForm(emptyForm);
+    setErrors({});
+    setRevealedDelete(null);
+  }, []);
+
+  useEffect(() => {
+    setRevealedDelete(null);
+  }, [imageFiles]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -686,13 +699,21 @@ function AddPropertyForm() {
             {imagePreviews.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
                 {imagePreviews.map((img, index) => (
-                  <div key={img} className="relative group rounded-lg overflow-hidden bg-muted aspect-square">
+                  <div
+                    key={img}
+                    className="relative group rounded-lg overflow-hidden bg-muted aspect-square"
+                    onClick={() => setRevealedDelete(revealedDelete === index ? null : index)}
+                  >
                     <img src={img} alt="" className="w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/30 transition-colors flex items-center justify-center">
+                    <div className={`absolute inset-0 transition-colors flex items-center justify-center ${
+                      revealedDelete === index ? "bg-foreground/30" : "bg-foreground/0 group-hover:bg-foreground/30"
+                    }`}>
                       <button
                         type="button"
-                        onClick={() => removeImage(index)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-full bg-card shadow-md"
+                        onClick={(e) => { e.stopPropagation(); removeImage(index); }}
+                        className={`transition-opacity p-1.5 rounded-full bg-card shadow-md ${
+                          revealedDelete === index ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                        }`}
                       >
                         <X size={14} className="text-destructive" />
                       </button>
@@ -713,20 +734,32 @@ function AddPropertyForm() {
 
           <div>
             <label className="block text-xs font-medium text-foreground mb-2">Property Video</label>
-            <label className="rounded-xl border border-border bg-muted/20 p-4 block cursor-pointer">
-              <div className="flex items-center gap-3 mb-3">
-                <Video size={20} className="text-muted-foreground" />
-                <p className="text-sm text-foreground font-medium">
-                  {videoFile ? videoFile.name : "Choose an MP4/MOV video file"}
-                </p>
-              </div>
-              <input
-                type="file"
-                accept="video/*"
-                className="hidden"
-                onChange={(e) => setVideoFile(e.target.files?.[0] ?? null)}
-              />
-            </label>
+            <div className="relative">
+              <label className={`rounded-xl border ${videoFile ? "border-primary/30 bg-primary/5" : "border-border bg-muted/20"} p-4 block cursor-pointer`}>
+                <div className="flex items-center gap-3">
+                  <Video size={20} className="text-muted-foreground shrink-0" />
+                  <p className="text-sm text-foreground font-medium truncate flex-1">
+                    {videoFile ? videoFile.name : "Choose an MP4/MOV video file"}
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  accept="video/*"
+                  className="hidden"
+                  onChange={(e) => setVideoFile(e.target.files?.[0] ?? null)}
+                />
+              </label>
+              {videoFile ? (
+                <button
+                  type="button"
+                  onClick={() => setVideoFile(null)}
+                  className="absolute -top-2 -right-2 p-1 rounded-full bg-destructive text-destructive-foreground shadow-md hover:bg-destructive/90 transition-colors"
+                  title="Remove video"
+                >
+                  <X size={12} />
+                </button>
+              ) : null}
+            </div>
           </div>
         </div>
 
