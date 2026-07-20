@@ -22,6 +22,7 @@ import Footer from "@/components/Footer";
 import ListingCard from "@/components/ListingCard";
 import ListingComments from "@/components/ListingComments";
 import { useListings } from "@/components/providers/ListingsProvider";
+import { useSettings } from "@/hooks/useSettings";
 import { formatPrice } from "@/data/mockData";
 import { getListingFallbackImage } from "@/lib/api";
 
@@ -54,6 +55,7 @@ export default function ListingDetailsPage({
 }) {
     const { slug } = use(params);
     const { publicListings, getListingBySlug, isLoading } = useListings();
+    const { waLink: wa } = useSettings();
     const listing = getListingBySlug(slug);
     const [activeIndex, setActiveIndex] = useState(0);
     const [direction, setDirection] = useState(1);
@@ -351,7 +353,7 @@ export default function ListingDetailsPage({
                                     property.
                                 </p>
                                 <a
-                                    href={`https://wa.me/2347033764029?text=Hello, I want to book an inspection for ${listing.title} (${listing.listingId}).`}
+                                    href={wa(`Hello, I want to book an inspection for ${listing.title} (${listing.listingId}).`)}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="premium-btn-whatsapp w-full flex items-center justify-center gap-2"

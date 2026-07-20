@@ -11,6 +11,7 @@ import { formatPrice } from "@/data/mockData";
 
 const statusOptions = ["All", "Active", "Pending", "Sold"];
 const categoryOptions = ["All", "land", "house", "commercial"];
+const typeLabels: Record<string, string> = { house: "House", land: "Land", commercial: "Commercial" };
 
 const statusMap: Record<string, string> = {
     Active: "bg-emerald-50 text-emerald-700",
@@ -93,6 +94,7 @@ export default function PropertiesPage() {
                         <thead>
                             <tr className="border-b border-border bg-muted/30">
                                 <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Property</th>
+                                <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Category</th>
                                 <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Location</th>
                                 <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Price</th>
                                 <th className="text-left px-5 py-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Status</th>
@@ -103,13 +105,13 @@ export default function PropertiesPage() {
                         <tbody>
                             {isLoading ? (
                                 <tr>
-                                    <td colSpan={6} className="px-5 py-8 text-center text-muted-foreground">
+                                    <td colSpan={7} className="px-5 py-8 text-center text-muted-foreground">
                                         Loading properties...
                                     </td>
                                 </tr>
                             ) : error ? (
                                 <tr>
-                                    <td colSpan={6} className="px-5 py-8 text-center text-muted-foreground">
+                                    <td colSpan={7} className="px-5 py-8 text-center text-muted-foreground">
                                         {error}
                                     </td>
                                 </tr>
@@ -121,19 +123,23 @@ export default function PropertiesPage() {
                                                 <Image src={property.images[0]} alt={property.title} fill className="object-cover" />
                                             </div>
                                             <div className="min-w-0">
-                                                <p className="font-medium text-foreground truncate max-w-[220px]">{property.title}</p>
-                                                <p className="text-xs text-muted-foreground capitalize">{property.category}</p>
+                                                <p className="font-medium text-foreground truncate max-w-[200px]">{property.title}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td className="px-5 py-3 text-muted-foreground">{property.location}</td>
+                                    <td className="px-5 py-3">
+                                        <span className="inline-flex px-2.5 py-1 rounded-full text-[11px] font-semibold bg-primary/5 text-primary capitalize">
+                                            {typeLabels[property.category] ?? property.category}
+                                        </span>
+                                    </td>
+                                    <td className="px-5 py-3 text-muted-foreground max-w-[150px] truncate">{property.location}</td>
                                     <td className="px-5 py-3 font-semibold text-foreground whitespace-nowrap">{formatPrice(property.price)}</td>
                                     <td className="px-5 py-3">
                                         <span className={`inline-flex px-2.5 py-1 rounded-full text-[11px] font-semibold ${statusMap[property.status]}`}>
                                             {property.status}
                                         </span>
                                     </td>
-                                    <td className="px-5 py-3 text-muted-foreground text-xs">
+                                    <td className="px-5 py-3 text-muted-foreground text-xs whitespace-nowrap">
                                         {new Date(property.createdAt).toLocaleDateString("en-US", {
                                             month: "short",
                                             day: "numeric",
@@ -149,7 +155,11 @@ export default function PropertiesPage() {
                                             >
                                                 <Eye size={15} className="text-muted-foreground" />
                                             </button>
-                                            <button className="p-2 rounded-lg hover:bg-muted transition-colors" title="Edit">
+                                            <button
+                                                className="p-2 rounded-lg hover:bg-muted transition-colors"
+                                                title="Edit"
+                                                onClick={() => router.push(`/admin/add-property?type=${property.category}`)}
+                                            >
                                                 <Pencil size={15} className="text-muted-foreground" />
                                             </button>
                                             <button

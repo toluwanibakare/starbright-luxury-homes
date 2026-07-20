@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Menu, X, Phone, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useSettings } from "@/hooks/useSettings";
 
 const navLinks = [
     { path: "/", label: "Home" },
@@ -16,6 +17,7 @@ const navLinks = [
 ];
 
 const Navbar = () => {
+    const { settings, waLink: wa } = useSettings();
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [isIslandExpanded, setIsIslandExpanded] = useState(false);
@@ -139,7 +141,7 @@ const Navbar = () => {
                         }`}
                     >
                         <a
-                            href="tel:+2347033764029"
+                            href={`tel:${settings.whatsapp_number.replace(/[^0-9]/g, "")}`}
                             className={`text-[11px] font-medium transition-colors flex items-center gap-1.5 ${
                                 showSolid
                                     ? "text-muted-foreground hover:text-foreground"
@@ -147,10 +149,10 @@ const Navbar = () => {
                             }`}
                         >
                             <Phone className="w-3.5 h-3.5" />
-                            +234 703 376 4029
+                            {settings.whatsapp_number}
                         </a>
                         <a
-                            href="https://wa.me/2347033764029"
+                            href={wa("Hello Starbright, I need help with a property.")}
                             target="_blank"
                             rel="noopener noreferrer"
                             className={`premium-btn-primary text-[11px] ${showSolid ? "!py-1.5 !px-3.5" : "!py-2.5 !px-5"}`}
@@ -199,7 +201,7 @@ const Navbar = () => {
                                 ))}
                                 <div className="pt-4 border-t border-border mt-4">
                                     <a
-                                        href="https://wa.me/2347033764029"
+                                        href={wa("Hello Starbright, I need help with a property.")}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         className="premium-btn-primary w-full text-xs !py-3"

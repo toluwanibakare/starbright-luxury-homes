@@ -4,14 +4,16 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { useSettings } from "@/hooks/useSettings";
 
 const CTABand = () => {
+    const { waLink: wa } = useSettings();
+
     return (
         <section className="relative overflow-hidden py-24">
             <div className="absolute inset-0" style={{ background: "var(--gradient-brand)" }} />
             <div className="absolute inset-0 bg-black/15" />
 
-            {/* Decorative elements */}
             <div className="absolute top-0 left-0 w-72 h-72 rounded-full bg-white/5 -translate-x-1/2 -translate-y-1/2" />
             <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full bg-white/5 translate-x-1/3 translate-y-1/3" />
 
@@ -29,7 +31,7 @@ const CTABand = () => {
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                         <a
-                            href="https://wa.me/2347033764029"
+                            href={wa("Hello Starbright, I want to book an inspection.")}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="premium-btn bg-white text-foreground hover:bg-white/90 !py-3.5 !px-8 shadow-lg"

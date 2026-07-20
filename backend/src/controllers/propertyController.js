@@ -9,7 +9,9 @@ const {
   assert,
   requireFields,
   toBoolean,
-  toNullableNumber
+  toNullableNumber,
+  isDraftStatus,
+  isNonEmptyString
 } = require("../utils/validation");
 const { generateUniquePropertySlug } = require("../utils/slug");
 const {
@@ -28,70 +30,84 @@ const {
 const { publicFilePath } = require("../utils/filePaths");
 
 const buildPropertyPayload = async (body, existing = null) => {
-  requireFields(body, [
-    "title",
-    "description",
-    "price",
-    "location",
-    "address",
-    "category",
-    "property_type",
-    "status",
-    "verification_status",
-    "size_value",
-    "size_unit",
-    "listing_code",
-    "documents_info",
-    "inspection_info"
-  ]);
+  const isDraft = isDraftStatus(body.status);
+
+  if (isDraft) {
+    requireFields(body, ["title", "status"]);
+  } else {
+    requireFields(body, [
+      "title", "description", "price", "location", "address",
+      "category", "property_type", "status", "verification_status",
+      "size_value", "size_unit", "listing_code", "documents_info",
+      "inspection_info"
+    ]);
+  }
 
   assert(
     allowedCategories.includes(body.category),
     400,
     "Invalid property category."
   );
+
   assert(
     allowedPropertyStatuses.includes(body.status),
     400,
     "Invalid property status."
   );
 
-  const price = Number(body.price);
-  const sizeValue = Number(body.size_value);
+  if (!isDraft) {
+    const price = Number(body.price);
+    const sizeValue = Number(body.size_value);
+
+    assert(Number.isFinite(price) && price >= 0, 400, "Price must be a valid number.");
+    assert(
+      Number.isFinite(sizeValue) && sizeValue >= 0,
+      400,
+      "size_value must be a valid number."
+    );
+  }
+
   const bedrooms = toNullableNumber(body.bedrooms);
   const bathrooms = toNullableNumber(body.bathrooms);
   const toilets = toNullableNumber(body.toilets);
 
-  assert(Number.isFinite(price) && price >= 0, 400, "Price must be a valid number.");
-  assert(
-    Number.isFinite(sizeValue) && sizeValue >= 0,
-    400,
-    "size_value must be a valid number."
-  );
   assert(!Number.isNaN(bedrooms), 400, "bedrooms must be a valid number or null.");
   assert(!Number.isNaN(bathrooms), 400, "bathrooms must be a valid number or null.");
   assert(!Number.isNaN(toilets), 400, "toilets must be a valid number or null.");
 
+  let listingCode = body.listing_code;
+  if (isDraft && !isNonEmptyString(listingCode)) {
+    const crypto = require("crypto");
+    listingCode = `DRF-${Date.now().toString().slice(-6)}-${crypto.randomBytes(2).toString("hex")}`;
+  }
+
   return {
     title: body.title.trim(),
     slug: await generateUniquePropertySlug(body.title, existing ? existing.id : null),
-    description: body.description.trim(),
-    price,
-    location: body.location.trim(),
-    address: body.address.trim(),
+    description: isNonEmptyString(body.description) ? body.description.trim() : "",
+    price: body.price !== undefined && body.price !== "" ? Number(body.price) : 0,
+    location: isNonEmptyString(body.location) ? body.location.trim() : "",
+    address: isNonEmptyString(body.address) ? body.address.trim() : body.location?.trim() || "",
     category: body.category,
-    property_type: body.property_type.trim(),
+    property_type: isNonEmptyString(body.property_type) ? body.property_type.trim() : body.category,
     status: body.status,
     is_featured: toBoolean(body.is_featured),
-    verification_status: body.verification_status.trim(),
+    verification_status: isNonEmptyString(body.verification_status)
+      ? body.verification_status.trim()
+      : "Pending verification",
     bedrooms,
     bathrooms,
     toilets,
-    size_value: sizeValue,
-    size_unit: body.size_unit.trim(),
-    listing_code: body.listing_code.trim(),
-    documents_info: body.documents_info.trim(),
-    inspection_info: body.inspection_info.trim()
+    size_value: body.size_value !== undefined && body.size_value !== "" ? Number(body.size_value) : 0,
+    size_unit: isNonEmptyString(body.size_unit) ? body.size_unit.trim() : "sqm",
+    listing_code: listingCode,
+    documents_info: isNonEmptyString(body.documents_info) ? body.documents_info.trim() : "",
+    inspection_info: isNonEmptyString(body.inspection_info) ? body.inspection_info.trim() : "",
+    furnished: body.furnished || null,
+    land_use: body.land_use || null,
+    floor_level: toNullableNumber(body.floor_level),
+    parking_spaces: toNullableNumber(body.parking_spaces),
+    year_built: toNullableNumber(body.year_built)
   };
 };
 
@@ -156,8 +172,8 @@ const uploadPropertyImages = asyncHandler(async (req, res) => {
   }
 
   assert(req.files && req.files.length > 0, 400, "At least one image file is required.");
-
   const uploaded = [];
+
   for (const file of req.files) {
     const mediaId = await createMediaRecord({
       property_id: req.params.id,

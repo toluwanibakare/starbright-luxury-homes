@@ -14,7 +14,7 @@ import { ApiError, type ApiProperty, apiFetch, normalizeProperty } from "@/lib/a
 
 interface ListingInput {
     title: string;
-    price: number;
+    price: number | string;
     location: string;
     category: Category;
     verified: boolean;
@@ -28,6 +28,11 @@ interface ListingInput {
     bedrooms?: number | null;
     bathrooms?: number | null;
     toilets?: number | null;
+    furnished?: string;
+    landUse?: string;
+    floorLevel?: number | null;
+    parkingSpaces?: number | null;
+    yearBuilt?: number | null;
     imageFiles?: File[];
     videoFile?: File | null;
 }
@@ -100,13 +105,14 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
 
     const addListing = useCallback(
         async (input: ListingInput) => {
+            const isDraft = input.status === "Pending";
             const { sizeValue, sizeUnit } = parseSize(input.size);
-            const payload = {
+            const payload: Record<string, unknown> = {
                 title: input.title,
-                description: input.description,
-                price: input.price,
-                location: input.location,
-                address: input.address?.trim() || input.location,
+                description: input.description || "",
+                price: input.price || 0,
+                location: input.location || "",
+                address: input.address?.trim() || input.location || "",
                 category: input.category,
                 property_type: input.propertyType?.trim() || input.category,
                 status: mapFrontendStatusToBackend(input.status),
@@ -114,13 +120,17 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
                 size_value: sizeValue,
                 size_unit: sizeUnit,
                 listing_code: createListingCode(),
-                documents_info: input.documentsStatus,
-                inspection_info:
-                    input.inspectionInfo?.trim() || "Inspection details available on request.",
+                documents_info: input.documentsStatus || "",
+                inspection_info: input.inspectionInfo?.trim() || "",
                 is_featured: false,
-                bedrooms: input.bedrooms,
-                bathrooms: input.bathrooms,
-                toilets: input.toilets,
+                bedrooms: input.bedrooms ?? null,
+                bathrooms: input.bathrooms ?? null,
+                toilets: input.toilets ?? null,
+                furnished: input.furnished || null,
+                land_use: input.landUse || null,
+                floor_level: input.floorLevel ?? null,
+                parking_spaces: input.parkingSpaces ?? null,
+                year_built: input.yearBuilt ?? null,
             };
 
             const created = await apiFetch<ApiProperty>("/properties", {

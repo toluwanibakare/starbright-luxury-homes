@@ -55,6 +55,11 @@ export interface ApiProperty {
     listing_code: string;
     documents_info: string;
     inspection_info: string;
+    furnished: string | null;
+    land_use: string | null;
+    floor_level: number | null;
+    parking_spaces: number | null;
+    year_built: number | null;
     created_at: string;
     updated_at: string;
     media: ApiPropertyMedia[];
@@ -242,6 +247,11 @@ export const normalizeProperty = (property: ApiProperty): Listing => {
         bedrooms: property.bedrooms,
         bathrooms: property.bathrooms,
         toilets: property.toilets,
+        furnished: property.furnished,
+        landUse: property.land_use,
+        floorLevel: property.floor_level,
+        parkingSpaces: property.parking_spaces,
+        yearBuilt: property.year_built,
         media,
     };
 };

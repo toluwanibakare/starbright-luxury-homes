@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import PageBreadcrumbHero from "@/components/PageBreadcrumbHero";
 import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { useListings } from "@/components/providers/ListingsProvider";
+import { useSettings } from "@/hooks/useSettings";
 import { ApiError, apiFetch } from "@/lib/api";
 
 const contactReasons = [
@@ -244,6 +245,8 @@ function ContactEnquiryFormFallback() {
 }
 
 export default function ContactPage() {
+    const { settings, waLink: wa } = useSettings();
+
     return (
         <div className="min-h-screen bg-background">
             <Navbar />
@@ -277,7 +280,7 @@ export default function ContactPage() {
 
                             <div className="mt-5 space-y-3">
                                 <a
-                                    href="https://wa.me/2347033764029?text=Hello%20Starbright%2C%20I%20need%20support."
+                                    href={wa("Hello Starbright, I need support.")}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="premium-btn-whatsapp w-full flex items-center justify-center gap-2"
@@ -286,7 +289,7 @@ export default function ContactPage() {
                                     Contact Us on WhatsApp
                                 </a>
                                 <a
-                                    href="mailto:hello@starbrightproperties.com"
+                                    href={`mailto:${settings.support_email}`}
                                     className="premium-btn-outline w-full"
                                 >
                                     Email Support

@@ -22,6 +22,8 @@ const toNullableNumber = (value) => {
 const toBoolean = (value) =>
   value === true || value === "true" || value === 1 || value === "1";
 
+const isDraftStatus = (status) => status === "draft";
+
 const assert = (condition, statusCode, message, details = null) => {
   if (!condition) {
     throw new ApiError(statusCode, message, details);
@@ -46,6 +48,7 @@ module.exports = {
   isEmail,
   toNullableNumber,
   toBoolean,
+  isDraftStatus,
   assert,
   requireFields
 };

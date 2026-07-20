@@ -26,6 +26,11 @@ export interface Listing {
     bedrooms?: number | null;
     bathrooms?: number | null;
     toilets?: number | null;
+    furnished?: string | null;
+    landUse?: string | null;
+    floorLevel?: number | null;
+    parkingSpaces?: number | null;
+    yearBuilt?: number | null;
     media?: Array<{
         id: number;
         file_type: "image" | "video";

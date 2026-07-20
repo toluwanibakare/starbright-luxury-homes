@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Phone, Mail, MapPin, ArrowUpRight } from "lucide-react";
+import { useSettings } from "@/hooks/useSettings";
 
 const Footer = () => {
+    const { settings } = useSettings();
     const currentYear = new Date().getFullYear();
 
     return (
@@ -28,34 +32,35 @@ const Footer = () => {
                         <h4 className="text-xs font-semibold uppercase tracking-[0.2em] mb-5 text-white/70">
                             Quick Links
                         </h4>
-                        <div className="space-y-3">
+                        <nav className="space-y-3">
                             {[
-                                { to: "/", label: "Home" },
-                                { to: "/listings", label: "Listings" },
-                                { to: "/about", label: "About Us" },
-                                { to: "/contact", label: "Contact" },
+                                { label: "Home", href: "/" },
+                                { label: "Listings", href: "/listings" },
+                                { label: "About", href: "/about" },
+                                { label: "Contact", href: "/contact" },
+                                { label: "Privacy Policy", href: "/privacy-policy" },
+                                { label: "Terms of Service", href: "/terms-of-service" },
                             ].map((link) => (
                                 <Link
-                                    key={link.to}
-                                    href={link.to}
-                                    className="group flex items-center gap-1.5 text-sm text-white/45 hover:text-white/90 transition-colors"
+                                    key={link.href}
+                                    href={link.href}
+                                    className="block text-sm text-white/45 hover:text-white/90 transition-colors"
                                 >
                                     {link.label}
-                                    <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
                                 </Link>
                             ))}
-                        </div>
+                        </nav>
                     </div>
 
                     <div>
                         <h4 className="text-xs font-semibold uppercase tracking-[0.2em] mb-5 text-white/70">
-                            Categories
+                            Property Types
                         </h4>
-                        <div className="space-y-3">
+                        <nav className="space-y-3">
                             {[
-                                { label: "Land", href: "/listings" },
-                                { label: "Houses", href: "/listings" },
-                                { label: "Commercial Properties", href: "/listings" },
+                                { label: "Houses", href: "/listings?category=house" },
+                                { label: "Lands", href: "/listings?category=land" },
+                                { label: "Commercial", href: "/listings?category=commercial" },
                             ].map((cat) => (
                                 <Link
                                     key={cat.label}
@@ -66,7 +71,7 @@ const Footer = () => {
                                     <ArrowUpRight className="w-3 h-3 opacity-0 -translate-y-0.5 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
                                 </Link>
                             ))}
-                        </div>
+                        </nav>
                     </div>
 
                     <div>
@@ -77,17 +82,14 @@ const Footer = () => {
                             <div className="flex items-start gap-3">
                                 <Phone className="w-4 h-4 flex-shrink-0 mt-0.5" />
                                 <div className="space-y-2">
-                                    <a href="tel:+2347033764029" className="block hover:text-white/80 transition-colors">
-                                        +234 703 376 4029
-                                    </a>
-                                    <a href="tel:+2349059435448" className="block hover:text-white/80 transition-colors">
-                                        +234 905 943 5448
+                                    <a href={`tel:${settings.whatsapp_number.replace(/[^0-9]/g, "")}`} className="block hover:text-white/80 transition-colors">
+                                        {settings.whatsapp_number}
                                     </a>
                                 </div>
                             </div>
-                            <a href="mailto:hello@starbrightproperties.com.ng" className="flex items-center gap-3 hover:text-white/80 transition-colors">
+                            <a href={`mailto:${settings.support_email}`} className="flex items-center gap-3 hover:text-white/80 transition-colors">
                                 <Mail className="w-4 h-4 flex-shrink-0" />
-                                <span>hello@starbrightproperties.com.ng</span>
+                                <span>{settings.support_email}</span>
                             </a>
                             <div className="flex items-start gap-3">
                                 <MapPin className="w-4 h-4 flex-shrink-0 mt-0.5" />
