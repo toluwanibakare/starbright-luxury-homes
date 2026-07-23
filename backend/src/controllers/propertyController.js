@@ -40,8 +40,7 @@ const buildPropertyPayload = async (body, existing = null) => {
     requireFields(body, [
       "title", "description", "price", "location", "address",
       "category", "property_type", "status", "verification_status",
-      "size_value", "size_unit", "listing_code", "documents_info",
-      "inspection_info"
+      "size_value", "size_unit", "listing_code", "documents_info"
     ]);
   }
 
