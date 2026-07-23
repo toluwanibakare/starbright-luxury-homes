@@ -13,19 +13,16 @@ const allowedOrigins = env.clientUrl
   .map((origin) => origin.trim())
   .filter(Boolean);
 
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, origin || allowedOrigins[0] || true);
-        return;
-      }
-
-      callback(new Error("Origin not allowed by CORS."));
-    },
-    credentials: true
-  })
-);
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    callback(new Error("Origin not allowed by CORS."));
+  },
+  credentials: true,
+  optionsSuccessStatus: 200,
+}));
 app.use(morgan(env.nodeEnv === "production" ? "combined" : "dev"));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
