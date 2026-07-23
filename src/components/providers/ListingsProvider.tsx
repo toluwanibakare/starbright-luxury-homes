@@ -10,7 +10,7 @@ import {
     type ReactNode,
 } from "react";
 import type { Category, Listing, ListingStatus } from "@/data/mockData";
-import { ApiError, type ApiProperty, apiFetch, normalizeProperty } from "@/lib/api";
+import { ApiError, type ApiProperty, type ApiPropertyMedia, apiFetch, normalizeProperty } from "@/lib/api";
 
 interface ListingInput {
     title: string;
@@ -43,6 +43,7 @@ interface ListingsContextValue {
     isLoading: boolean;
     error: string | null;
     addListing: (input: ListingInput) => Promise<Listing>;
+    updateListing: (id: string, input: ListingInput) => Promise<Listing>;
     deleteListing: (id: string) => Promise<void>;
     refreshListings: () => Promise<void>;
     getListingBySlug: (slug: string) => Listing | undefined;
@@ -139,6 +140,7 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
             });
 
             const createdId = created.data.id;
+            const newMedia: ApiPropertyMedia[] = [];
 
             if (input.imageFiles && input.imageFiles.length > 0) {
                 const imageData = new FormData();
@@ -146,24 +148,41 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
                     imageData.append("images", file);
                 }
 
-                await apiFetch(`/properties/${createdId}/images`, {
+                const uploadRes = await apiFetch<ApiPropertyMedia[]>("/properties/" + createdId + "/images", {
                     method: "POST",
                     body: imageData,
                 });
+
+                if (Array.isArray(uploadRes.data)) {
+                    newMedia.push(...uploadRes.data);
+                }
             }
 
             if (input.videoFile) {
                 const videoData = new FormData();
                 videoData.append("video", input.videoFile);
 
-                await apiFetch(`/properties/${createdId}/video`, {
+                const uploadRes = await apiFetch<ApiPropertyMedia>("/properties/" + createdId + "/video", {
                     method: "POST",
                     body: videoData,
                 });
+
+                if (uploadRes.data) {
+                    newMedia.push(uploadRes.data);
+                }
             }
 
-            const refreshed = await apiFetch<ApiProperty>(`/properties/${createdId}`);
-            const normalized = normalizeProperty(refreshed.data);
+            let normalized: Listing;
+
+            if (newMedia.length > 0) {
+                normalized = normalizeProperty({
+                    ...created.data,
+                    media: newMedia,
+                });
+            } else {
+                const refreshed = await apiFetch<ApiProperty>("/properties/" + createdId);
+                normalized = normalizeProperty(refreshed.data);
+            }
 
             setListings((current) => [normalized, ...current.filter((item) => item.id !== normalized.id)]);
             return normalized;
@@ -178,6 +197,50 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
 
         setListings((current) => current.filter((listing) => listing.id !== id));
     }, []);
+
+    const updateListing = useCallback(
+        async (id: string, input: ListingInput) => {
+            const { sizeValue, sizeUnit } = parseSize(input.size);
+            const payload: Record<string, unknown> = {
+                title: input.title,
+                description: input.description || "",
+                price: input.price || 0,
+                location: input.location || "",
+                address: input.address?.trim() || input.location || "",
+                category: input.category,
+                property_type: input.propertyType?.trim() || input.category,
+                status: mapFrontendStatusToBackend(input.status),
+                verification_status: input.verified ? "Verified" : "Pending verification",
+                size_value: sizeValue,
+                size_unit: sizeUnit,
+                listing_code: "",
+                documents_info: input.documentsStatus || "",
+                inspection_info: input.inspectionInfo?.trim() || "",
+                is_featured: false,
+                bedrooms: input.bedrooms ?? null,
+                bathrooms: input.bathrooms ?? null,
+                toilets: input.toilets ?? null,
+                furnished: input.furnished || null,
+                land_use: input.landUse || null,
+                floor_level: input.floorLevel ?? null,
+                parking_spaces: input.parkingSpaces ?? null,
+                year_built: input.yearBuilt ?? null,
+            };
+
+            const updated = await apiFetch<ApiProperty>("/properties/" + id, {
+                method: "PUT",
+                body: JSON.stringify(payload),
+            });
+
+            const normalized = normalizeProperty(updated.data);
+
+            setListings((current) =>
+                current.map((item) => (item.id === normalized.id ? normalized : item))
+            );
+            return normalized;
+        },
+        []
+    );
 
     const getListingBySlug = useCallback(
         (slug: string) => listings.find((listing) => listing.slug === slug),
@@ -199,6 +262,7 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
             isLoading,
             error,
             addListing,
+            updateListing,
             deleteListing,
             refreshListings,
             getListingBySlug,
@@ -206,6 +270,7 @@ export function ListingsProvider({ children }: { children: ReactNode }) {
         }),
         [
             addListing,
+            updateListing,
             deleteListing,
             error,
             getListingByCode,

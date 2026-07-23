@@ -158,7 +158,7 @@ export default function PropertiesPage() {
                                             <button
                                                 className="p-2 rounded-lg hover:bg-muted transition-colors"
                                                 title="Edit"
-                                                onClick={() => router.push(`/admin/add-property?type=${property.category}`)}
+                                                onClick={() => router.push(`/admin/edit-property/${property.id}`)}
                                             >
                                                 <Pencil size={15} className="text-muted-foreground" />
                                             </button>

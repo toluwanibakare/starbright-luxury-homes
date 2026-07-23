@@ -222,7 +222,7 @@ export default function AboutPage() {
                             src="/founders.jpeg"
                             alt="Dr. Oluwadamilola Adenike & Amb. Tunde Busari — Founders, Starbright Real Estate"
                             fill
-                            className="object-cover"
+                            className="object-contain"
                         />
                     </motion.div>
                     <motion.div custom={1} variants={fadeUp} className="premium-card p-6 sm:p-8">
