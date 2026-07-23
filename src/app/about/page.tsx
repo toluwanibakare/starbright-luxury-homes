@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import CTABand from "@/components/CTABand";
 import PageBreadcrumbHero from "@/components/PageBreadcrumbHero";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import {
     BadgeCheck,
     FileSearch,
@@ -81,27 +82,31 @@ const coreValues = [
     },
 ];
 
-const stats = [
-    {
-        value: "Full",
-        label: "Real estate solutions",
-        note: "From buying and selling to construction, procurement, and facilities management.",
-    },
-    {
-        value: "Safe",
-        label: "Verified transactions",
-        note: "Each listed property goes through proper checks before it is presented.",
-    },
-    {
-        value: "Africa",
-        label: "Growth vision",
-        note: "Built to serve clients across the African real estate landscape.",
-    },
-    {
-        value: "Trust",
-        label: "Client priority",
-        note: "A customer first approach focused on confidence, clarity, and long term value.",
-    },
+const services = [
+    "Residential lands and houses",
+    "Newly built and fairly used residential properties",
+    "Commercial properties",
+    "Hotels",
+    "Filling stations",
+    "Schools",
+    "Shopping malls",
+    "Office complexes",
+    "Investment estates",
+    "Construction and property development",
+    "Property acquisition and sales",
+    "Short-let apartment bookings in your preferred locations across Lagos",
+];
+
+const priorities = [
+    "Authentic and legally verified property titles",
+    "Strategic and rapidly developing locations",
+    "High return on investment and capital appreciation",
+    "Security and accessibility of the environment",
+    "Infrastructure and future development potential",
+    "Transparent pricing with no hidden charges",
+    "Professional guidance throughout the buying and selling process",
+    "Flexible payment options tailored to your financial capacity",
+    "Excellent customer service before, during, and after every transaction",
 ];
 
 const faqs = [
@@ -145,11 +150,13 @@ export default function AboutPage() {
             />
 
             <div className="container-premium px-5 sm:px-8 lg:px-12 py-12 space-y-12">
+
+                {/* Welcome + Founders */}
                 <motion.section
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
-                    className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6 items-stretch"
+                    className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-6 items-start"
                 >
                     <motion.div
                         variants={fadeUp}
@@ -159,27 +166,19 @@ export default function AboutPage() {
                         <div className="relative max-w-4xl">
                             <p className="section-overline mb-3">About Starbright</p>
                             <h2 className="text-3xl md:text-4xl font-bold text-foreground font-display leading-tight">
-                                Fast rising real estate solutions built on trust, excellence, and innovation
+                                Welcome to Star Bright Real Estate and Properties
                             </h2>
                             <p className="text-sm sm:text-base text-muted-foreground mt-5 leading-8">
-                                Starbright Real Estate and Properties is a fast-rising real estate company across Africa, dedicated
-                                to transforming the way people buy, sell, and manage properties. We specialize in a full spectrum
-                                of real estate services, including the selling and buying of landed properties, construction,
-                                property management, procurement, and facilities management. Our commitment to excellence and
-                                innovation has quickly positioned us as a trusted partner in the African real estate landscape.
+                                At Star Bright Real Estate and Properties, we believe that owning genuine real estate should not be a privilege reserved for a few — it should be an opportunity available to every Nigerian and every investor seeking value, security, and long-term wealth.
                             </p>
                             <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-8">
-                                At Starbright, we provide end to end real estate solutions. Whether you are looking to purchase a
-                                verified land or property, sell your estate, manage your property efficiently, or undertake
-                                construction projects, our team ensures a seamless, transparent, and professional process. Our goal
-                                is to make property dealings smooth, safe, and rewarding for both buyers and sellers.
+                                The company is led by its visionary founders and Chief Executive Officers, Dr. Oluwadamilola Adenike and Amb. Tunde Busari, a husband-and-wife team united by integrity, excellence, and a passion for transforming lives through authentic real estate investments. Their vision was born out of the growing need to protect Nigerians from fraudulent land transactions and to provide access to affordable, legally verified properties with complete peace of mind.
                             </p>
                             <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-8">
-                                Starbright Real Estate was founded to bridge the gap in the real estate market for safe, reliable,
-                                and verified property transactions. In many parts of Africa, property buyers often face challenges
-                                such as fraud, unclear land titles, and poor property management. Starbright was created to provide
-                                a trustworthy platform where every property transaction is backed by professional verification and
-                                ethical standards.
+                                Our commitment is simple: every property we market or facilitate is carefully verified to ensure it has the appropriate legal documentation, including Certificate of Occupancy (C of O), Government Approval, Building Approval where applicable, and other relevant title documents. We are dedicated to helping our clients invest with confidence, knowing their properties are genuine, secure, and free from unnecessary legal complications.
+                            </p>
+                            <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-8">
+                                At Star Bright Real Estate and Properties, affordability meets excellence. We offer some of the most competitive property prices in the market, complemented by flexible and convenient installment payment plans, making it easier for individuals, families, and corporate organizations to achieve their property ownership dreams without unnecessary financial pressure.
                             </p>
                         </div>
                     </motion.div>
@@ -187,9 +186,6 @@ export default function AboutPage() {
                     <motion.div
                         custom={1}
                         variants={fadeUp}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, amount: 0.2 }}
                         className="premium-card p-6 sm:p-8 lg:p-10 bg-gradient-to-br from-primary/[0.06] via-background to-orange-500/[0.06]"
                     >
                         <div className="flex items-start justify-between gap-4">
@@ -201,39 +197,52 @@ export default function AboutPage() {
 
                         <blockquote className="mt-6">
                             <p className="text-xl sm:text-2xl font-semibold text-foreground leading-relaxed font-display">
-                                Your investment is protected with Starbright, and your satisfaction remains at the center of everything we do. From verification to final decision, we ensure every step is clear, secure, and handled with the highest level of professionalism.                            </p>
+                                Your investment is protected with Starbright, and your satisfaction remains at the center of everything we do. From verification to final decision, we ensure every step is clear, secure, and handled with the highest level of professionalism.
+                            </p>
                         </blockquote>
-                      
+
                         <div className="mt-10">
                             <p className="text-sm font-semibold text-foreground">Starbright Commitment</p>
                             <p className="text-sm text-muted-foreground mt-2 leading-7">
-                                We help buyers purchase safe, verified properties with confidence, removing the stress and
-                                uncertainty often associated with real estate transactions.
+                                We help buyers purchase safe, verified properties with confidence, removing the stress and uncertainty often associated with real estate transactions.
                             </p>
                         </div>
                     </motion.div>
                 </motion.section>
 
+                {/* Founders */}
                 <motion.section
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.2 }}
-                    className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4"
+                    className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-6 items-center"
                 >
-                    {stats.map((item, index) => (
-                        <motion.div
-                            key={item.label}
-                            custom={index}
-                            variants={fadeUp}
-                            className="premium-card p-6"
-                        >
-                            <p className="text-3xl sm:text-4xl font-bold font-display text-foreground">{item.value}</p>
-                            <h3 className="text-base font-semibold text-foreground mt-3">{item.label}</h3>
-                            <p className="text-sm text-muted-foreground mt-2 leading-7">{item.note}</p>
-                        </motion.div>
-                    ))}
+                    <motion.div variants={fadeUp} className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-muted">
+                        <Image
+                            src="/founders.jpeg"
+                            alt="Dr. Oluwadamilola Adenike & Amb. Tunde Busari — Founders, Starbright Real Estate"
+                            fill
+                            className="object-cover"
+                        />
+                    </motion.div>
+                    <motion.div custom={1} variants={fadeUp} className="premium-card p-6 sm:p-8">
+                        <p className="section-overline mb-3">Our Founders</p>
+                        <h2 className="text-2xl md:text-3xl font-bold text-foreground font-display">
+                            Dr. Oluwadamilola Adenike & Amb. Tunde Busari
+                        </h2>
+                        <p className="text-sm text-muted-foreground mt-2 font-medium">
+                            Chief Executive Officers &amp; Co-Founders
+                        </p>
+                        <p className="text-sm sm:text-base text-muted-foreground mt-5 leading-8">
+                            A husband-and-wife team united by integrity, excellence, and a passion for transforming lives through authentic real estate investments. Their vision was born out of the growing need to protect Nigerians from fraudulent land transactions and to provide access to affordable, legally verified properties with complete peace of mind.
+                        </p>
+                        <p className="text-sm sm:text-base text-muted-foreground mt-4 leading-8">
+                            Under their leadership, Star Bright Real Estate and Properties has grown into a trusted partner for buyers, sellers, and investors across Nigeria — offering everything from verified land and houses to commercial assets, construction, and property management.
+                        </p>
+                    </motion.div>
                 </motion.section>
 
+                {/* Mission + Vision */}
                 <motion.section
                     initial="hidden"
                     whileInView="visible"
@@ -251,8 +260,7 @@ export default function AboutPage() {
                             </div>
                         </div>
                         <p className="text-sm sm:text-base text-muted-foreground leading-8">
-                            To provide safe, verified, and high-quality real estate solutions that empower individuals and
-                            businesses to invest confidently in properties across Africa.
+                            To build lasting relationships founded on trust, integrity, professionalism, and exceptional service while helping our clients build generational wealth through smart real estate investments.
                         </p>
                     </motion.div>
 
@@ -267,12 +275,12 @@ export default function AboutPage() {
                             </div>
                         </div>
                         <p className="text-sm sm:text-base text-muted-foreground leading-8">
-                            To become the leading real estate company in Africa, recognized for integrity, innovation, and
-                            excellence in property development, management, and investment services.
+                            To become the leading real estate company in Africa, recognized for integrity, innovation, and excellence in property development, management, and investment services.
                         </p>
                     </motion.div>
                 </motion.section>
 
+                {/* Core Values */}
                 <motion.section
                     initial="hidden"
                     whileInView="visible"
@@ -307,6 +315,54 @@ export default function AboutPage() {
                     </div>
                 </motion.section>
 
+                {/* Services & Portfolio */}
+                <motion.section
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="grid grid-cols-1 lg:grid-cols-2 gap-6"
+                >
+                    <motion.div variants={fadeUp} className="premium-card p-6 sm:p-8">
+                        <p className="section-overline mb-3">Our Portfolio</p>
+                        <h2 className="text-2xl font-bold text-foreground font-display mb-5">
+                            What we offer
+                        </h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {services.map((service) => (
+                                <div key={service} className="flex items-start gap-2.5">
+                                    <BadgeCheck size={16} className="text-primary shrink-0 mt-0.5" />
+                                    <span className="text-sm text-muted-foreground">{service}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
+
+                    <motion.div custom={1} variants={fadeUp} className="premium-card p-6 sm:p-8">
+                        <div className="flex items-center gap-3 mb-5">
+                            <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                                <SearchCheck size={22} />
+                            </div>
+                            <div>
+                                <p className="section-overline mb-1">What We Prioritize</p>
+                                <h2 className="text-2xl font-bold text-foreground font-display">
+                                    Every wise investor should know
+                                </h2>
+                            </div>
+                        </div>
+                        <div className="space-y-3">
+                            {priorities.map((item) => (
+                                <div key={item} className="flex items-start gap-2.5">
+                                    <div className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+                                        <ArrowRight size={10} />
+                                    </div>
+                                    <span className="text-sm text-muted-foreground">{item}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </motion.div>
+                </motion.section>
+
+                {/* Highlights */}
                 <motion.section
                     initial="hidden"
                     whileInView="visible"
@@ -329,6 +385,7 @@ export default function AboutPage() {
                     ))}
                 </motion.section>
 
+                {/* CTA Section */}
                 <motion.section
                     initial="hidden"
                     whileInView="visible"
@@ -337,20 +394,13 @@ export default function AboutPage() {
                 >
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(220,38,38,0.08),transparent_25%),radial-gradient(circle_at_bottom_right,rgba(249,115,22,0.08),transparent_28%)] pointer-events-none" />
                     <motion.div variants={fadeUp} className="relative max-w-3xl">
-                        <p className="section-overline mb-3">What We Focus On</p>
+                        <p className="section-overline mb-3">Star Bright Real Estate and Properties</p>
                         <h2 className="text-3xl md:text-4xl font-bold text-foreground font-display leading-tight">
-                            Clearer property buying,{" "}
-                            <span className="line-through decoration-2 opacity-40">fewer</span>{" "}
-                            <span className="text-primary">No</span> surprises
+                            Where integrity meets investment, dreams become reality, and every property transaction shines with confidence.
                         </h2>
                         <p className="text-sm sm:text-base text-muted-foreground mt-5 leading-8">
-                            Unlike many real estate companies, Starbright stands out through a rigorous property verification
-                            process, comprehensive services, a customer first approach, and a Pan African vision backed by local
-                            expertise. Every land and property listed with Starbright undergoes title checks, legal documentation
-                            review, and on site inspections to ensure clients only deal with genuine, secure, and market ready
-                            properties.
+                            Whether you are buying your first plot of land, searching for your dream home, expanding your investment portfolio, or acquiring commercial assets, Star Bright Real Estate and Properties is your trusted partner in building generational wealth through smart real estate investments.
                         </p>
-
                         <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-4 py-2 text-sm text-foreground">
                             Verified process
                             <ArrowRight size={16} className="text-primary" />

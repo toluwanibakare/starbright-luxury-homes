@@ -29,11 +29,13 @@ const {
 } = require("../models/mediaModel");
 const { publicFilePath } = require("../utils/filePaths");
 
+const crypto = require("crypto");
+
 const buildPropertyPayload = async (body, existing = null) => {
   const isDraft = isDraftStatus(body.status);
 
   if (isDraft) {
-    requireFields(body, ["title", "status"]);
+    requireFields(body, ["status"]);
   } else {
     requireFields(body, [
       "title", "description", "price", "location", "address",
@@ -44,21 +46,28 @@ const buildPropertyPayload = async (body, existing = null) => {
   }
 
   assert(
-    allowedCategories.includes(body.category),
-    400,
-    "Invalid property category."
-  );
-
-  assert(
     allowedPropertyStatuses.includes(body.status),
     400,
     "Invalid property status."
   );
 
+  if (body.category) {
+    assert(
+      allowedCategories.includes(body.category),
+      400,
+      "Invalid property category."
+    );
+  }
+
   if (!isDraft) {
     const price = Number(body.price);
     const sizeValue = Number(body.size_value);
 
+    assert(
+      allowedCategories.includes(body.category),
+      400,
+      "Invalid property category."
+    );
     assert(Number.isFinite(price) && price >= 0, 400, "Price must be a valid number.");
     assert(
       Number.isFinite(sizeValue) && sizeValue >= 0,
@@ -76,20 +85,21 @@ const buildPropertyPayload = async (body, existing = null) => {
   assert(!Number.isNaN(toilets), 400, "toilets must be a valid number or null.");
 
   let listingCode = body.listing_code;
-  if (isDraft && !isNonEmptyString(listingCode)) {
-    const crypto = require("crypto");
-    listingCode = `DRF-${Date.now().toString().slice(-6)}-${crypto.randomBytes(2).toString("hex")}`;
+  if (!isNonEmptyString(listingCode)) {
+    listingCode = `STB-${Date.now().toString().slice(-6)}-${crypto.randomBytes(2).toString("hex")}`;
   }
 
+  const title = isNonEmptyString(body.title) ? body.title.trim() : `Draft - ${listingCode}`;
+
   return {
-    title: body.title.trim(),
-    slug: await generateUniquePropertySlug(body.title, existing ? existing.id : null),
+    title,
+    slug: await generateUniquePropertySlug(title, existing ? existing.id : null),
     description: isNonEmptyString(body.description) ? body.description.trim() : "",
     price: body.price !== undefined && body.price !== "" ? Number(body.price) : 0,
     location: isNonEmptyString(body.location) ? body.location.trim() : "",
     address: isNonEmptyString(body.address) ? body.address.trim() : body.location?.trim() || "",
-    category: body.category,
-    property_type: isNonEmptyString(body.property_type) ? body.property_type.trim() : body.category,
+    category: body.category || "house",
+    property_type: isNonEmptyString(body.property_type) ? body.property_type.trim() : body.category || "house",
     status: body.status,
     is_featured: toBoolean(body.is_featured),
     verification_status: isNonEmptyString(body.verification_status)

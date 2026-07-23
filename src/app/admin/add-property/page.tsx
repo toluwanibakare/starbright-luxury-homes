@@ -9,7 +9,7 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 import { useListings } from "@/components/providers/ListingsProvider";
 import type { Category, ListingStatus } from "@/data/mockData";
-import { ApiError, getListingFallbackImage } from "@/lib/api";
+import { ApiError } from "@/lib/api";
 
 const MAJOR_LOCATIONS = [
   "Lekki Phase 1, Lagos",
@@ -66,6 +66,17 @@ interface FormState {
   yearBuilt: string;
   verified: boolean;
 }
+
+const formatNumber = (value: string): string => {
+  const cleaned = value.replace(/[^0-9.]/g, "");
+  const parts = cleaned.split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+};
+
+const parseFormattedNumber = (value: string): string => {
+  return value.replace(/,/g, "");
+};
 
 const emptyForm: FormState = {
   title: "",
@@ -182,13 +193,24 @@ function AddPropertyForm() {
     setImageFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const publishRequiredFields: (keyof FormState)[] = [
-    "title", "location", "price", "size", "description", "documentsStatus",
-  ];
+  const publishRequiredFields = (): (keyof FormState)[] => {
+    const fields: (keyof FormState)[] = ["title", "location", "price", "description", "documentsStatus"];
+    if (selectedType !== "house") {
+      fields.push("size");
+    }
+    return fields;
+  };
+
+  const allPublishFieldsFilled = (): boolean => {
+    return publishRequiredFields().every((field) => {
+      const val = form[field];
+      return val !== "" && val !== undefined && val !== null;
+    });
+  };
 
   const validatePublish = (): boolean => {
     const newErrors: Record<string, boolean> = {};
-    for (const field of publishRequiredFields) {
+    for (const field of publishRequiredFields()) {
       if (!form[field] || (typeof form[field] === "string" && form[field].trim() === "")) {
         newErrors[field] = true;
       }
@@ -475,10 +497,11 @@ function AddPropertyForm() {
 
               <FormField label="Price (NGN)" required error={errors.price}>
                 <input
-                  type="number"
-                  placeholder="e.g. 185000000"
-                  value={form.price}
-                  onChange={(e) => updateForm("price", e.target.value)}
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="e.g. 185,000,000"
+                  value={form.price ? formatNumber(form.price) : ""}
+                  onChange={(e) => updateForm("price", parseFormattedNumber(e.target.value))}
                   className={`w-full h-10 px-4 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all ${
                     errors.price ? "border-destructive bg-destructive/5" : "border-border bg-muted/30"
                   }`}
@@ -487,10 +510,10 @@ function AddPropertyForm() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <FormField label="Property Size" required error={errors.size}>
+              <FormField label="Property Size" required={selectedType !== "house"} error={errors.size}>
                 <input
                   type="text"
-                  placeholder="e.g. 450 sqm"
+                  placeholder={selectedType === "house" ? "e.g. 450 sqm (optional)" : "e.g. 450 sqm"}
                   value={form.size}
                   onChange={(e) => updateForm("size", e.target.value)}
                   className={`w-full h-10 px-4 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all ${
@@ -721,15 +744,7 @@ function AddPropertyForm() {
                   </div>
                 ))}
               </div>
-            ) : (
-              <div className="mt-4 rounded-lg overflow-hidden bg-muted aspect-video max-w-sm">
-                <img
-                  src={getListingFallbackImage(selectedType as Category)}
-                  alt="Fallback preview"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            )}
+            ) : null}
           </div>
 
           <div>
@@ -780,7 +795,7 @@ function AddPropertyForm() {
           <button
             className="premium-btn-primary !py-3 !px-8 disabled:opacity-60"
             onClick={handlePublish}
-            disabled={isSubmitting}
+            disabled={isSubmitting || !allPublishFieldsFilled()}
           >
             {isSubmitting ? "Saving..." : "Publish Property"}
           </button>

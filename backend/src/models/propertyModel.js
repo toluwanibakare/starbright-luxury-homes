@@ -34,9 +34,8 @@ const createProperty = async (payload) => {
     INSERT INTO properties (
       title, slug, description, price, location, address, category, property_type,
       status, is_featured, verification_status, bedrooms, bathrooms, toilets,
-      size_value, size_unit, listing_code, documents_info, inspection_info,
-      furnished, land_use, floor_level, parking_spaces, year_built
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      size_value, size_unit, listing_code, documents_info, inspection_info
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `;
 
   const result = await query(sql, [
@@ -58,12 +57,7 @@ const createProperty = async (payload) => {
     payload.size_unit,
     payload.listing_code,
     payload.documents_info,
-    payload.inspection_info,
-    payload.furnished,
-    payload.land_use,
-    payload.floor_level,
-    payload.parking_spaces,
-    payload.year_built
+    payload.inspection_info
   ]);
 
   return result.insertId;
@@ -76,8 +70,7 @@ const updateProperty = async (id, payload) => {
       category = ?, property_type = ?, status = ?, is_featured = ?,
       verification_status = ?, bedrooms = ?, bathrooms = ?, toilets = ?,
       size_value = ?, size_unit = ?, listing_code = ?, documents_info = ?,
-      inspection_info = ?, furnished = ?, land_use = ?, floor_level = ?,
-      parking_spaces = ?, year_built = ?, updated_at = CURRENT_TIMESTAMP
+      inspection_info = ?, updated_at = CURRENT_TIMESTAMP
     WHERE id = ?
   `;
 
@@ -101,11 +94,6 @@ const updateProperty = async (id, payload) => {
     payload.listing_code,
     payload.documents_info,
     payload.inspection_info,
-    payload.furnished,
-    payload.land_use,
-    payload.floor_level,
-    payload.parking_spaces,
-    payload.year_built,
     id
   ]);
 };
