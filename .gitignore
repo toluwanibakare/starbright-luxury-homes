@@ -34,3 +34,17 @@ next-env.d.ts
 
 # backup (remove after migration)
 /_backup_src/
+
+# build artifacts
+*.zip
+*.tsbuildinfo
+
+# platform lockfiles (we use npm)
+bun.lock
+bun.lockb
+pnpm-lock.yaml
+yarn.lock
+
+# generated / not needed for Vercel
+server.js
+new_update.txt
