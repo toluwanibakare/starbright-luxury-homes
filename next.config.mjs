@@ -2,7 +2,10 @@
 const nextConfig = {
   output: "standalone",
   images: {
-    domains: [],
+    remotePatterns: [
+      { protocol: "https", hostname: "api.starbrightproperties.com.ng" },
+      { protocol: "https", hostname: "starbrightproperties.com.ng" },
+    ],
   },
 };
 

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -119,8 +118,8 @@ export default function PropertiesPage() {
                                 <tr key={property.id} className="border-b border-border/50 hover:bg-muted/20 transition-colors">
                                     <td className="px-5 py-3">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted flex-shrink-0 relative">
-                                                <Image src={property.images[0]} alt={property.title} fill className="object-cover" />
+                                            <div className="w-12 h-12 rounded-lg overflow-hidden bg-muted flex-shrink-0">
+                                                <img src={property.images[0]} alt={property.title} className="w-full h-full object-cover" />
                                             </div>
                                             <div className="min-w-0">
                                                 <p className="font-medium text-foreground truncate max-w-[200px]">{property.title}</p>
