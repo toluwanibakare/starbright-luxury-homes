@@ -300,9 +300,6 @@ function AddPropertyForm() {
     try {
       await addListing(buildPayload("Pending") as never);
       setDraftSaved(true);
-      setForm(emptyForm);
-      setImageFiles([]);
-      setVideoFile(null);
     } catch (error) {
       setFeedback(
         error instanceof ApiError
